@@ -7,7 +7,7 @@ namespace Filsedla\CustomRowClass;
 
 use Nette\Database\Context;
 
-/** @var \Container_17980f83e2 $container */
+/** @var \Container_e50f1a6779 $container */
 $container = require __DIR__ . '/bootstrap.php';
 
 ///** @var Context $database */

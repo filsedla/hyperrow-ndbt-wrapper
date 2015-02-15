@@ -3,6 +3,10 @@
  * Copyright (c) 2015 Filip Sedlacek <filsedla@gmail.com>
  */
 
+date_default_timezone_set('Europe/Prague');
+header('X-Frame-Options: SAMEORIGIN');
+header('Content-Type: text/html; charset=utf-8');
+
 require __DIR__ . '/vendor/autoload.php';
 
 $configurator = new \Nette\Configurator;
