@@ -1,7 +1,11 @@
 parameters:
 
 php:
-	date.timezone: Europe/Prague
+    date.timezone: Europe/Prague
+
+database:
+    explain: false
 
 services:
+    - Filsedla\CustomRowClass\Database
 
