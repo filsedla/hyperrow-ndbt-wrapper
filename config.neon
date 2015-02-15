@@ -2,6 +2,9 @@ parameters:
     container:
         class: Systemcontainer
 
+    rowClasses:
+        author: Filsedla\CustomRowClass\Model\Author
+
 php:
     date.timezone: Europe/Prague
 
@@ -11,4 +14,5 @@ database:
 services:
     - Filsedla\CustomRowClass\Database
     - Filsedla\CustomRowClass\RowClassesBuilder(%tempDir%)
+    - Filsedla\CustomRowClass\ActiveRowWrapperFactory(%rowClasses%)
 

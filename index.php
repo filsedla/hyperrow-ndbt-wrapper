@@ -6,6 +6,8 @@
 namespace Filsedla\CustomRowClass;
 
 /** @var \Systemcontainer $container */
+use Filsedla\CustomRowClass\model\Author;
+
 $container = require __DIR__ . '/bootstrap.php';
 
 ///** @var Context $database */
@@ -50,10 +52,11 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //}
 
 // Use case: automatically generated base row classes
-foreach ($database->table('author')->where('id', 1) as $author) {
-    /** @var author_BaseRowClass $author */
+foreach ($database->table('author') as $author) {
+    /** @var Author $author */
     dump($author);
     dump($author->name);
+    dump($author->bookCount());
     dump($author->related('book')->fetch());
 }
 

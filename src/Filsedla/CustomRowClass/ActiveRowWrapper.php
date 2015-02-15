@@ -18,10 +18,14 @@ class ActiveRowWrapper implements \ArrayAccess
     /** @var ActiveRow */
     private $activeRow;
 
+    /** @var ActiveRowWrapperFactory */
+    private $activeRowWrapperFactory;
 
-    function __construct(ActiveRow $activeRow)
+
+    function __construct(ActiveRow $activeRow, ActiveRowWrapperFactory $activeRowWrapperFactory)
     {
         $this->activeRow = $activeRow;
+        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
     }
 
 
@@ -36,7 +40,7 @@ class ActiveRowWrapper implements \ArrayAccess
     public function related($key, $throughColumn = NULL)
     {
         $groupedSelection = $this->activeRow->related($key, $throughColumn);
-        return new SelectionWrapper($groupedSelection);
+        return new SelectionWrapper($groupedSelection, $this->activeRowWrapperFactory);
     }
 
 
@@ -70,7 +74,7 @@ class ActiveRowWrapper implements \ArrayAccess
     {
         $result = $this->activeRow->__get($key);
         if ($result instanceof ActiveRow) {
-            $activeRowWrapper = ActiveRowWrapperFactory::create($result, $result->getTable()->getName());
+            $activeRowWrapper = $this->activeRowWrapperFactory->create($result, $result->getTable()->getName());
             return $activeRowWrapper;
         }
         return $result;

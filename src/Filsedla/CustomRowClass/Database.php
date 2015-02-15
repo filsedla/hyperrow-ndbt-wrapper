@@ -17,10 +17,14 @@ final class Database extends Object
     /** @var Context */
     private $context;
 
+    /** @var ActiveRowWrapperFactory */
+    private $activeRowWrapperFactory;
 
-    function __construct(Context $context)
+
+    function __construct(Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
     {
         $this->context = $context;
+        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
     }
 
 
@@ -31,7 +35,7 @@ final class Database extends Object
     public function table($table)
     {
         $selection = $this->context->table($table);
-        return new SelectionWrapper($selection);
+        return new SelectionWrapper($selection, $this->activeRowWrapperFactory);
     }
 
 } 

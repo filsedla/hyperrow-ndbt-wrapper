@@ -17,10 +17,14 @@ class SelectionWrapper extends Object implements \Iterator
     /** @var Selection */
     private $selection;
 
+    /** @var ActiveRowWrapperFactory */
+    private $activeRowWrapperFactory;
 
-    function __construct(Selection $selection)
+
+    function __construct(Selection $selection, ActiveRowWrapperFactory $activeRowWrapperFactory)
     {
         $this->selection = $selection;
+        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
     }
 
 
@@ -33,7 +37,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return ActiveRowWrapperFactory::create($activeRow, $this->selection->getName());
+        return $this->activeRowWrapperFactory->create($activeRow, $this->selection->getName());
     }
 
 
@@ -52,6 +56,18 @@ class SelectionWrapper extends Object implements \Iterator
 
 
     /**
+     * Counts number of rows
+     *
+     * @param  string $column if it is not provided returns count of result rows, otherwise runs new sql counting query
+     * @return int
+     */
+    public function count($column = NULL)
+    {
+        return $this->selection->count($column);
+    }
+
+
+    /**
      * @return ActiveRowWrapper|FALSE
      */
     public function current()
@@ -60,7 +76,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return ActiveRowWrapperFactory::create($activeRow, $this->selection->getName());
+        return $this->activeRowWrapperFactory->create($activeRow, $this->selection->getName());
     }
 
 

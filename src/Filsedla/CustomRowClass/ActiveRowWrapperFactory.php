@@ -15,21 +15,44 @@ use Nette\Object;
 class ActiveRowWrapperFactory extends Object
 {
 
+    /** @var array */
+    private $config;
+
+
+    function __construct(array $config)
+    {
+        $this->config = $config;
+    }
+
+
     /**
      * @param ActiveRow $activeRow
-     * @param $table
+     * @param $tableName
      * @throws InvalidStateException
      */
-    public static function create(ActiveRow $activeRow, $table)
+    public function create(ActiveRow $activeRow, $tableName)
     {
-        $table = 'Filsedla\CustomRowClass' . '\\' . $table . '_BaseRowClass';
+        $className = $this->tableNameToClassName($tableName);
         $wrapperBaseClass = 'Filsedla\CustomRowClass\ActiveRowWrapper';
 
-        if (!class_exists($table) || !is_subclass_of($table, $wrapperBaseClass))
-            throw new InvalidStateException("ActiveRow wrapper class $table does not exist or does not extend $wrapperBaseClass.");
+        if (!class_exists($className) || !is_subclass_of($className, $wrapperBaseClass))
+            throw new InvalidStateException("ActiveRow wrapper class $className does not exist or does not extend $wrapperBaseClass.");
 
-        return new $table($activeRow);
+        return new $className($activeRow, $this);
 
+    }
+
+
+    /**
+     * @param string $tableName
+     * @return string
+     */
+    protected function tableNameToClassName($tableName)
+    {
+        if (array_key_exists($tableName, $this->config)) {
+            return $this->config[$tableName];
+        }
+        return 'Filsedla\CustomRowClass' . '\\' . $tableName . '_BaseRowClass';
     }
 
 } 
