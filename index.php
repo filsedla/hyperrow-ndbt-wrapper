@@ -5,13 +5,16 @@
 
 namespace Filsedla\CustomRowClass;
 
-/** @var \Systemcontainer $container */
 use Filsedla\CustomRowClass\model\Author;
+use Nette\Database\Context;
+use Nette\Database\Table\ActiveRow;
 
+
+/** @var \Systemcontainer $container */
 $container = require __DIR__ . '/bootstrap.php';
 
-///** @var Context $database */
-//$database = $container->getByType('Nette\Database\Context');
+/** @var Context $database */
+$context = $container->getByType('Nette\Database\Context');
 
 // First automatically build base row classes
 $builder = $container->getByType('Filsedla\CustomRowClass\RowClassesBuilder');
@@ -52,11 +55,22 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //}
 
 // Use case: automatically generated base row classes
-foreach ($database->table('author') as $author) {
+//foreach ($database->table('author') as $author) {
+//    /** @var Author $author */
+//    dump($author);
+//    dump($author->name);
+//    dump($author->related('book')->fetch());
+//    dump($author->bookCount());
+//    dump($author->related('book')->fetch());
+//    dump($author->bookCount());
+//}
+
+// Use case: automatically generated base row classes
+foreach ($context->table('author') as $author) {
     /** @var Author $author */
     dump($author);
-    dump($author->name);
-    dump($author->bookCount());
-    dump($author->related('book')->fetch());
+    dump($author);
+    dump($author->related('book')->count());
+    dump($author->related('book')->count());
 }
 
