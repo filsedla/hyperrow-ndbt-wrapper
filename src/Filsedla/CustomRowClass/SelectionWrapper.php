@@ -33,7 +33,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return new ActiveRowWrapper($activeRow);
+        return ActiveRowWrapperFactory::create($activeRow, $this->selection->getName());
     }
 
 
@@ -60,7 +60,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return new ActiveRowWrapper($activeRow);
+        return ActiveRowWrapperFactory::create($activeRow, $this->selection->getName());
     }
 
 

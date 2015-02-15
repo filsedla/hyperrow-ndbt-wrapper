@@ -5,13 +5,16 @@
 
 namespace Filsedla\CustomRowClass;
 
-use Nette\Database\Context;
-
-/** @var \Container_e50f1a6779 $container */
+/** @var \Systemcontainer $container */
 $container = require __DIR__ . '/bootstrap.php';
 
 ///** @var Context $database */
 //$database = $container->getByType('Nette\Database\Context');
+
+// First automatically build base row classes
+$builder = $container->getByType('Filsedla\CustomRowClass\RowClassesBuilder');
+$builder->build();
+require_once $container->parameters['tempDir'] . DIRECTORY_SEPARATOR . '/row_classes_base_generated.php';
 
 /** @var Database $database */
 $database = $container->getByType('Filsedla\CustomRowClass\Database');
@@ -39,9 +42,18 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //    dump($author->toArray());
 //}
 
-// Use case selection->where
-foreach ($database->table('author')->where('born = ? OR name LIKE ?', 1980, '%Vladimír%') as $author) {
-    /** @var ActiveRowWrapper $author */
-    dump($author->toArray());
+//// Use case selection->where
+//foreach ($database->table('author')->where('born = ? OR name LIKE ?', 1980, '%Vladimír%') as $author) {
+//    /** @var ActiveRowWrapper $author */
+//    dump($author->related('book')->fetch());
+////    dump($author->related('book')->fetch()->related('tag')->fetch());
+//}
+
+// Use case: automatically generated base row classes
+foreach ($database->table('author')->where('id', 1) as $author) {
+    /** @var author_BaseRowClass $author */
+    dump($author);
+    dump($author->name);
+    dump($author->related('book')->fetch());
 }
 

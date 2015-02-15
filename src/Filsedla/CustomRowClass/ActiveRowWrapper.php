@@ -70,7 +70,7 @@ class ActiveRowWrapper implements \ArrayAccess
     {
         $result = $this->activeRow->__get($key);
         if ($result instanceof ActiveRow) {
-            $activeRowWrapper = new ActiveRowWrapper($result);
+            $activeRowWrapper = ActiveRowWrapperFactory::create($result, $result->getTable()->getName());
             return $activeRowWrapper;
         }
         return $result;

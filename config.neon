@@ -1,4 +1,6 @@
 parameters:
+    container:
+        class: Systemcontainer
 
 php:
     date.timezone: Europe/Prague
@@ -8,4 +10,5 @@ database:
 
 services:
     - Filsedla\CustomRowClass\Database
+    - Filsedla\CustomRowClass\RowClassesBuilder(%tempDir%)
 
