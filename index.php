@@ -19,9 +19,12 @@ $context = $container->getByType('Nette\Database\Context');
 $builder = $container->getByType('Filsedla\CustomRowClass\RowClassesBuilder');
 $builder->build();
 require_once $container->parameters['tempDir'] . DIRECTORY_SEPARATOR . '/row_classes_base_generated.php';
+require_once $container->parameters['tempDir'] . DIRECTORY_SEPARATOR . '/systemdatabase_generated.php';
 
-/** @var Database $database */
-$database = $container->getByType('Filsedla\CustomRowClass\Database');
+$container->addService('Systemdatabase', $container->createInstance('Filsedla\CustomRowClass\Systemdatabase'));
+
+/** @var Systemdatabase $database */
+$database = $container->getService('Systemdatabase'); //$container->getByType('Filsedla\CustomRowClass\Systemdatabase');
 
 // Use case selection->fetch
 //dump($database->table('empty')->fetch());
@@ -75,7 +78,16 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //}
 
 // Use case: automatically generated related/ref methods (TODO disable active row magic access OR add @properties to rows)
-foreach ($database->table('book') as $book) {
+//foreach ($database->table('book') as $book) {
+//    /** @var Book $book */
+//    foreach ($book->relatedBook_tags() as $bookTag) {
+//        /** @var book_tag_BaseRowClass $bookTag */
+//        dump($bookTag->referencedTag()->name);
+//    }
+//}
+
+// Use case: generated table methods
+foreach ($database->tableBook() as $book) {
     /** @var Book $book */
     foreach ($book->relatedBook_tags() as $bookTag) {
         /** @var book_tag_BaseRowClass $bookTag */
@@ -83,3 +95,5 @@ foreach ($database->table('book') as $book) {
     }
 }
 
+dump($database->tableAuthor()->count());
+dump($database->tableAuthor()->fetch());

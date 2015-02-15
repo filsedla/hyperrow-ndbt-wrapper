@@ -57,6 +57,7 @@ final class RowClassesBuilder extends Object
             }
         }
 
+        // Create base row classes
         $classes = [];
         foreach ($tables as $table => $columns) {
 
@@ -100,6 +101,20 @@ final class RowClassesBuilder extends Object
         }
         $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\CustomRowClass;'], $classes));
         file_put_contents($this->tempDir . DIRECTORY_SEPARATOR . "/row_classes_base_generated.php", $code);
+
+        // Create database class
+        $className = 'Systemdatabase';
+        $class = new ClassType($className);
+        $class->setExtends('\Filsedla\CustomRowClass\Database');
+        foreach ($tables as $table => $columns) {
+            $methodName = 'table' . Strings::firstUpper($table);
+            $returnType = '\Filsedla\CustomRowClass\SelectionWrapper';
+            $class->addMethod($methodName)
+                ->addBody('return $this->table(?);', [$table])
+                ->addDocument("@return $returnType");
+        }
+        $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\CustomRowClass;'], [$class]));
+        file_put_contents($this->tempDir . DIRECTORY_SEPARATOR . "/systemdatabase_generated.php", $code);
     }
 
 } 

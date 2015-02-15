@@ -11,7 +11,7 @@ use Nette\Object;
 /**
  *
  */
-final class Database extends Object
+class Database extends Object
 {
 
     /** @var Context */
