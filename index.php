@@ -7,7 +7,6 @@ namespace Filsedla\CustomRowClass;
 
 use Filsedla\CustomRowClass\model\Author;
 use Nette\Database\Context;
-use Nette\Database\Table\ActiveRow;
 
 
 /** @var \Systemcontainer $container */
@@ -66,11 +65,11 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //}
 
 // Use case: automatically generated base row classes
-foreach ($context->table('author') as $author) {
+foreach ($database->table('author') as $author) {
     /** @var Author $author */
     dump($author);
-    dump($author);
-    dump($author->related('book')->count());
-    dump($author->related('book')->count());
+    foreach ($author->relatedBooks() as $book) {
+        dump($book);
+    }
 }
 

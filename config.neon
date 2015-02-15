@@ -4,6 +4,7 @@ parameters:
 
     rowClasses:
         author: Filsedla\CustomRowClass\Model\Author
+        book: Filsedla\CustomRowClass\Model\Book
 
 php:
     date.timezone: Europe/Prague

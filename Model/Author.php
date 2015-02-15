@@ -6,6 +6,7 @@
 namespace Filsedla\CustomRowClass\Model;
 
 use Filsedla\CustomRowClass\author_BaseRowClass;
+use Filsedla\CustomRowClass\SelectionWrapper;
 
 /**
  *
@@ -19,6 +20,15 @@ final class Author extends author_BaseRowClass
     public function bookCount()
     {
         return $this->related('book')->count();
+    }
+
+
+    /**
+     * @return SelectionWrapper
+     */
+    public function relatedBooks()
+    {
+        return $this->related('book');
     }
 
 } 
