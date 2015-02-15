@@ -10,6 +10,7 @@ use Nette\Database\Helpers;
 use Nette\Database\IStructure;
 use Nette\Object;
 use Nette\PhpGenerator\ClassType;
+use Nette\Utils\Strings;
 
 /**
  *
@@ -23,15 +24,25 @@ final class RowClassesBuilder extends Object
     /** @var string */
     private $tempDir;
 
+    /** @var array */
+    private $config;
+
+    /** @var ActiveRowWrapperFactory */
+    private $activeRowWrapperFactory;
+
 
     /**
-     * @param string $tempDir
+     * @param array $config
+     * @param $tempDir
      * @param Context $context
+     * @param ActiveRowWrapperFactory $activeRowWrapperFactory
      */
-    function __construct($tempDir, Context $context)
+    function __construct(array $config, $tempDir, Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
     {
+        $this->config = $config;
         $this->tempDir = $tempDir;
         $this->context = $context;
+        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
     }
 
 
@@ -59,6 +70,32 @@ final class RowClassesBuilder extends Object
                 }
                 $class->addDocument("@property-read $type \$$column");
             }
+
+            foreach ($this->context->getStructure()->getBelongsToReference($table) as $referencingColumn => $referencedTable) {
+                $methodName = 'referenced' . Strings::firstUpper($referencedTable);
+                $returnType = $this->activeRowWrapperFactory->tableNameToClassName($referencedTable);
+                if (!Strings::startsWith($returnType, '\\')) {
+                    $returnType = '\\' . $returnType;
+                }
+                $class->addMethod($methodName)
+                    ->addBody('return $this->ref(?, ?);', [$referencedTable, $referencingColumn])
+                    ->addDocument("@return $returnType");
+            }
+
+            foreach ($this->context->getStructure()->getHasManyReference($table) as $relatedTable => $referencingColumns) {
+                foreach ($referencingColumns as $referencingColumn) {
+                    $methodName = 'related' . Strings::firstUpper($relatedTable) . 's'
+                        . (count($referencingColumns) > 1 ? 'As' . Strings::firstUpper(Strings::replace($referencingColumn, '~_id$~')) : '');
+                    $returnType = '\Filsedla\CustomRowClass\SelectionWrapper'; //$this->activeRowWrapperFactory->tableNameToClassName($relatedTable);
+//                    if (!Strings::startsWith($returnType, '\\')) {
+//                        $returnType = '\\' . $returnType;
+//                    }
+                    $class->addMethod($methodName)
+                        ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
+                        ->addDocument("@return $returnType");
+                }
+            }
+
             $classes[] = $class;
         }
         $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\CustomRowClass;'], $classes));

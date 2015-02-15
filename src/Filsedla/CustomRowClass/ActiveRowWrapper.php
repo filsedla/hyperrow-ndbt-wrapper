@@ -45,6 +45,25 @@ class ActiveRowWrapper implements \ArrayAccess
 
 
     /**
+     * Returns referenced row
+     *
+     * @param string $key
+     * @param string $throughColumn
+     * @return self|NULL if the row does not exist
+     * @throws MemberAccessException if the relationship does not exist
+     */
+    public function ref($key, $throughColumn = NULL)
+    {
+        $result = $this->activeRow->ref($key, $throughColumn);
+        if ($result instanceof ActiveRow) {
+            $activeRowWrapper = $this->activeRowWrapperFactory->create($result, $result->getTable()->getName());
+            return $activeRowWrapper;
+        }
+        return NULL;
+    }
+
+
+    /**
      * @return array
      */
     public function toArray()

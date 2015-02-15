@@ -5,7 +5,7 @@
 
 namespace Filsedla\CustomRowClass;
 
-use Filsedla\CustomRowClass\model\Author;
+use Filsedla\CustomRowClass\Model\Book;
 use Nette\Database\Context;
 
 
@@ -65,11 +65,21 @@ $database = $container->getByType('Filsedla\CustomRowClass\Database');
 //}
 
 // Use case: automatically generated base row classes
-foreach ($database->table('author') as $author) {
-    /** @var Author $author */
-    dump($author);
-    foreach ($author->relatedBooks() as $book) {
-        dump($book);
+//foreach ($database->table('author') as $author) {
+//    /** @var Author $author */
+//    dump($author);
+//    dump($author->relatedBooksAsTranslator());
+//    foreach ($author->relatedBooksAsAuthor() as $book) {
+//        dump($book);
+//    }
+//}
+
+// Use case: automatically generated related/ref methods (TODO disable active row magic access OR add @properties to rows)
+foreach ($database->table('book') as $book) {
+    /** @var Book $book */
+    foreach ($book->relatedBook_tags() as $bookTag) {
+        /** @var book_tag_BaseRowClass $bookTag */
+        dump($bookTag->referencedTag()->name);
     }
 }
 

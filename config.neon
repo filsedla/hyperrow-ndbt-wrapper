@@ -5,6 +5,7 @@ parameters:
     rowClasses:
         author: Filsedla\CustomRowClass\Model\Author
         book: Filsedla\CustomRowClass\Model\Book
+        tag: Filsedla\CustomRowClass\Model\Tag
 
 php:
     date.timezone: Europe/Prague
@@ -14,6 +15,6 @@ database:
 
 services:
     - Filsedla\CustomRowClass\Database
-    - Filsedla\CustomRowClass\RowClassesBuilder(%tempDir%)
+    - Filsedla\CustomRowClass\RowClassesBuilder(%rowClasses%, %tempDir%)
     - Filsedla\CustomRowClass\ActiveRowWrapperFactory(%rowClasses%)
 

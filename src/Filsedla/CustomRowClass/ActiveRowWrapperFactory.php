@@ -47,12 +47,12 @@ class ActiveRowWrapperFactory extends Object
      * @param string $tableName
      * @return string
      */
-    protected function tableNameToClassName($tableName)
+    public function tableNameToClassName($tableName)
     {
         if (array_key_exists($tableName, $this->config)) {
             return $this->config[$tableName];
         }
-        return 'Filsedla\CustomRowClass' . '\\' . $tableName . '_BaseRowClass';
+        return '\Filsedla\CustomRowClass' . '\\' . $tableName . '_BaseRowClass';
     }
 
 } 
