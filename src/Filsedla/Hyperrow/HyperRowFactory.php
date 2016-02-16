@@ -15,13 +15,20 @@ use Nette\Object;
 class HyperRowFactory extends Object
 {
 
-    /** @var array */
-    private $config;
+    /** @var string */
+    protected $namespace;
 
+    /** @var string */
+    protected $hyperRowClassName;
 
-    function __construct(array $config)
+    /**
+     * @param string $namespace
+     * @param string $hyperRowClassName
+     */
+    public function __construct($namespace, $hyperRowClassName)
     {
-        $this->config = $config;
+        $this->namespace = $namespace;
+        $this->hyperRowClassName = $hyperRowClassName;
     }
 
 
@@ -32,27 +39,15 @@ class HyperRowFactory extends Object
      */
     public function create(ActiveRow $activeRow, $tableName)
     {
-        $className = $this->tableNameToClassName($tableName);
-        $wrapperBaseClass = 'Filsedla\Hyperrow\BaseHyperRow';
+        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName;
+        $baseClass = BaseHyperRow::class;
 
-        if (!class_exists($className) || !is_subclass_of($className, $wrapperBaseClass))
-            throw new InvalidStateException("ActiveRow wrapper class $className does not exist or does not extend $wrapperBaseClass.");
+        if (!class_exists($className) || !is_subclass_of($className, $baseClass))
+            throw new InvalidStateException("HyperRow class $className does not exist or does not extend $baseClass.");
 
         return new $className($activeRow, $this);
 
     }
 
 
-    /**
-     * @param string $tableName
-     * @return string
-     */
-    public function tableNameToClassName($tableName)
-    {
-        if (array_key_exists($tableName, $this->config)) {
-            return $this->config[$tableName];
-        }
-        return '\Filsedla\Hyperrow' . '\\' . $tableName . '_BaseRowClass';
-    }
-
-} 
+}

@@ -1,12 +1,16 @@
 <?php
 
-namespace Filsedla\Hyperrow;
+/**
+ * This is a generated file. DO NOT EDIT. It will be overwritten.
+ */
 
-class SystemDatabase extends \Filsedla\Hyperrow\BaseDatabase
+namespace Example\Model\Generated;
+
+class GeneratedDatabase extends \Filsedla\Hyperrow\BaseDatabase
 {
 
 	/**
-	 * @return \Filsedla\Hyperrow\BaseHyperSelection
+	 * @return AuthorHyperSelection
 	 */
 	public function tableAuthor()
 	{
@@ -15,7 +19,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\BaseDatabase
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\BaseHyperSelection
+	 * @return BookHyperSelection
 	 */
 	public function tableBook()
 	{
@@ -24,16 +28,16 @@ class SystemDatabase extends \Filsedla\Hyperrow\BaseDatabase
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\BaseHyperSelection
+	 * @return BookTagHyperSelection
 	 */
-	public function tableBook_tag()
+	public function tableBookTag()
 	{
 		return $this->table('book_tag');
 	}
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\BaseHyperSelection
+	 * @return EmptyHyperSelection
 	 */
 	public function tableEmpty()
 	{
@@ -42,7 +46,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\BaseDatabase
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\BaseHyperSelection
+	 * @return TagHyperSelection
 	 */
 	public function tableTag()
 	{

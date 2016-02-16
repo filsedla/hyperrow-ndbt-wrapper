@@ -21,18 +21,12 @@ $container = $configurator->createContainer();
 \Tracy\Debugger::$maxDepth = 10;
 
 
-// Automatically build base row classes
-$databaseClass = '\Filsedla\Hyperrow\SystemDatabase';
-
-if (!class_exists($databaseClass) && $container->parameters['debugMode'] === TRUE) {
-    $generator = $container->getByType('Filsedla\Hyperrow\Generator');
-    $generator->generate();
-    //$loader->rebuild();
-    echo "Hyperrow has just generated a few classes. Please refresh the page.\n";
-    exit;
-}
-
-$container->addService('SystemDatabase', $container->createInstance($databaseClass));
-
+//if ($container->parameters['debugMode'] === TRUE) {
+//    $generator = $container->getByType('Filsedla\Hyperrow\Generator');
+//    $generator->generate();
+//    //$loader->rebuild();
+//    echo "Hyperrow has just generated a few classes. Please refresh the page.\n";
+//    exit;
+//}
 
 return $container;

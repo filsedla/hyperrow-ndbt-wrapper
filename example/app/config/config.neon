@@ -2,10 +2,12 @@ parameters:
 	container:
 		class: SystemContainer
 
-	rowClasses:
-		author: Filsedla\Hyperrow\Model\Author
-		book: Filsedla\Hyperrow\Model\Book
-		tag: Filsedla\Hyperrow\Model\Tag
+	generatedDir: %appDir%/model/generated
+	generatedNamespace: Example\Model\Generated
+	generatedDatabaseClassName: GeneratedDatabase
+	databaseClassName: Database
+	hyperRowClassName: HyperRow
+	hyperSelectionClassName: HyperSelection
 
 php:
 	date.timezone: Europe/Prague
@@ -21,8 +23,20 @@ session:
 services:
 	router: App\RouterFactory::createRouter
 
-	SystemDatabase: Filsedla\Hyperrow\BaseDatabase
-	- Filsedla\Hyperrow\Generator(%rowClasses%, %appDir%/model/generated)
-	- Filsedla\Hyperrow\HyperRowFactory(%rowClasses%)
+	# ----------------------------------------------------------------------------
+	# Hyperrow
+	# ----------------------------------------------------------------------------
+	- Filsedla\Hyperrow\Generator(
+		%generatedDir%,
+		%generatedNamespace%,
+		%generatedDatabaseClassName%,
+		%databaseClassName%,
+		%hyperRowClassName%, %hyperSelectionClassName%
+		)
 
-	- App\Presenters\HomepagePresenter(@SystemDatabase)
+	- Filsedla\Hyperrow\HyperSelectionFactory(%generatedNamespace%, %hyperSelectionClassName%)
+	- Filsedla\Hyperrow\HyperRowFactory(%generatedNamespace%, %hyperRowClassName%, ...)
+	# ----------------------------------------------------------------------------
+
+	- Example\Model\Database
+
