@@ -11,31 +11,31 @@ use Nette\Object;
 /**
  *
  */
-class Database extends Object
+class BaseDatabase extends Object
 {
 
     /** @var Context */
     private $context;
 
-    /** @var ActiveRowWrapperFactory */
-    private $activeRowWrapperFactory;
+    /** @var HyperRowFactory */
+    private $hyperRowFactory;
 
 
-    function __construct(Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
+    function __construct(Context $context, HyperRowFactory $hyperRowFactory)
     {
         $this->context = $context;
-        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
+        $this->hyperRowFactory = $hyperRowFactory;
     }
 
 
     /**
      * @param  string $table
-     * @return SelectionWrapper
+     * @return BaseHyperSelection
      */
     public function table($table)
     {
         $selection = $this->context->table($table);
-        return new SelectionWrapper($selection, $this->activeRowWrapperFactory);
+        return new BaseHyperSelection($selection, $this->hyperRowFactory);
     }
 
 } 

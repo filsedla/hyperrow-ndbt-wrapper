@@ -25,10 +25,10 @@ $container = $configurator->createContainer();
 $databaseClass = '\Filsedla\Hyperrow\SystemDatabase';
 
 if (!class_exists($databaseClass) && $container->parameters['debugMode'] === TRUE) {
-    $builder = $container->getByType('Filsedla\Hyperrow\RowClassesBuilder');
-    $builder->build();
+    $generator = $container->getByType('Filsedla\Hyperrow\Generator');
+    $generator->generate();
     //$loader->rebuild();
-    echo "Hyperrow just generated a few classes. Please refresh the page.\n";
+    echo "Hyperrow has just generated a few classes. Please refresh the page.\n";
     exit;
 }
 

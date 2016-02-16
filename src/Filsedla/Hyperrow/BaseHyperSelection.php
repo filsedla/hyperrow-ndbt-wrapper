@@ -11,25 +11,25 @@ use Nette\Object;
 /**
  *
  */
-class SelectionWrapper extends Object implements \Iterator
+class BaseHyperSelection extends Object implements \Iterator
 {
 
     /** @var Selection */
     private $selection;
 
-    /** @var ActiveRowWrapperFactory */
-    private $activeRowWrapperFactory;
+    /** @var HyperRowFactory */
+    private $hyperRowFactory;
 
 
-    function __construct(Selection $selection, ActiveRowWrapperFactory $activeRowWrapperFactory)
+    function __construct(Selection $selection, HyperRowFactory $hyperRowFactory)
     {
         $this->selection = $selection;
-        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
+        $this->hyperRowFactory = $hyperRowFactory;
     }
 
 
     /**
-     * @return ActiveRowWrapper|FALSE
+     * @return BaseHyperRow|FALSE
      */
     public function fetch()
     {
@@ -37,7 +37,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return $this->activeRowWrapperFactory->create($activeRow, $this->selection->getName());
+        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
     }
 
 
@@ -68,7 +68,7 @@ class SelectionWrapper extends Object implements \Iterator
 
 
     /**
-     * @return ActiveRowWrapper|FALSE
+     * @return BaseHyperRow|FALSE
      */
     public function current()
     {
@@ -76,7 +76,7 @@ class SelectionWrapper extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return $this->activeRowWrapperFactory->create($activeRow, $this->selection->getName());
+        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
     }
 
 

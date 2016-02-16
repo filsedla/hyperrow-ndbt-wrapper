@@ -12,7 +12,7 @@ use Nette\Object;
 /**
  *
  */
-class ActiveRowWrapperFactory extends Object
+class HyperRowFactory extends Object
 {
 
     /** @var array */
@@ -33,7 +33,7 @@ class ActiveRowWrapperFactory extends Object
     public function create(ActiveRow $activeRow, $tableName)
     {
         $className = $this->tableNameToClassName($tableName);
-        $wrapperBaseClass = 'Filsedla\Hyperrow\ActiveRowWrapper';
+        $wrapperBaseClass = 'Filsedla\Hyperrow\BaseHyperRow';
 
         if (!class_exists($className) || !is_subclass_of($className, $wrapperBaseClass))
             throw new InvalidStateException("ActiveRow wrapper class $className does not exist or does not extend $wrapperBaseClass.");

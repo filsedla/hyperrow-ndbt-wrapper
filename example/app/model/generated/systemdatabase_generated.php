@@ -2,11 +2,11 @@
 
 namespace Filsedla\Hyperrow;
 
-class SystemDatabase extends \Filsedla\Hyperrow\Database
+class SystemDatabase extends \Filsedla\Hyperrow\BaseDatabase
 {
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function tableAuthor()
 	{
@@ -15,7 +15,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function tableBook()
 	{
@@ -24,7 +24,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function tableBook_tag()
 	{
@@ -33,7 +33,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function tableEmpty()
 	{
@@ -42,7 +42,7 @@ class SystemDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function tableTag()
 	{

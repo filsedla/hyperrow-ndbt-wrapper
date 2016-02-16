@@ -8,11 +8,11 @@ namespace Filsedla\Hyperrow;
  * @property-read string $web
  * @property-read int $born
  */
-class author_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
+class author_BaseRowClass extends \Filsedla\Hyperrow\BaseHyperRow
 {
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function relatedBooksAsAuthor()
 	{
@@ -21,7 +21,7 @@ class author_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function relatedBooksAsTranslator()
 	{
@@ -38,7 +38,7 @@ class author_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
  * @property-read string $title
  * @property-read string $web
  */
-class book_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
+class book_BaseRowClass extends \Filsedla\Hyperrow\BaseHyperRow
 {
 
 	/**
@@ -51,7 +51,7 @@ class book_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
 
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function relatedBook_tags()
 	{
@@ -65,7 +65,7 @@ class book_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
  * @property-read int $book_id
  * @property-read int $tag_id
  */
-class book_tag_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
+class book_tag_BaseRowClass extends \Filsedla\Hyperrow\BaseHyperRow
 {
 
 	/**
@@ -92,7 +92,7 @@ class book_tag_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
  * @property-read int $id
  * @property-read string $name
  */
-class empty_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
+class empty_BaseRowClass extends \Filsedla\Hyperrow\BaseHyperRow
 {
 }
 
@@ -101,11 +101,11 @@ class empty_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
  * @property-read int $id
  * @property-read string $name
  */
-class tag_BaseRowClass extends \Filsedla\Hyperrow\ActiveRowWrapper
+class tag_BaseRowClass extends \Filsedla\Hyperrow\BaseHyperRow
 {
 
 	/**
-	 * @return \Filsedla\Hyperrow\SelectionWrapper
+	 * @return \Filsedla\Hyperrow\BaseHyperSelection
 	 */
 	public function relatedBook_tags()
 	{

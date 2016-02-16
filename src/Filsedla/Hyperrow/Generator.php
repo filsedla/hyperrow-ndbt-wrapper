@@ -16,7 +16,7 @@ use Nette\Utils\Strings;
 /**
  *
  */
-final class RowClassesBuilder extends Object
+final class Generator extends Object
 {
 
     /** @var Context */
@@ -28,26 +28,26 @@ final class RowClassesBuilder extends Object
     /** @var array */
     private $config;
 
-    /** @var ActiveRowWrapperFactory */
-    private $activeRowWrapperFactory;
+    /** @var HyperRowFactory */
+    private $hypeRowFactory;
 
 
     /**
      * @param array $config
      * @param $dir
      * @param Context $context
-     * @param ActiveRowWrapperFactory $activeRowWrapperFactory
+     * @param HyperRowFactory $hyperRowFactory
      */
-    function __construct(array $config, $dir, Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
+    function __construct(array $config, $dir, Context $context, HyperRowFactory $hyperRowFactory)
     {
         $this->config = $config;
         $this->dir = $dir;
         $this->context = $context;
-        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
+        $this->hypeRowFactory = $hyperRowFactory;
     }
 
 
-    public function build()
+    public function generate()
     {
         FileSystem::createDir($this->dir);
 
@@ -66,7 +66,7 @@ final class RowClassesBuilder extends Object
 
             $className = $table . '_BaseRowClass';
             $class = new ClassType($className);
-            $class->setExtends('\Filsedla\Hyperrow\ActiveRowWrapper');
+            $class->setExtends('\Filsedla\Hyperrow\BaseHyperRow');
 
             foreach ($columns as $column => $type) {
                 if ($type === IStructure::FIELD_DATETIME) {
@@ -77,7 +77,7 @@ final class RowClassesBuilder extends Object
 
             foreach ($this->context->getStructure()->getBelongsToReference($table) as $referencingColumn => $referencedTable) {
                 $methodName = 'referenced' . Strings::firstUpper($referencedTable);
-                $returnType = $this->activeRowWrapperFactory->tableNameToClassName($referencedTable);
+                $returnType = $this->hypeRowFactory->tableNameToClassName($referencedTable);
                 if (!Strings::startsWith($returnType, '\\')) {
                     $returnType = '\\' . $returnType;
                 }
@@ -90,7 +90,7 @@ final class RowClassesBuilder extends Object
                 foreach ($referencingColumns as $referencingColumn) {
                     $methodName = 'related' . Strings::firstUpper($relatedTable) . 's'
                         . (count($referencingColumns) > 1 ? 'As' . Strings::firstUpper(Strings::replace($referencingColumn, '~_id$~')) : '');
-                    $returnType = '\Filsedla\Hyperrow\SelectionWrapper'; //$this->activeRowWrapperFactory->tableNameToClassName($relatedTable);
+                    $returnType = '\Filsedla\Hyperrow\BaseHyperSelection'; //$this->hyperRowFactory->tableNameToClassName($relatedTable);
 //                    if (!Strings::startsWith($returnType, '\\')) {
 //                        $returnType = '\\' . $returnType;
 //                    }
@@ -108,10 +108,10 @@ final class RowClassesBuilder extends Object
         // Create database class
         $className = 'SystemDatabase';
         $class = new ClassType($className);
-        $class->setExtends('\Filsedla\Hyperrow\Database');
+        $class->setExtends('\Filsedla\Hyperrow\BaseDatabase');
         foreach ($tables as $table => $columns) {
             $methodName = 'table' . Strings::firstUpper($table);
-            $returnType = '\Filsedla\Hyperrow\SelectionWrapper';
+            $returnType = '\Filsedla\Hyperrow\BaseHyperSelection';
             $class->addMethod($methodName)
                 ->addBody('return $this->table(?);', [$table])
                 ->addDocument("@return $returnType");

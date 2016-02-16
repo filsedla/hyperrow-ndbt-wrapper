@@ -12,20 +12,20 @@ use Nette\MemberAccessException;
 /**
  *
  */
-class ActiveRowWrapper implements \ArrayAccess
+class BaseHyperRow implements \ArrayAccess
 {
 
     /** @var ActiveRow */
     private $activeRow;
 
-    /** @var ActiveRowWrapperFactory */
-    private $activeRowWrapperFactory;
+    /** @var HyperRowFactory */
+    private $HyperRowFactory;
 
 
-    function __construct(ActiveRow $activeRow, ActiveRowWrapperFactory $activeRowWrapperFactory)
+    function __construct(ActiveRow $activeRow, HyperRowFactory $hyperRowFactory)
     {
         $this->activeRow = $activeRow;
-        $this->activeRowWrapperFactory = $activeRowWrapperFactory;
+        $this->HyperRowFactory = $hyperRowFactory;
     }
 
 
@@ -34,13 +34,13 @@ class ActiveRowWrapper implements \ArrayAccess
      *
      * @param string $key Other table name
      * @param string $throughColumn Other table column name
-     * @return SelectionWrapper
+     * @return BaseHyperSelection
      * @throws MemberAccessException
      */
     public function related($key, $throughColumn = NULL)
     {
         $groupedSelection = $this->activeRow->related($key, $throughColumn);
-        return new SelectionWrapper($groupedSelection, $this->activeRowWrapperFactory);
+        return new BaseHyperSelection($groupedSelection, $this->HyperRowFactory);
     }
 
 
@@ -56,8 +56,8 @@ class ActiveRowWrapper implements \ArrayAccess
     {
         $result = $this->activeRow->ref($key, $throughColumn);
         if ($result instanceof ActiveRow) {
-            $activeRowWrapper = $this->activeRowWrapperFactory->create($result, $result->getTable()->getName());
-            return $activeRowWrapper;
+            $hyperrow = $this->HyperRowFactory->create($result, $result->getTable()->getName());
+            return $hyperrow;
         }
         return NULL;
     }
@@ -87,14 +87,14 @@ class ActiveRowWrapper implements \ArrayAccess
      * Returns value of column / referenced row
      *
      * @param $key
-     * @return mixed|ActiveRowWrapper
+     * @return mixed|BaseHyperRow
      */
     public function &__get($key)
     {
         $result = $this->activeRow->__get($key);
         if ($result instanceof ActiveRow) {
-            $activeRowWrapper = $this->activeRowWrapperFactory->create($result, $result->getTable()->getName());
-            return $activeRowWrapper;
+            $hyperrow = $this->HyperRowFactory->create($result, $result->getTable()->getName());
+            return $hyperrow;
         }
         return $result;
     }
@@ -135,7 +135,7 @@ class ActiveRowWrapper implements \ArrayAccess
      * Returns value of column / referenced row
      *
      * @param string $key column name
-     * @return mixed|ActiveRowWrapper
+     * @return mixed|BaseHyperRow
      * @throws MemberAccessException
      */
     public function offsetGet($key)

@@ -21,8 +21,8 @@ session:
 services:
 	router: App\RouterFactory::createRouter
 
-	SystemDatabase: Filsedla\Hyperrow\Database
-	- Filsedla\Hyperrow\RowClassesBuilder(%rowClasses%, %appDir%/model/generated)
-	- Filsedla\Hyperrow\ActiveRowWrapperFactory(%rowClasses%)
+	SystemDatabase: Filsedla\Hyperrow\BaseDatabase
+	- Filsedla\Hyperrow\Generator(%rowClasses%, %appDir%/model/generated)
+	- Filsedla\Hyperrow\HyperRowFactory(%rowClasses%)
 
 	- App\Presenters\HomepagePresenter(@SystemDatabase)
