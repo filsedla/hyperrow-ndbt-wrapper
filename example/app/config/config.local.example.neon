@@ -1,9 +1,9 @@
-parameters:
+arameters:
+
 
 database:
 	dsn: 'mysql:host=127.0.0.1;dbname=test'
 	user:
-	password: 
+	password:
 	options:
 		lazy: yes
-

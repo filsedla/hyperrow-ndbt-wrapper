@@ -1,25 +1,24 @@
 {
-    "name": "filsedla/custom-row-class",
-    "type": "library",
-    "license": "MIT",
-    "require": {
-        "php": ">= 5.4.0",
-        "nette/database": "~2.3",
-        "nette/bootstrap": "~2.3",
-        "nette/robot-loader": "~2.3",
-        "tracy/tracy": "~2.3"
-    },
-    "require-dev": {
-        "nette/tester": "dev-master"
-    },
-    "authors": [
-        {
-            "name": "Filip Sedláček",
-            "email": "filsedla@gmail.com"
-        }
-    ],
-    "config": {
-        "vendor-dir": "vendor"
-    },
-    "minimum-stability": "beta"
+  "name": "filsedla/hyperrow",
+  "type": "library",
+  "description": "A wrapping layer with both custom and automatically generated classes for Nette Database",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Filip Sedláček",
+      "email": "filsedla@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 5.4.0",
+    "nette/database": "~2.3",
+    "nette/bootstrap": "~2.3",
+    "nette/robot-loader": "~2.3",
+    "tracy/tracy": "~2.3"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
 }

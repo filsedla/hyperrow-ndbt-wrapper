@@ -1,0 +1,6 @@
+/vendor
+/log/*
+!/log/.htaccess
+/temp/*
+!/temp/.htaccess
+/app/config/config.local.neon

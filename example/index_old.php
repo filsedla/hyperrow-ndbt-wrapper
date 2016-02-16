@@ -3,31 +3,8 @@
  * Copyright (c) 2015 Filip Sedlacek <filsedla@gmail.com>
  */
 
-namespace Filsedla\CustomRowClass;
+namespace Filsedla\Hyperrow;
 
-use Filsedla\CustomRowClass\Model\Book;
-use Nette\Database\Context;
-
-
-/** @var \Systemcontainer $container */
-$container = require __DIR__ . '/bootstrap.php';
-
-/** @var Context $database */
-$context = $container->getByType('Nette\Database\Context');
-
-// First automatically build base row classes
-$builder = $container->getByType('Filsedla\CustomRowClass\RowClassesBuilder');
-$builder->build();
-require_once $container->parameters['tempDir'] . DIRECTORY_SEPARATOR . '/row_classes_base_generated.php';
-require_once $container->parameters['tempDir'] . DIRECTORY_SEPARATOR . '/systemdatabase_generated.php';
-
-$container->addService('Systemdatabase', $container->createInstance('Filsedla\CustomRowClass\Systemdatabase'));
-
-/** @var Systemdatabase $database */
-$database = $container->getService('Systemdatabase'); //$container->getByType('Filsedla\CustomRowClass\Systemdatabase');
-
-// Use case selection->fetch
-//dump($database->table('empty')->fetch());
 
 // Use case selection foreach + row->related + row->toArray
 //foreach ($database->table('author') as $author) {
@@ -87,13 +64,13 @@ $database = $container->getService('Systemdatabase'); //$container->getByType('F
 //}
 
 // Use case: generated table methods
-foreach ($database->tableBook() as $book) {
-    /** @var Book $book */
-    foreach ($book->relatedBook_tags() as $bookTag) {
-        /** @var book_tag_BaseRowClass $bookTag */
-        dump($bookTag->referencedTag()->name);
-    }
-}
-
-dump($database->tableAuthor()->count());
-dump($database->tableAuthor()->fetch());
+//foreach ($database->tableBook() as $book) {
+//    /** @var Book $book */
+//    foreach ($book->relatedBook_tags() as $bookTag) {
+//        /** @var book_tag_BaseRowClass $bookTag */
+//        dump($bookTag->referencedTag()->name);
+//    }
+//}
+//
+//dump($database->tableAuthor()->count());
+//dump($database->tableAuthor()->fetch());

@@ -3,13 +3,14 @@
  * Copyright (c) 2015 Filip Sedláček <filsedla@gmail.com>
  */
 
-namespace Filsedla\CustomRowClass;
+namespace Filsedla\Hyperrow;
 
 use Nette\Database\Context;
 use Nette\Database\Helpers;
 use Nette\Database\IStructure;
 use Nette\Object;
 use Nette\PhpGenerator\ClassType;
+use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 
 /**
@@ -22,7 +23,7 @@ final class RowClassesBuilder extends Object
     private $context;
 
     /** @var string */
-    private $tempDir;
+    private $dir;
 
     /** @var array */
     private $config;
@@ -33,14 +34,14 @@ final class RowClassesBuilder extends Object
 
     /**
      * @param array $config
-     * @param $tempDir
+     * @param $dir
      * @param Context $context
      * @param ActiveRowWrapperFactory $activeRowWrapperFactory
      */
-    function __construct(array $config, $tempDir, Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
+    function __construct(array $config, $dir, Context $context, ActiveRowWrapperFactory $activeRowWrapperFactory)
     {
         $this->config = $config;
-        $this->tempDir = $tempDir;
+        $this->dir = $dir;
         $this->context = $context;
         $this->activeRowWrapperFactory = $activeRowWrapperFactory;
     }
@@ -48,6 +49,8 @@ final class RowClassesBuilder extends Object
 
     public function build()
     {
+        FileSystem::createDir($this->dir);
+
         $tables = [];
         foreach ($this->context->getStructure()->getTables() as $table) {
             if ($table['view'] === FALSE) {
@@ -63,7 +66,7 @@ final class RowClassesBuilder extends Object
 
             $className = $table . '_BaseRowClass';
             $class = new ClassType($className);
-            $class->setExtends('\Filsedla\CustomRowClass\ActiveRowWrapper');
+            $class->setExtends('\Filsedla\Hyperrow\ActiveRowWrapper');
 
             foreach ($columns as $column => $type) {
                 if ($type === IStructure::FIELD_DATETIME) {
@@ -87,7 +90,7 @@ final class RowClassesBuilder extends Object
                 foreach ($referencingColumns as $referencingColumn) {
                     $methodName = 'related' . Strings::firstUpper($relatedTable) . 's'
                         . (count($referencingColumns) > 1 ? 'As' . Strings::firstUpper(Strings::replace($referencingColumn, '~_id$~')) : '');
-                    $returnType = '\Filsedla\CustomRowClass\SelectionWrapper'; //$this->activeRowWrapperFactory->tableNameToClassName($relatedTable);
+                    $returnType = '\Filsedla\Hyperrow\SelectionWrapper'; //$this->activeRowWrapperFactory->tableNameToClassName($relatedTable);
 //                    if (!Strings::startsWith($returnType, '\\')) {
 //                        $returnType = '\\' . $returnType;
 //                    }
@@ -99,22 +102,22 @@ final class RowClassesBuilder extends Object
 
             $classes[] = $class;
         }
-        $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\CustomRowClass;'], $classes));
-        file_put_contents($this->tempDir . DIRECTORY_SEPARATOR . "/row_classes_base_generated.php", $code);
+        $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\Hyperrow;'], $classes));
+        file_put_contents($this->dir . "/row_classes_base_generated.php", $code);
 
         // Create database class
-        $className = 'Systemdatabase';
+        $className = 'SystemDatabase';
         $class = new ClassType($className);
-        $class->setExtends('\Filsedla\CustomRowClass\Database');
+        $class->setExtends('\Filsedla\Hyperrow\Database');
         foreach ($tables as $table => $columns) {
             $methodName = 'table' . Strings::firstUpper($table);
-            $returnType = '\Filsedla\CustomRowClass\SelectionWrapper';
+            $returnType = '\Filsedla\Hyperrow\SelectionWrapper';
             $class->addMethod($methodName)
                 ->addBody('return $this->table(?);', [$table])
                 ->addDocument("@return $returnType");
         }
-        $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\CustomRowClass;'], [$class]));
-        file_put_contents($this->tempDir . DIRECTORY_SEPARATOR . "/systemdatabase_generated.php", $code);
+        $code = implode("\n\n", array_merge(['<?php', 'namespace Filsedla\Hyperrow;'], [$class]));
+        file_put_contents($this->dir . "/systemdatabase_generated.php", $code);
     }
 
 } 

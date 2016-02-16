@@ -1,0 +1,28 @@
+parameters:
+	container:
+		class: SystemContainer
+
+	rowClasses:
+		author: Filsedla\Hyperrow\Model\Author
+		book: Filsedla\Hyperrow\Model\Book
+		tag: Filsedla\Hyperrow\Model\Tag
+
+php:
+	date.timezone: Europe/Prague
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+session:
+	expiration: 14 days
+
+services:
+	router: App\RouterFactory::createRouter
+
+	SystemDatabase: Filsedla\Hyperrow\Database
+	- Filsedla\Hyperrow\RowClassesBuilder(%rowClasses%, %appDir%/model/generated)
+	- Filsedla\Hyperrow\ActiveRowWrapperFactory(%rowClasses%)
+
+	- App\Presenters\HomepagePresenter(@SystemDatabase)

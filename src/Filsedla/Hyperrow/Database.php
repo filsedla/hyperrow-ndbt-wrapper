@@ -3,7 +3,7 @@
  * Copyright (c) 2015 Filip Sedláček <filsedla@gmail.com>
  */
 
-namespace Filsedla\CustomRowClass;
+namespace Filsedla\Hyperrow;
 
 use Nette\Database\Context;
 use Nette\Object;

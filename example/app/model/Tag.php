@@ -3,9 +3,9 @@
  * Copyright (c) 2015 Filip Sedláček <filsedla@gmail.com>
  */
 
-namespace Filsedla\CustomRowClass\Model;
+namespace Filsedla\Hyperrow\Model;
 
-use Filsedla\CustomRowClass\tag_BaseRowClass;
+use Filsedla\Hyperrow\tag_BaseRowClass;
 
 /**
  *
