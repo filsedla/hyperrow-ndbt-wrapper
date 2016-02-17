@@ -1,42 +1,47 @@
 parameters:
-	container:
-		class: SystemContainer
+    container:
+        class: SystemContainer
 
-	generatedDir: %appDir%/model/generated
-	generatedNamespace: Example\Model\Generated
-	generatedDatabaseClassName: GeneratedDatabase
-	databaseClassName: Database
-	hyperRowClassName: HyperRow
-	hyperSelectionClassName: HyperSelection
+    hyperrow:
+        dir: %appDir%/model/database/generated
+        namespace: Example\Model\Database
+        class:
+            row:
+                base: BaseHyperRow
+                table: *HyperRow
+            selection:
+                base: BaseHyperSelection
+                table: *HyperSelection
 
 php:
-	date.timezone: Europe/Prague
+    date.timezone: Europe/Prague
 
 application:
-	errorPresenter: Error
-	mapping:
-		*: App\*Module\Presenters\*Presenter
+    errorPresenter: Error
+    mapping:
+        *: App\*Module\Presenters\*Presenter
 
 session:
-	expiration: 14 days
+    expiration: 14 days
 
 services:
-	router: App\RouterFactory::createRouter
+    router: App\RouterFactory::createRouter
 
-	# ----------------------------------------------------------------------------
-	# Hyperrow
-	# ----------------------------------------------------------------------------
-	- Filsedla\Hyperrow\Generator(
-		%generatedDir%,
-		%generatedNamespace%,
-		%generatedDatabaseClassName%,
-		%databaseClassName%,
-		%hyperRowClassName%, %hyperSelectionClassName%
-		)
+    # ----------------------------------------------------------------------------
+    # Hyperrow
+    # ----------------------------------------------------------------------------
+    - Filsedla\Hyperrow\Generator(
+        %hyperrow.dir%,
+        %hyperrow.namespace%,
+        %hyperrow.class.row.base%,
+        %hyperrow.class.row.table%,
+        %hyperrow.class.selection.base%,
+        %hyperrow.class.selection.table%,
+        ...)
 
-	- Filsedla\Hyperrow\HyperSelectionFactory(%generatedNamespace%, %hyperSelectionClassName%)
-	- Filsedla\Hyperrow\HyperRowFactory(%generatedNamespace%, %hyperRowClassName%, ...)
-	# ----------------------------------------------------------------------------
+    - Filsedla\Hyperrow\HyperSelectionFactory(%hyperrow.namespace%, HyperSelection)
+    - Filsedla\Hyperrow\HyperRowFactory(%hyperrow.namespace%, HyperRow, ...)
+    # ----------------------------------------------------------------------------
 
-	- Example\Model\Database
+    - Example\Model\Database\Database
 

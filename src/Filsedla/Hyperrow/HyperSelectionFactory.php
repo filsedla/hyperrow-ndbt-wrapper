@@ -39,14 +39,14 @@ class HyperSelectionFactory extends Object
 
     /**
      * @param Selection $selection
-     * @return BaseHyperSelection
+     * @return HyperSelection
      */
     public function create(Selection $selection)
     {
         $tableName = $selection->getName();
 
         $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . $this->hyperSelectionClassName;
-        $baseClass = BaseHyperSelection::class;
+        $baseClass = HyperSelection::class;
 
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))
             throw new InvalidStateException("HyperSelection class $className does not exist or does not extend $baseClass.");

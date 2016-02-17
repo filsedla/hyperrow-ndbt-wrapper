@@ -2,7 +2,7 @@
 
 namespace App\Presenters;
 
-use Example\Model\Database;
+use Example\Model\Database\Database;
 use Nette;
 
 

@@ -40,7 +40,7 @@ class HyperRowFactory extends Object
     public function create(ActiveRow $activeRow, $tableName)
     {
         $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName;
-        $baseClass = BaseHyperRow::class;
+        $baseClass = HyperRow::class;
 
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))
             throw new InvalidStateException("HyperRow class $className does not exist or does not extend $baseClass.");

@@ -28,16 +28,16 @@ class Generator extends Object
     protected $namespace;
 
     /** @var string */
-    protected $generatedDatabaseClassName;
+    protected $rowBaseClass;
 
     /** @var string */
-    protected $databaseClassName;
+    protected $rowTableClass;
 
     /** @var string */
-    protected $hyperRowClassName;
+    protected $selectionBaseClass;
 
     /** @var string */
-    protected $hyperSelectionClassName;
+    protected $selectionTableClass;
 
     /** @var IStructure */
     protected $structure;
@@ -45,20 +45,20 @@ class Generator extends Object
     /**
      * @param string $dir
      * @param string $namespace
-     * @param string $generatedDatabaseClassName
-     * @param string $databaseClassName
-     * @param string $hyperRowClassName
-     * @param string $hyperSelectionClassName
+     * @param string $rowBaseClass
+     * @param string $rowTableClass
+     * @param string $selectionBaseClass
+     * @param string $selectionTableClass
      * @param IStructure $structure
      */
-    public function __construct($dir, $namespace, $generatedDatabaseClassName, $databaseClassName, $hyperRowClassName, $hyperSelectionClassName, IStructure $structure)
+    public function __construct($dir, $namespace, $rowBaseClass, $rowTableClass, $selectionBaseClass, $selectionTableClass, IStructure $structure)
     {
         $this->dir = $dir;
         $this->namespace = $namespace;
-        $this->generatedDatabaseClassName = $generatedDatabaseClassName;
-        $this->databaseClassName = $databaseClassName;
-        $this->hyperRowClassName = $hyperRowClassName;
-        $this->hyperSelectionClassName = $hyperSelectionClassName;
+        $this->rowBaseClass = $rowBaseClass;
+        $this->rowTableClass = $rowTableClass;
+        $this->selectionBaseClass = $selectionBaseClass;
+        $this->selectionTableClass = $selectionTableClass;
         $this->structure = $structure;
     }
 
@@ -79,19 +79,21 @@ class Generator extends Object
         return $tables;
     }
 
+
     /**
      * @return void
      */
     protected function generateGeneratedDatabase()
     {
-        $class = new ClassType($this->generatedDatabaseClassName);
-        $class->setExtends('\Filsedla\Hyperrow\BaseDatabase');
+        $className = 'GeneratedDatabase';
+        $class = new ClassType($className);
+        $class->setExtends('\Filsedla\Hyperrow\Database');
 
         foreach ($this->getTables() as $tableName => $columns) {
 
             $methodName = 'table' . Helpers::underscoreToCamel($tableName);
 
-            $returnType = Helpers::underscoreToCamel($tableName) . $this->hyperSelectionClassName;
+            $returnType = Helpers::underscoreToCamel($tableName) . 'HyperSelection';
 
             $class->addMethod($methodName)
                 ->addBody('return $this->table(?);', [$tableName])
@@ -103,36 +105,9 @@ class Generator extends Object
             "namespace {$this->namespace};",
             $class
         ]);
-        $file = $this->dir . '/' . $this->generatedDatabaseClassName . '.php';
+        $file = $this->dir . '/' . $className . '.php';
         FileSystem::createDir($this->dir);
         FileSystem::write($file, $code, NULL);
-    }
-
-
-//    /**
-//     * @return void
-//     */
-//    protected function generateDatabase()
-//    {
-//        $this->generateEmptyClass($this->namespace, $this->databaseClassName, $this->generatedDatabaseClassName, $this->dir);
-//    }
-
-
-    /**
-     * @return void
-     */
-    protected function generateHyperRow()
-    {
-        $this->generateEmptyClass($this->namespace, $this->hyperRowClassName, '\Filsedla\Hyperrow\BaseHyperRow', $this->dir);
-    }
-
-
-    /**
-     * @return void
-     */
-    protected function generatedHyperSelection()
-    {
-        $this->generateEmptyClass($this->namespace, $this->hyperSelectionClassName, '\Filsedla\Hyperrow\BaseHyperSelection', $this->dir);
     }
 
 
@@ -142,9 +117,6 @@ class Generator extends Object
     public function generate()
     {
         $this->generateGeneratedDatabase();
-//        $this->generateDatabase();
-        $this->generateHyperRow();
-        $this->generatedHyperSelection();
         $this->generateTables();
     }
 
@@ -178,9 +150,9 @@ class Generator extends Object
 
     /**
      * For each table generate:
-     *  - "Table"BaseHyperSelection (fully generated)
+     *  - "Table"GeneratedHyperSelection (fully generated)
      *  - "Table"HyperSelection (generated once, empty)
-     *  - "Table"BaseHyperRow (fully generated)
+     *  - "Table"GeneratedHyperRow (fully generated)
      *  - "Table"HyperRow (generated once, empty)
      *
      * @return void
@@ -192,11 +164,27 @@ class Generator extends Object
             $this->generateTableHyperSelection($tableName);
             $this->generateTableHyperRow($tableName);
 
-            $this->generateTableBaseHyperSelection($tableName, $columns);
-//
-            $this->generateTableBaseHyperRow($tableName, $columns);
+            $this->generateTableGeneratedHyperSelection($tableName, $columns);
+            $this->generateTableGeneratedHyperRow($tableName, $columns);
         }
+    }
 
+    /**
+     * @param string $tableName
+     * @return string
+     */
+    protected function getHyperRowTableClass($tableName)
+    {
+        return Strings::replace($this->rowTableClass, '#\*#', Helpers::underscoreToCamel($tableName), 1);
+    }
+
+    /**
+     * @param string $tableName
+     * @return string
+     */
+    protected function getHyperSelectionTableClass($tableName)
+    {
+        return Strings::replace($this->selectionTableClass, '#\*#', Helpers::underscoreToCamel($tableName), 1);
     }
 
 
@@ -205,24 +193,24 @@ class Generator extends Object
      * @param array $columns
      * @return void
      */
-    protected function generateTableBaseHyperSelection($tableName, $columns)
+    protected function generateTableGeneratedHyperSelection($tableName, $columns)
     {
-        $className = Helpers::underscoreToCamel($tableName) . 'Base' . $this->hyperSelectionClassName;
+        $className = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperSelection';
         $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
 
         $class = new ClassType($className);
-        $class->setExtends($this->hyperSelectionClassName);
+
+        $class->setExtends($this->selectionBaseClass);
 
         // Add annotations for methods returning specific row class
         $methods = [
-            'fetch' => Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName . '|FALSE',
-            'current' => Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName . '|FALSE',
+            'fetch' => $this->getHyperRowTableClass($tableName) . '|FALSE',
+            'current' => $this->getHyperRowTableClass($tableName) . '|FALSE',
         ];
 
         foreach ($methods as $methodName => $returnType) {
             $class->addDocument("@method $returnType $methodName()");
         }
-
 
         $code = implode("\n\n", [
             '<?php',
@@ -241,13 +229,13 @@ class Generator extends Object
      * @param array $columns
      * @return void
      */
-    protected function generateTableBaseHyperRow($tableName, $columns)
+    protected function generateTableGeneratedHyperRow($tableName, $columns)
     {
-        $className = Helpers::underscoreToCamel($tableName) . 'Base' . $this->hyperRowClassName;
+        $className = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperRow';
         $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
 
         $class = new ClassType($className);
-        $class->setExtends($this->hyperRowClassName);
+        $class->setExtends($this->rowBaseClass);
 
         // Add property annotations based on columns
         foreach ($columns as $column => $type) {
@@ -261,7 +249,7 @@ class Generator extends Object
         foreach ($this->structure->getBelongsToReference($tableName) as $referencingColumn => $referencedTable) {
 
             $methodName = 'referenced' . Helpers::underscoreToCamel($referencedTable);
-            $returnType = Helpers::underscoreToCamel($referencedTable) . $this->hyperRowClassName;
+            $returnType = $this->getHyperRowTableClass($referencedTable);
 
             $class->addMethod($methodName)
                 ->addBody('return $this->ref(?, ?);', [$referencedTable, $referencingColumn])
@@ -280,7 +268,7 @@ class Generator extends Object
                     $methodName = 'related' . Helpers::underscoreToCamel($relatedTable) . 's';
                 }
 
-                $returnType = Helpers::underscoreToCamel($relatedTable) . $this->hyperSelectionClassName;
+                $returnType = $this->getHyperSelectionTableClass($relatedTable);
 
                 $class->addMethod($methodName)
                     ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
@@ -306,8 +294,8 @@ class Generator extends Object
      */
     protected function generateTableHyperSelection($tableName)
     {
-        $className = Helpers::underscoreToCamel($tableName) . $this->hyperSelectionClassName;
-        $extends = Helpers::underscoreToCamel($tableName) . 'Base' . $this->hyperSelectionClassName;
+        $className = Helpers::underscoreToCamel($tableName) . 'HyperSelection';
+        $extends = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperSelection';
         $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
 
         $this->generateEmptyClass($this->namespace, $className, $extends, $dir);
@@ -319,8 +307,8 @@ class Generator extends Object
      */
     protected function generateTableHyperRow($tableName)
     {
-        $className = Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName;
-        $extends = Helpers::underscoreToCamel($tableName) . 'Base' . $this->hyperRowClassName;
+        $className = Helpers::underscoreToCamel($tableName) . 'HyperRow';
+        $extends = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperRow';
         $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
 
         $this->generateEmptyClass($this->namespace, $className, $extends, $dir);
