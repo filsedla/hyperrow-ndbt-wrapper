@@ -287,8 +287,43 @@ class Generator extends Object
 
             foreach ($referencingColumns as $referencingColumn) {
 
-                $methodName = 'related' . Helpers::underscoreToCamel($relatedTable)
-                    . (Strings::match($relatedTable, '#s$#i') ? '' : 's');
+                // Find longest common prefix between $referencingColumn and (this) $tableName
+                $thisTableWords = Strings::split($tableName, '#_#');
+                $relatedTableWords = Strings::split($relatedTable, '#_#');
+
+                for ($i = 0; $i < count($relatedTableWords) && $i < count($thisTableWords); $i++) {
+                    if ($thisTableWords[$i] == $relatedTableWords[$i]) {
+                        array_shift($relatedTableWords);
+
+                    } else {
+                        break;
+                    }
+                }
+
+                if (count($relatedTableWords) > 0) {
+                    $result = '';
+                    foreach ($relatedTableWords as $word) {
+                        Strings::firstUpper($word);
+                        $result .= Strings::firstUpper($word);
+                    }
+
+                } else {
+                    $result = Helpers::underscoreToCamel($relatedTable);
+                }
+
+                $methodName = 'related' . $result;
+
+                switch (Strings::lower(Strings::substring($relatedTable, -1))){
+                    case 's':
+                        // nothing
+                        break;
+                    case 'y':
+                        $methodName = Strings::replace($methodName, '#y$#', 'ies');
+                        break;
+                    default:
+                        $methodName .= 's';
+                        break;
+                };
 
                 if (count($referencingColumns) > 1) {
                     $methodName .= 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
