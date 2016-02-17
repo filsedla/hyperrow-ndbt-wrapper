@@ -21,6 +21,10 @@ class HyperSelection extends Object implements \Iterator
     private $hyperRowFactory;
 
 
+    /**
+     * @param Selection $selection
+     * @param HyperRowFactory $hyperRowFactory
+     */
     function __construct(Selection $selection, HyperRowFactory $hyperRowFactory)
     {
         $this->selection = $selection;

@@ -21,11 +21,20 @@ class HyperRow implements \ArrayAccess
     /** @var HyperRowFactory */
     private $HyperRowFactory;
 
+    /** @var HyperSelectionFactory */
+    private $hyperSelectionFactory;
 
-    function __construct(ActiveRow $activeRow, HyperRowFactory $hyperRowFactory)
+
+    /**
+     * @param ActiveRow $activeRow
+     * @param HyperRowFactory $HyperRowFactory
+     * @param HyperSelectionFactory $hyperSelectionFactory
+     */
+    public function __construct(ActiveRow $activeRow, HyperRowFactory $HyperRowFactory, HyperSelectionFactory $hyperSelectionFactory)
     {
         $this->activeRow = $activeRow;
-        $this->HyperRowFactory = $hyperRowFactory;
+        $this->HyperRowFactory = $HyperRowFactory;
+        $this->hyperSelectionFactory = $hyperSelectionFactory;
     }
 
 
@@ -40,7 +49,7 @@ class HyperRow implements \ArrayAccess
     public function related($key, $throughColumn = NULL)
     {
         $groupedSelection = $this->activeRow->related($key, $throughColumn);
-        return new HyperSelection($groupedSelection, $this->HyperRowFactory);
+        return $this->hyperSelectionFactory->create($groupedSelection);
     }
 
 

@@ -6,6 +6,7 @@
 namespace Filsedla\Hyperrow;
 
 use Nette\Database\Table\Selection;
+use Nette\DI\Container;
 use Nette\InvalidStateException;
 use Nette\Object;
 
@@ -20,20 +21,19 @@ class HyperSelectionFactory extends Object
     /** @var string */
     protected $hyperSelectionClassName;
 
-    /** @var HyperRowFactory */
-    protected $hyperRowFactory;
-
+    /** @var Container */
+    protected $container;
 
     /**
      * @param string $namespace
      * @param string $hyperSelectionClassName
-     * @param HyperRowFactory $hyperRowFactory
+     * @param Container $container
      */
-    public function __construct($namespace, $hyperSelectionClassName, HyperRowFactory $hyperRowFactory)
+    public function __construct($namespace, $hyperSelectionClassName, Container $container)
     {
         $this->namespace = $namespace;
         $this->hyperSelectionClassName = $hyperSelectionClassName;
-        $this->hyperRowFactory = $hyperRowFactory;
+        $this->container = $container;
     }
 
 
@@ -51,7 +51,7 @@ class HyperSelectionFactory extends Object
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))
             throw new InvalidStateException("HyperSelection class $className does not exist or does not extend $baseClass.");
 
-        return new $className($selection, $this->hyperRowFactory);
+        return $this->container->createInstance($className, [$selection]);
     }
 
 }

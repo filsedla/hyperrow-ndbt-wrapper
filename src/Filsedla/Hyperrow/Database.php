@@ -39,8 +39,7 @@ class Database extends Object
     public function table($tableName)
     {
         $selection = $this->context->table($tableName);
-        $hyperSelection = $this->hyperSelectionFactory->create($selection);
-        return $hyperSelection;
+        return $this->hyperSelectionFactory->create($selection);
     }
 
 } 

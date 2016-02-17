@@ -6,6 +6,7 @@
 namespace Filsedla\Hyperrow;
 
 use Nette\Database\Table\ActiveRow;
+use Nette\DI\Container;
 use Nette\InvalidStateException;
 use Nette\Object;
 
@@ -21,14 +22,20 @@ class HyperRowFactory extends Object
     /** @var string */
     protected $hyperRowClassName;
 
+    /** @var Container */
+    protected $container;
+
+
     /**
      * @param string $namespace
      * @param string $hyperRowClassName
+     * @param Container $container
      */
-    public function __construct($namespace, $hyperRowClassName)
+    public function __construct($namespace, $hyperRowClassName, Container $container)
     {
         $this->namespace = $namespace;
         $this->hyperRowClassName = $hyperRowClassName;
+        $this->container = $container;
     }
 
 
@@ -36,6 +43,7 @@ class HyperRowFactory extends Object
      * @param ActiveRow $activeRow
      * @param $tableName
      * @throws InvalidStateException
+     * @return HyperRow
      */
     public function create(ActiveRow $activeRow, $tableName)
     {
@@ -45,8 +53,7 @@ class HyperRowFactory extends Object
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))
             throw new InvalidStateException("HyperRow class $className does not exist or does not extend $baseClass.");
 
-        return new $className($activeRow, $this);
-
+        return $this->container->createInstance($className, [$activeRow]);
     }
 
 
