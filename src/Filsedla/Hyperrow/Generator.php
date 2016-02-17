@@ -42,6 +42,9 @@ class Generator extends Object
     /** @var IStructure */
     protected $structure;
 
+    /** @var bool */
+    protected $changed = FALSE;
+
     /**
      * @param string $dir
      * @param string $namespace
@@ -77,6 +80,14 @@ class Generator extends Object
             }
         }
         return $tables;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChanged()
+    {
+        return $this->changed;
     }
 
 
@@ -120,6 +131,7 @@ class Generator extends Object
         if (!$content || $content != $code) {
             FileSystem::createDir(dirname($file));
             FileSystem::write($file, $code, NULL);
+            $this->changed = TRUE;
         }
     }
 
@@ -260,7 +272,9 @@ class Generator extends Object
         // Generate 'ref' methods
         foreach ($this->structure->getBelongsToReference($tableName) as $referencingColumn => $referencedTable) {
 
-            $methodName = 'referenced' . Helpers::underscoreToCamel($referencedTable);
+            //$methodName = 'referenced' . Helpers::underscoreToCamel($referencedTable);
+            $methodName = 'get' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+
             $returnType = $this->getHyperRowTableClass($referencedTable);
 
             $class->addMethod($methodName)
@@ -273,11 +287,11 @@ class Generator extends Object
 
             foreach ($referencingColumns as $referencingColumn) {
 
+                $methodName = 'related' . Helpers::underscoreToCamel($relatedTable)
+                    . (Strings::match($relatedTable, '#s$#i') ? '' : 's');
+
                 if (count($referencingColumns) > 1) {
-                    $methodName = 'related' . Helpers::underscoreToCamel($relatedTable) . 's'
-                        . 'As' . Strings::firstUpper(Strings::replace($referencingColumn, '~_id$~'));
-                } else {
-                    $methodName = 'related' . Helpers::underscoreToCamel($relatedTable) . 's';
+                    $methodName .= 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
                 }
 
                 $returnType = $this->getHyperSelectionTableClass($relatedTable);

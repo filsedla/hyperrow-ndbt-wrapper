@@ -19,7 +19,16 @@ class BookGeneratedHyperRow extends BaseHyperRow
 	/**
 	 * @return AuthorHyperRow
 	 */
-	public function referencedAuthor()
+	public function getAuthor()
+	{
+		return $this->ref('author', 'author_id');
+	}
+
+
+	/**
+	 * @return AuthorHyperRow
+	 */
+	public function getTranslator()
 	{
 		return $this->ref('author', 'translator_id');
 	}

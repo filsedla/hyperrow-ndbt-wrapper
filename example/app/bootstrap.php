@@ -24,7 +24,9 @@ $container = $configurator->createContainer();
 if ($container->parameters['debugMode'] === TRUE) {
     $generator = $container->getByType('Filsedla\Hyperrow\Generator');
     $generator->generate();
-    $loader->rebuild();
+    if ($generator->isChanged()) {
+        $loader->rebuild();
+    }
 }
 
 return $container;
