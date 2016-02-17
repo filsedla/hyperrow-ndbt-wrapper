@@ -106,10 +106,22 @@ class Generator extends Object
             $class
         ]);
         $file = $this->dir . '/' . $className . '.php';
-        FileSystem::createDir($this->dir);
-        FileSystem::write($file, $code, NULL);
+
+        $this->writeIfChanged($file, $code);
     }
 
+    /**
+     * @param string $file
+     * @param string $code
+     */
+    protected function writeIfChanged($file, $code)
+    {
+        $content = @file_get_contents($file); // @ file may not exist
+        if (!$content || $content != $code) {
+            FileSystem::createDir(dirname($file));
+            FileSystem::write($file, $code, NULL);
+        }
+    }
 
     /**
      * @return void
@@ -143,8 +155,8 @@ class Generator extends Object
             "namespace {$namespace};",
             $class
         ]);
-        FileSystem::createDir($dir);
-        FileSystem::write($file, $code, NULL);
+
+        $this->writeIfChanged($file, $code);
     }
 
 
@@ -219,8 +231,8 @@ class Generator extends Object
             $class
         ]);
         $file = $dir . '/' . $className . '.php';
-        FileSystem::createDir($this->dir);
-        FileSystem::write($file, $code, NULL);
+
+        $this->writeIfChanged($file, $code);
     }
 
 
@@ -283,8 +295,8 @@ class Generator extends Object
             $class
         ]);
         $file = $dir . '/' . $className . '.php';
-        FileSystem::createDir($this->dir);
-        FileSystem::write($file, $code, NULL);
+
+        $this->writeIfChanged($file, $code);
     }
 
 
