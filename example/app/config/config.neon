@@ -45,3 +45,12 @@ services:
 
     - Example\Model\Database\Database
 
+    - Example\Model\DummyProcessingService
+
+    special.dummy.processing.service:
+        factory: Example\Model\DummyProcessingService
+        autowired: no
+
+    - Example\Model\Database\AuthorHyperRow(@special.dummy.processing.service) # best if autowired: no
+
+

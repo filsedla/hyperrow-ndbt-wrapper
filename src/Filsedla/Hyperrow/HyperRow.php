@@ -19,7 +19,7 @@ class HyperRow implements \ArrayAccess
     private $activeRow;
 
     /** @var HyperRowFactory */
-    private $HyperRowFactory;
+    private $hyperRowFactory;
 
     /** @var HyperSelectionFactory */
     private $hyperSelectionFactory;
@@ -27,13 +27,27 @@ class HyperRow implements \ArrayAccess
 
     /**
      * @param ActiveRow $activeRow
-     * @param HyperRowFactory $HyperRowFactory
-     * @param HyperSelectionFactory $hyperSelectionFactory
      */
-    public function __construct(ActiveRow $activeRow, HyperRowFactory $HyperRowFactory, HyperSelectionFactory $hyperSelectionFactory)
+    public function setActiveRow(ActiveRow $activeRow)
     {
         $this->activeRow = $activeRow;
-        $this->HyperRowFactory = $HyperRowFactory;
+    }
+
+
+    /**
+     * @param HyperRowFactory $hyperRowFactory
+     */
+    public function setHyperRowFactory(HyperRowFactory $hyperRowFactory)
+    {
+        $this->hyperRowFactory = $hyperRowFactory;
+    }
+
+
+    /**
+     * @param HyperSelectionFactory $hyperSelectionFactory
+     */
+    public function setHyperSelectionFactory(HyperSelectionFactory $hyperSelectionFactory)
+    {
         $this->hyperSelectionFactory = $hyperSelectionFactory;
     }
 
@@ -65,7 +79,7 @@ class HyperRow implements \ArrayAccess
     {
         $result = $this->activeRow->ref($key, $throughColumn);
         if ($result instanceof ActiveRow) {
-            $hyperrow = $this->HyperRowFactory->create($result, $result->getTable()->getName());
+            $hyperrow = $this->hyperRowFactory->create($result, $result->getTable()->getName());
             return $hyperrow;
         }
         return NULL;
@@ -102,7 +116,7 @@ class HyperRow implements \ArrayAccess
     {
         $result = $this->activeRow->__get($key);
         if ($result instanceof ActiveRow) {
-            $hyperrow = $this->HyperRowFactory->create($result, $result->getTable()->getName());
+            $hyperrow = $this->hyperRowFactory->create($result, $result->getTable()->getName());
             return $hyperrow;
         }
         return $result;
