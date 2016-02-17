@@ -42,6 +42,22 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
+     * Returns row specified by primary key.
+     *
+     * @param  mixed $key Primary key
+     * @return HyperRow|FALSE
+     */
+    public function get($key)
+    {
+        $activeRow = $this->selection->get($key);
+        if ($activeRow === FALSE) {
+            return FALSE;
+        }
+        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
+    }
+
+
+    /**
      * Adds where condition, more calls appends with AND
      *
      * @param  string $condition condition possibly containing ?

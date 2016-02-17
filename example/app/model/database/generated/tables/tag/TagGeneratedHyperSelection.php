@@ -8,6 +8,7 @@ namespace Example\Model\Database;
 
 /**
  * @method TagHyperRow|FALSE fetch()
+ * @method TagHyperRow|FALSE get()
  * @method TagHyperRow|FALSE current()
  */
 class TagGeneratedHyperSelection extends BaseHyperSelection

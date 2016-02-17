@@ -8,6 +8,7 @@ namespace Example\Model\Database;
 
 /**
  * @method AuthorHyperRow|FALSE fetch()
+ * @method AuthorHyperRow|FALSE get()
  * @method AuthorHyperRow|FALSE current()
  */
 class AuthorGeneratedHyperSelection extends BaseHyperSelection

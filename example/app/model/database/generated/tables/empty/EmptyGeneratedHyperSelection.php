@@ -8,6 +8,7 @@ namespace Example\Model\Database;
 
 /**
  * @method EmptyHyperRow|FALSE fetch()
+ * @method EmptyHyperRow|FALSE get()
  * @method EmptyHyperRow|FALSE current()
  */
 class EmptyGeneratedHyperSelection extends BaseHyperSelection

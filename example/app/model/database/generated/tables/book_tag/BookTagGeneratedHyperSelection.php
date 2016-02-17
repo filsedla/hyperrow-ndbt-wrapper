@@ -8,6 +8,7 @@ namespace Example\Model\Database;
 
 /**
  * @method BookTagHyperRow|FALSE fetch()
+ * @method BookTagHyperRow|FALSE get()
  * @method BookTagHyperRow|FALSE current()
  */
 class BookTagGeneratedHyperSelection extends BaseHyperSelection

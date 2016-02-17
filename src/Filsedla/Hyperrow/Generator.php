@@ -229,6 +229,7 @@ class Generator extends Object
         // Add annotations for methods returning specific row class
         $methods = [
             'fetch' => $this->getHyperRowTableClass($tableName) . '|FALSE',
+            'get' => $this->getHyperRowTableClass($tableName) . '|FALSE',
             'current' => $this->getHyperRowTableClass($tableName) . '|FALSE',
         ];
 
