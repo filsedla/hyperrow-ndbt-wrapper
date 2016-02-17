@@ -21,12 +21,10 @@ $container = $configurator->createContainer();
 \Tracy\Debugger::$maxDepth = 10;
 
 
-//if ($container->parameters['debugMode'] === TRUE) {
-//    $generator = $container->getByType('Filsedla\Hyperrow\Generator');
-//    $generator->generate();
-//    //$loader->rebuild();
-//    echo "Hyperrow has just generated a few classes. Please refresh the page.\n";
-//    exit;
-//}
+if ($container->parameters['debugMode'] === TRUE) {
+    $generator = $container->getByType('Filsedla\Hyperrow\Generator');
+    $generator->generate();
+    $loader->rebuild();
+}
 
 return $container;

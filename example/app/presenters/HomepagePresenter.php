@@ -17,7 +17,7 @@ class HomepagePresenter extends BasePresenter
     {
         //dump($this->database);
 
-        dump($this->database->tableAuthor()->fetch()->bookCount());
+        dump($this->database->tableAuthor()->fetch()->relatedBooksAsAuthor()->count());
 
 
         $this->terminate();

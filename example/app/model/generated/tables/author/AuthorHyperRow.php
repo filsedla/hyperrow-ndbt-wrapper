@@ -8,14 +8,4 @@ namespace Example\Model\Generated;
 
 class AuthorHyperRow extends AuthorBaseHyperRow
 {
-
-
-    /**
-     * @return int
-     */
-    public function bookCount()
-    {
-        return $this->relatedBooksAsAuthor()->count();
-    }
-
 }
