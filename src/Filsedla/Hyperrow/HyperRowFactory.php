@@ -19,22 +19,17 @@ class HyperRowFactory extends Object
     /** @var string */
     protected $namespace;
 
-    /** @var string */
-    protected $hyperRowClassName;
-
     /** @var Container */
     protected $container;
 
 
     /**
      * @param string $namespace
-     * @param string $hyperRowClassName
      * @param Container $container
      */
-    public function __construct($namespace, $hyperRowClassName, Container $container)
+    public function __construct($namespace, Container $container)
     {
         $this->namespace = $namespace;
-        $this->hyperRowClassName = $hyperRowClassName;
         $this->container = $container;
     }
 
@@ -47,7 +42,7 @@ class HyperRowFactory extends Object
      */
     public function create(ActiveRow $activeRow, $tableName)
     {
-        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . $this->hyperRowClassName;
+        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . 'HyperRow';
         $baseClass = HyperRow::class;
 
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))

@@ -18,22 +18,17 @@ class HyperSelectionFactory extends Object
     /** @var string */
     protected $namespace;
 
-    /** @var string */
-    protected $hyperSelectionClassName;
-
     /** @var Container */
     protected $container;
 
 
     /**
      * @param string $namespace
-     * @param string $hyperSelectionClassName
      * @param Container $container
      */
-    public function __construct($namespace, $hyperSelectionClassName, Container $container)
+    public function __construct($namespace, Container $container)
     {
         $this->namespace = $namespace;
-        $this->hyperSelectionClassName = $hyperSelectionClassName;
         $this->container = $container;
     }
 
@@ -46,7 +41,7 @@ class HyperSelectionFactory extends Object
     {
         $tableName = $selection->getName();
 
-        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . $this->hyperSelectionClassName;
+        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . 'HyperSelection';
         $baseClass = HyperSelection::class;
 
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))

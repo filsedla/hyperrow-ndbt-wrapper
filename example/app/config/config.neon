@@ -5,7 +5,7 @@ parameters:
     hyperrow:
         dir: %appDir%/model/database/generated
         namespace: Example\Model\Database
-        class:
+        classes:
             row:
                 base: BaseHyperRow
                 table: *HyperRow
@@ -33,14 +33,14 @@ services:
     - Filsedla\Hyperrow\Generator(
         %hyperrow.dir%,
         %hyperrow.namespace%,
-        %hyperrow.class.row.base%,
-        %hyperrow.class.row.table%,
-        %hyperrow.class.selection.base%,
-        %hyperrow.class.selection.table%,
+        %hyperrow.classes.row.base%,
+        %hyperrow.classes.row.table%,
+        %hyperrow.classes.selection.base%,
+        %hyperrow.classes.selection.table%,
         ...)
 
-    - Filsedla\Hyperrow\HyperSelectionFactory(%hyperrow.namespace%, HyperSelection)
-    - Filsedla\Hyperrow\HyperRowFactory(%hyperrow.namespace%, HyperRow, ...)
+    - Filsedla\Hyperrow\HyperSelectionFactory(%hyperrow.namespace%)
+    - Filsedla\Hyperrow\HyperRowFactory(%hyperrow.namespace%, ...)
     # ----------------------------------------------------------------------------
 
     - Example\Model\Database\Database

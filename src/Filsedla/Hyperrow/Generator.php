@@ -12,10 +12,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 
 /**
- * Generates:
- *  model/generated/
- *  - GeneratedDatabase (fully generated, not editable, with table methods)
- *  - Database (extends GeneratedDatabase, generated once and empty, user editable)
  *
  */
 class Generator extends Object
