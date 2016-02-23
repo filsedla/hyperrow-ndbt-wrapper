@@ -2,17 +2,6 @@ parameters:
     container:
         class: SystemContainer
 
-    hyperrow:
-        dir: %appDir%/model/database/generated
-        namespace: Example\Model\Database
-        classes:
-            row:
-                base: BaseHyperRow
-                table: *HyperRow
-            selection:
-                base: BaseHyperSelection
-                table: *HyperSelection
-
 php:
     date.timezone: Europe/Prague
 
@@ -24,24 +13,15 @@ application:
 session:
     expiration: 14 days
 
+extensions:
+    hyperrow: Filsedla\Hyperrow\Extension
+
+hyperrow:
+#    dir: %appDir%/model/database/generated    # needed only for generator
+    namespace: Example\Model\Database
+
 services:
     router: App\RouterFactory::createRouter
-
-    # ----------------------------------------------------------------------------
-    # Hyperrow
-    # ----------------------------------------------------------------------------
-    - Filsedla\Hyperrow\Generator(
-        %hyperrow.dir%,
-        %hyperrow.namespace%,
-        %hyperrow.classes.row.base%,
-        %hyperrow.classes.row.table%,
-        %hyperrow.classes.selection.base%,
-        %hyperrow.classes.selection.table%,
-        ...)
-
-    - Filsedla\Hyperrow\HyperSelectionFactory(%hyperrow.namespace%)
-    - Filsedla\Hyperrow\HyperRowFactory(%hyperrow.namespace%, ...)
-    # ----------------------------------------------------------------------------
 
     - Example\Model\Database\Database
 
