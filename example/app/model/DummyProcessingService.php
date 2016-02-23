@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2016 Filip Sedláček <filsedla@gmail.com>
+ * Copyright (c) 2016 Filip Sedlacek <filsedla@gmail.com>
  */
 
 namespace Example\Model;

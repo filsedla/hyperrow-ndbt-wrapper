@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2015 Filip Sedláček <filsedla@gmail.com>
+ * Copyright (c) 2015 Filip Sedlacek <filsedla@gmail.com>
  */
 
 namespace Filsedla\Hyperrow;
