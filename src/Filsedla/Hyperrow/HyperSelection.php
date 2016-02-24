@@ -5,6 +5,7 @@
 
 namespace Filsedla\Hyperrow;
 
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Object;
 
@@ -142,5 +143,52 @@ class HyperSelection extends Object implements \Iterator
         $this->selection->rewind();
     }
 
+
+    /**
+     * Inserts row in a table
+     *
+     * @param  array|\Traversable|(Selection|self) $data array($column => $value)|\Traversable|(Selection|self) for INSERT ... SELECT
+     * @return HyperRow|int|bool Returns HyperRow or number of affected rows for Selection or table without primary key
+     */
+    public function insert($data)
+    {
+        if ($data instanceof self) {
+            $data = $data->selection;
+        }
+
+        $result = $this->selection->insert($data);
+
+        if ($result instanceof ActiveRow) {
+            return $this->hyperRowFactory->create($result, $this->selection->getName());
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Updates all rows in result set.
+     *
+     * Joins in UPDATE are supported only in MySQL
+     *
+     * @param array|\Traversable $data ($column => $value)
+     * @return int number of affected rows
+     * @throws \Nette\InvalidArgumentException
+     */
+    public function update($data)
+    {
+        return $this->selection->update($data);
+    }
+
+
+    /**
+     * Deletes all rows in result set.
+     *
+     * @return int number of affected rows
+     */
+    public function delete()
+    {
+        return $this->selection->delete();
+    }
 
 } 

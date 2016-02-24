@@ -188,4 +188,27 @@ class HyperRow implements \ArrayAccess
         $this->__unset($key);
     }
 
+
+    /**
+     * Updates row.
+     *
+     * @param  array|\Traversable $data (column => value)
+     * @return bool
+     */
+    public function update($data)
+    {
+        return $this->activeRow->update($data);
+    }
+
+
+    /**
+     * Deletes row.
+     *
+     * @return int number of affected rows
+     */
+    public function delete()
+    {
+        return $this->activeRow->delete();
+    }
+
 }
