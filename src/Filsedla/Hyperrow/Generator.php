@@ -26,6 +26,9 @@ class Generator extends Object
     /** @var bool */
     protected $changed = FALSE;
 
+    /** @var array Array of FQNs to exclude from generation - currently applies only to classes that are generated empty */
+    protected $excludedClasses = [];
+
 
     /**
      * @param array $config
@@ -63,6 +66,21 @@ class Generator extends Object
         return $this->changed;
     }
 
+    /**
+     * @return array
+     */
+    public function getExcludedClasses()
+    {
+        return $this->excludedClasses;
+    }
+
+    /**
+     * @param array $excludedClasses
+     */
+    public function setExcludedClasses(array $excludedClasses)
+    {
+        $this->excludedClasses = $excludedClasses;
+    }
 
     /**
      * @return void
@@ -140,7 +158,14 @@ class Generator extends Object
      */
     protected function generateEmptyClass($namespace, $className, $extends, $dir)
     {
+        $classFqn = $namespace . '\\' . $className;
+
+        if (in_array($classFqn, $this->excludedClasses)) {
+            return;
+        }
+
         $file = $dir . '/' . $className . '.php';
+
         if (is_file($file)) {
             return;
         }

@@ -17,7 +17,7 @@ extensions:
     hyperrow: Filsedla\Hyperrow\Extension
 
 hyperrow:
-    # Overriding all default values (not neccessary)
+    # Overriding all default values (not necessary)
     dir: %appDir%/model/database/generated
     classes:
         database:
