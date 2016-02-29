@@ -17,21 +17,21 @@ class HomepagePresenter extends BasePresenter
     {
         //dump($this->database);
 
-        //dump($this->database->tableAuthor()->get(1));
+        dump($this->database->author->get(1)->getBooksAsAuthor()->withPastCreatedAt()->fetch()->toArray());
 
-        $result = $this->database->tableAuthor()->insert([[
-            'name' => 'Vladimír Novotný Jr.',
-            'born' => 1985,
-        ], [
-            'name' => 'Jana Kučerová',
-            'born' => 1989,
-        ]]);
-
-        //dump($result);
-
-        dump($result->update([
-            'name' => 'Name changed'
-        ]));
+//        $result = $this->database->tableAuthor()->insert([[
+//            'name' => 'Vladimír Novotný Jr.',
+//            'born' => 1985,
+//        ], [
+//            'name' => 'Jana Kučerová',
+//            'born' => 1989,
+//        ]]);
+//
+//        //dump($result);
+//
+//        dump($result->update([
+//            'name' => 'Name changed'
+//        ]));
 
 
         $this->terminate();

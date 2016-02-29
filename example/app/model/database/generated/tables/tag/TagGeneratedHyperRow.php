@@ -21,4 +21,13 @@ class TagGeneratedHyperRow extends BaseHyperRow
 		return $this->related('book_tag', 'tag_id');
 	}
 
+
+	/**
+	 * @return BookTagHyperSelection
+	 */
+	public function getBookTags()
+	{
+		return $this->related('book_tag', 'tag_id');
+	}
+
 }

@@ -9,6 +9,7 @@ use Nette\Database\Table\Selection;
 use Nette\DI\Container;
 use Nette\InvalidStateException;
 use Nette\Object;
+use Nette\Utils\Strings;
 
 /**
  *
@@ -16,19 +17,19 @@ use Nette\Object;
 class HyperSelectionFactory extends Object
 {
     /** @var string */
-    protected $namespace;
+    protected $mapping;
 
     /** @var Container */
     protected $container;
 
 
     /**
-     * @param string $namespace
+     * @param string $mapping
      * @param Container $container
      */
-    public function __construct($namespace, Container $container)
+    public function __construct($mapping, Container $container)
     {
-        $this->namespace = $namespace;
+        $this->mapping = $mapping;
         $this->container = $container;
     }
 
@@ -40,8 +41,8 @@ class HyperSelectionFactory extends Object
     public function create(Selection $selection)
     {
         $tableName = $selection->getName();
+        $className = Helpers::substituteClassWildcard($this->mapping, $tableName);
 
-        $className = '\\' . $this->namespace . '\\' . Helpers::underscoreToCamel($tableName) . 'HyperSelection';
         $baseClass = HyperSelection::class;
 
         if (!class_exists($className) || !is_subclass_of($className, $baseClass))

@@ -17,8 +17,35 @@ extensions:
     hyperrow: Filsedla\Hyperrow\Extension
 
 hyperrow:
-#    dir: %appDir%/model/database/generated    # needed only for generator
-    namespace: Example\Model\Database
+    # Overriding all default values (not neccessary)
+    dir: %appDir%/model/database/generated
+    classes:
+        database:
+            generated: Example\Model\Database\GeneratedDatabase
+        selection:
+            base: Example\Model\Database\BaseHyperSelection
+            generated: Example\Model\Database\*GeneratedHyperSelection
+            *: Example\Model\Database\*HyperSelection
+        row:
+            base: Example\Model\Database\BaseHyperRow
+            generated: Example\Model\Database\*GeneratedHyperRow
+            *: Example\Model\Database\*HyperRow
+    methods:
+        database:
+            table!:
+                - table*
+                - get*
+        selection:
+            where!:
+                - where*
+                - with*
+        row:
+            ref!:
+                - referenced*
+                - get*
+            related!:
+                - related*
+                - get*
 
 services:
     router: App\RouterFactory::createRouter

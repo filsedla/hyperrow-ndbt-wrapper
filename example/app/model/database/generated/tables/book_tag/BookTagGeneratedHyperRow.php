@@ -16,6 +16,24 @@ class BookTagGeneratedHyperRow extends BaseHyperRow
 	/**
 	 * @return TagHyperRow
 	 */
+	public function referencedTag()
+	{
+		return $this->ref('tag', 'tag_id');
+	}
+
+
+	/**
+	 * @return BookHyperRow
+	 */
+	public function referencedBook()
+	{
+		return $this->ref('book', 'book_id');
+	}
+
+
+	/**
+	 * @return TagHyperRow
+	 */
 	public function getTag()
 	{
 		return $this->ref('tag', 'tag_id');

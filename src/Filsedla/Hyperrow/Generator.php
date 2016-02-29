@@ -5,6 +5,7 @@
 
 namespace Filsedla\Hyperrow;
 
+use Nette;
 use Nette\Database\IStructure;
 use Nette\Object;
 use Nette\PhpGenerator\ClassType;
@@ -16,48 +17,23 @@ use Nette\Utils\Strings;
  */
 class Generator extends Object
 {
-
-    /** @var string */
-    protected $dir;
-
-    /** @var string */
-    protected $namespace;
-
-    /** @var string */
-    protected $rowBaseClass;
-
-    /** @var string */
-    protected $rowTableClass;
-
-    /** @var string */
-    protected $selectionBaseClass;
-
-    /** @var string */
-    protected $selectionTableClass;
-
     /** @var IStructure */
     protected $structure;
+
+    /** @var array */
+    protected $config;
 
     /** @var bool */
     protected $changed = FALSE;
 
+
     /**
-     * @param string $dir
-     * @param string $namespace
-     * @param string $rowBaseClass
-     * @param string $rowTableClass
-     * @param string $selectionBaseClass
-     * @param string $selectionTableClass
+     * @param array $config
      * @param IStructure $structure
      */
-    public function __construct($dir, $namespace, $rowBaseClass, $rowTableClass, $selectionBaseClass, $selectionTableClass, IStructure $structure)
+    public function __construct(array $config, IStructure $structure)
     {
-        $this->dir = $dir;
-        $this->namespace = $namespace;
-        $this->rowBaseClass = $rowBaseClass;
-        $this->rowTableClass = $rowTableClass;
-        $this->selectionBaseClass = $selectionBaseClass;
-        $this->selectionTableClass = $selectionTableClass;
+        $this->config = $config;
         $this->structure = $structure;
     }
 
@@ -78,6 +54,7 @@ class Generator extends Object
         return $tables;
     }
 
+
     /**
      * @return boolean
      */
@@ -92,27 +69,41 @@ class Generator extends Object
      */
     protected function generateGeneratedDatabase()
     {
-        $className = 'GeneratedDatabase';
+        $classFqn = $this->config['classes']['database']['generated'];
+        $className = Helpers::extractClassName($classFqn);
+        $classNamespace = Helpers::extractNamespace($classFqn);
+
         $class = new ClassType($className);
         $class->setExtends('\Filsedla\Hyperrow\Database');
 
-        foreach ($this->getTables() as $tableName => $columns) {
+        // Generate methods.database.table
+        foreach ((array)$this->config['methods']['database']['table'] as $methodTemplate) {
 
-            $methodName = 'table' . Helpers::underscoreToCamel($tableName);
+            foreach ($this->getTables() as $tableName => $columns) {
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $tableName);
+                $returnType = $this->getTableClass('selection', $tableName, $classNamespace);
 
-            $returnType = Helpers::underscoreToCamel($tableName) . 'HyperSelection';
+                $class->addMethod($methodName)
+                    ->addBody('return $this->table(?);', [$tableName])
+                    ->addDocument("@return $returnType");
 
-            $class->addMethod($methodName)
-                ->addBody('return $this->table(?);', [$tableName])
-                ->addDocument("@return $returnType");
+                if ($methodTemplate == 'get*') {
+
+                    // Add property annotations
+                    $property = Strings::firstLower(Helpers::underscoreToCamel($tableName));
+                    $correspondingHyperSelectionTableClass = $this->getTableClass('selection', $tableName, $classNamespace);
+                    $class->addDocument("@property-read $correspondingHyperSelectionTableClass \$$property");
+                }
+            }
         }
+
         $code = implode("\n\n", [
             '<?php',
             "/**\n * This is a generated file. DO NOT EDIT. It will be overwritten.\n */",
-            "namespace {$this->namespace};",
+            "namespace {$classNamespace};",
             $class
         ]);
-        $file = $this->dir . '/' . $className . '.php';
+        $file = $this->config['dir'] . '/' . $className . '.php';
 
         $this->writeIfChanged($file, $code);
     }
@@ -181,30 +172,27 @@ class Generator extends Object
     {
         foreach ($this->getTables() as $tableName => $columns) {
 
-            $this->generateTableHyperSelection($tableName);
-            $this->generateTableHyperRow($tableName);
+            $this->generateTableClass('selection', $tableName);
+            $this->generateTableClass('row', $tableName);
 
             $this->generateTableGeneratedHyperSelection($tableName, $columns);
             $this->generateTableGeneratedHyperRow($tableName, $columns);
         }
     }
 
-    /**
-     * @param string $tableName
-     * @return string
-     */
-    protected function getHyperRowTableClass($tableName)
-    {
-        return Strings::replace($this->rowTableClass, '#\*#', Helpers::underscoreToCamel($tableName), 1);
-    }
 
     /**
+     * @param string $type selection|row
      * @param string $tableName
+     * @param string $contextClassNamespace
      * @return string
      */
-    protected function getHyperSelectionTableClass($tableName)
+    protected function getTableClass($type, $tableName, $contextClassNamespace)
     {
-        return Strings::replace($this->selectionTableClass, '#\*#', Helpers::underscoreToCamel($tableName), 1);
+        $classFqn = $this->config['classes'][$type]['*'];
+        $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
+
+        return Helpers::formatClassName($classFqn, $contextClassNamespace);
     }
 
 
@@ -215,30 +203,79 @@ class Generator extends Object
      */
     protected function generateTableGeneratedHyperSelection($tableName, $columns)
     {
-        $className = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperSelection';
-        $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
+        $classFqn = $this->config['classes']['selection']['generated'];
+        $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
+
+        $className = Helpers::extractClassName($classFqn);
+        $classNamespace = Helpers::extractNamespace($classFqn);
+
+        $extendsFqn = $this->config['classes']['selection']['base'];
+        $extends = Helpers::formatClassName($extendsFqn, $classNamespace);
 
         $class = new ClassType($className);
-
-        $class->setExtends($this->selectionBaseClass);
+        $class->setExtends($extends);
 
         // Add annotations for methods returning specific row class
+        $correspondingHyperRowTableClass = $this->getTableClass('row', $tableName, $classNamespace);
         $methods = [
-            'fetch' => $this->getHyperRowTableClass($tableName) . '|FALSE',
-            'get' => $this->getHyperRowTableClass($tableName) . '|FALSE',
-            'current' => $this->getHyperRowTableClass($tableName) . '|FALSE',
+            'fetch()' => $correspondingHyperRowTableClass . '|FALSE',
+            'get($key)' => $correspondingHyperRowTableClass . '|FALSE',
+            'current()' => $correspondingHyperRowTableClass . '|FALSE',
         ];
 
         foreach ($methods as $methodName => $returnType) {
-            $class->addDocument("@method $returnType $methodName()");
+            $class->addDocument("@method $returnType $methodName");
+        }
+
+        // Generate methods.selection.where
+        foreach ((array)$this->config['methods']['selection']['where'] as $methodTemplate) {
+            //dump($tableName, $methodTemplate);
+
+            // Add where methods based on columns
+            foreach ($columns as $column => $type) {
+
+                // withFuture*, withPast*
+                if ($type === IStructure::FIELD_DATETIME) {
+
+                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Future' . Strings::firstUpper($column));
+                    $method = $class->addMethod($methodName);
+                    $method->addBody("return \$this->where('$column > NOW()');");
+                    $method->addDocument("@return self");
+
+                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Past' . Strings::firstUpper($column));
+                    $method = $class->addMethod($methodName);
+                    $method->addBody("return \$this->where('$column < NOW()');");
+                    $method->addDocument("@return self");
+                }
+
+                if ($type === IStructure::FIELD_DATETIME) {
+                    $type = '\Nette\Utils\DateTime';
+                }
+
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $column);
+                $method = $class->addMethod($methodName);
+
+                if ($type == 'bool') {
+                    $method->addParameter('value', 'TRUE');
+
+                } else {
+                    $method->addParameter('value');
+                }
+
+                $method->addBody('return $this->where(?, $value);', [$column]);
+                $method->addDocument("@param $type \$value");
+                $method->addDocument("@return self");
+            }
         }
 
         $code = implode("\n\n", [
             '<?php',
             "/**\n * This is a generated file. DO NOT EDIT. It will be overwritten.\n */",
-            "namespace {$this->namespace};",
+            "namespace {$classNamespace};",
             $class
         ]);
+
+        $dir = $this->config['dir'] . '/' . 'tables' . '/' . $tableName;
         $file = $dir . '/' . $className . '.php';
 
         $this->writeIfChanged($file, $code);
@@ -252,11 +289,17 @@ class Generator extends Object
      */
     protected function generateTableGeneratedHyperRow($tableName, $columns)
     {
-        $className = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperRow';
-        $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
+        $classFqn = $this->config['classes']['row']['generated'];
+        $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
+
+        $className = Helpers::extractClassName($classFqn);
+        $classNamespace = Helpers::extractNamespace($classFqn);
+
+        $extendsFqn = $this->config['classes']['row']['base'];
+        $extends = Helpers::formatClassName($extendsFqn, $classNamespace);
 
         $class = new ClassType($className);
-        $class->setExtends($this->rowBaseClass);
+        $class->setExtends($extends);
 
         // Add property annotations based on columns
         foreach ($columns as $column => $type) {
@@ -266,80 +309,88 @@ class Generator extends Object
             $class->addDocument("@property-read $type \$$column");
         }
 
-        // Generate 'ref' methods
-        foreach ($this->structure->getBelongsToReference($tableName) as $referencingColumn => $referencedTable) {
+        // Generate methods.row.ref
+        foreach ((array)$this->config['methods']['row']['ref'] as $methodTemplate) {
 
-            //$methodName = 'referenced' . Helpers::underscoreToCamel($referencedTable);
-            $methodName = 'get' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+            // Generate 'ref' methods
+            foreach ($this->structure->getBelongsToReference($tableName) as $referencingColumn => $referencedTable) {
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, Strings::replace($referencingColumn, '~_id$~'));
 
-            $returnType = $this->getHyperRowTableClass($referencedTable);
-
-            $class->addMethod($methodName)
-                ->addBody('return $this->ref(?, ?);', [$referencedTable, $referencingColumn])
-                ->addDocument("@return $returnType");
-        }
-
-        // Generate 'related' methods
-        foreach ($this->structure->getHasManyReference($tableName) as $relatedTable => $referencingColumns) {
-
-            foreach ($referencingColumns as $referencingColumn) {
-
-                // Find longest common prefix between $referencingColumn and (this) $tableName
-                $thisTableWords = Strings::split($tableName, '#_#');
-                $relatedTableWords = Strings::split($relatedTable, '#_#');
-
-                for ($i = 0; $i < count($relatedTableWords) && $i < count($thisTableWords); $i++) {
-                    if ($thisTableWords[$i] == $relatedTableWords[$i]) {
-                        array_shift($relatedTableWords);
-
-                    } else {
-                        break;
-                    }
-                }
-
-                if (count($relatedTableWords) > 0) {
-                    $result = '';
-                    foreach ($relatedTableWords as $word) {
-                        Strings::firstUpper($word);
-                        $result .= Strings::firstUpper($word);
-                    }
-
-                } else {
-                    $result = Helpers::underscoreToCamel($relatedTable);
-                }
-
-                $methodName = 'related' . $result;
-
-                switch (Strings::lower(Strings::substring($relatedTable, -1))){
-                    case 's':
-                        // nothing
-                        break;
-                    case 'y':
-                        $methodName = Strings::replace($methodName, '#y$#', 'ies');
-                        break;
-                    default:
-                        $methodName .= 's';
-                        break;
-                };
-
-                if (count($referencingColumns) > 1) {
-                    $methodName .= 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
-                }
-
-                $returnType = $this->getHyperSelectionTableClass($relatedTable);
+                $returnType = $this->getTableClass('row', $referencedTable, $classNamespace);
 
                 $class->addMethod($methodName)
-                    ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
+                    ->addBody('return $this->ref(?, ?);', [$referencedTable, $referencingColumn])
                     ->addDocument("@return $returnType");
+            }
+        }
+
+        // Generate methods.row.related
+        foreach ((array)$this->config['methods']['row']['related'] as $methodTemplate) {
+
+            // Generate 'related' methods
+            foreach ($this->structure->getHasManyReference($tableName) as $relatedTable => $referencingColumns) {
+
+                foreach ($referencingColumns as $referencingColumn) {
+
+                    // Find longest common prefix between $referencingColumn and (this) $tableName
+                    $thisTableWords = Strings::split($tableName, '#_#');
+                    $relatedTableWords = Strings::split($relatedTable, '#_#');
+
+                    for ($i = 0; $i < count($relatedTableWords) && $i < count($thisTableWords); $i++) {
+                        if ($thisTableWords[$i] == $relatedTableWords[$i]) {
+                            array_shift($relatedTableWords);
+
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (count($relatedTableWords) > 0) {
+                        $result = '';
+                        foreach ($relatedTableWords as $word) {
+                            Strings::firstUpper($word);
+                            $result .= Strings::firstUpper($word);
+                        }
+
+                    } else {
+                        $result = Helpers::underscoreToCamel($relatedTable);
+                    }
+
+                    switch (Strings::lower(Strings::substring($relatedTable, -1))) {
+                        case 's':
+                            // nothing
+                            break;
+                        case 'y':
+                            $methodName = Strings::replace($result, '#y$#', 'ies');
+                            break;
+                        default:
+                            $result .= 's';
+                            break;
+                    };
+
+                    if (count($referencingColumns) > 1) {
+                        $result .= 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+                    }
+
+                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, $result);
+
+                    $returnType = $this->getTableClass('selection', $relatedTable, $classNamespace);
+
+                    $class->addMethod($methodName)
+                        ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
+                        ->addDocument("@return $returnType");
+                }
             }
         }
 
         $code = implode("\n\n", [
             '<?php',
             "/**\n * This is a generated file. DO NOT EDIT. It will be overwritten.\n */",
-            "namespace {$this->namespace};",
+            "namespace {$classNamespace};",
             $class
         ]);
+
+        $dir = $this->config['dir'] . '/' . 'tables' . '/' . $tableName;
         $file = $dir . '/' . $className . '.php';
 
         $this->writeIfChanged($file, $code);
@@ -347,29 +398,24 @@ class Generator extends Object
 
 
     /**
-     * @param string $tableName
-     * @return void
-     */
-    protected function generateTableHyperSelection($tableName)
-    {
-        $className = Helpers::underscoreToCamel($tableName) . 'HyperSelection';
-        $extends = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperSelection';
-        $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
-
-        $this->generateEmptyClass($this->namespace, $className, $extends, $dir);
-    }
-
-
-    /**
+     * @param string $type selection|row
      * @param string $tableName
      */
-    protected function generateTableHyperRow($tableName)
+    protected function generateTableClass($type, $tableName)
     {
-        $className = Helpers::underscoreToCamel($tableName) . 'HyperRow';
-        $extends = Helpers::underscoreToCamel($tableName) . 'Generated' . 'HyperRow';
-        $dir = $this->dir . '/' . 'tables' . '/' . $tableName;
+        $classFqn = $this->config['classes'][$type]['*'];
+        $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
 
-        $this->generateEmptyClass($this->namespace, $className, $extends, $dir);
+        $className = Helpers::extractClassName($classFqn);
+        $classNamespace = Helpers::extractNamespace($classFqn);
+
+        $extendsFqn = $this->config['classes'][$type]['generated'];
+        $extendsFqn = Helpers::substituteClassWildcard($extendsFqn, $tableName);
+        $extends = Helpers::formatClassName($extendsFqn, $classNamespace);
+
+        $dir = $this->config['dir'] . '/' . 'tables' . '/' . $tableName;
+
+        $this->generateEmptyClass($classNamespace, $className, $extends, $dir);
     }
 
 }

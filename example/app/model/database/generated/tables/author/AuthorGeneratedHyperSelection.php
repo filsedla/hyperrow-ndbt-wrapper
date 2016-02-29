@@ -8,9 +8,89 @@ namespace Example\Model\Database;
 
 /**
  * @method AuthorHyperRow|FALSE fetch()
- * @method AuthorHyperRow|FALSE get()
+ * @method AuthorHyperRow|FALSE get($key)
  * @method AuthorHyperRow|FALSE current()
  */
 class AuthorGeneratedHyperSelection extends BaseHyperSelection
 {
+
+	/**
+	 * @param int $value
+	 * @return self
+	 */
+	public function whereId($value)
+	{
+		return $this->where('id', $value);
+	}
+
+
+	/**
+	 * @param string $value
+	 * @return self
+	 */
+	public function whereName($value)
+	{
+		return $this->where('name', $value);
+	}
+
+
+	/**
+	 * @param string $value
+	 * @return self
+	 */
+	public function whereWeb($value)
+	{
+		return $this->where('web', $value);
+	}
+
+
+	/**
+	 * @param int $value
+	 * @return self
+	 */
+	public function whereBorn($value)
+	{
+		return $this->where('born', $value);
+	}
+
+
+	/**
+	 * @param int $value
+	 * @return self
+	 */
+	public function withId($value)
+	{
+		return $this->where('id', $value);
+	}
+
+
+	/**
+	 * @param string $value
+	 * @return self
+	 */
+	public function withName($value)
+	{
+		return $this->where('name', $value);
+	}
+
+
+	/**
+	 * @param string $value
+	 * @return self
+	 */
+	public function withWeb($value)
+	{
+		return $this->where('web', $value);
+	}
+
+
+	/**
+	 * @param int $value
+	 * @return self
+	 */
+	public function withBorn($value)
+	{
+		return $this->where('born', $value);
+	}
+
 }

@@ -1,0 +1,29 @@
+hyperrow:
+    dir: %appDir%/model/generated
+    classes:
+        database:
+            generated: Model\GeneratedDatabase
+        selection:
+            base: Model\BaseHyperSelection
+            generated: Model\*GeneratedHyperSelection
+            *: Model\*HyperSelection
+        row:
+            base: Model\BaseHyperRow
+            generated: Model\*GeneratedHyperRow
+            *: Model\*HyperRow
+    methods:
+        database:
+            table:
+                - table*
+                - get*
+        selection:
+            where:
+                - where*
+                - with*
+        row:
+            ref:
+                - referenced*
+                - get*
+            related:
+                - related*
+                - get*

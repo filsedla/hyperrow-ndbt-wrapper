@@ -32,4 +32,22 @@ class AuthorGeneratedHyperRow extends BaseHyperRow
 		return $this->related('book', 'translator_id');
 	}
 
+
+	/**
+	 * @return BookHyperSelection
+	 */
+	public function getBooksAsAuthor()
+	{
+		return $this->related('book', 'author_id');
+	}
+
+
+	/**
+	 * @return BookHyperSelection
+	 */
+	public function getBooksAsTranslator()
+	{
+		return $this->related('book', 'translator_id');
+	}
+
 }
