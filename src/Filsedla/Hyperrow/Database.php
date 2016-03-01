@@ -17,18 +17,18 @@ class Database extends Object
     /** @var Context */
     private $context;
 
-    /** @var HyperSelectionFactory */
-    private $hyperSelectionFactory;
+    /** @var Factory */
+    private $factory;
 
 
     /**
      * @param Context $context
-     * @param HyperSelectionFactory $hyperSelectionFactory
+     * @param Factory $factory
      */
-    public function __construct(Context $context, HyperSelectionFactory $hyperSelectionFactory)
+    public function __construct(Context $context, Factory $factory)
     {
         $this->context = $context;
-        $this->hyperSelectionFactory = $hyperSelectionFactory;
+        $this->factory = $factory;
     }
 
 
@@ -39,7 +39,7 @@ class Database extends Object
     public function table($tableName)
     {
         $selection = $this->context->table($tableName);
-        return $this->hyperSelectionFactory->create($selection);
+        return $this->factory->createSelection($selection);
     }
 
 } 

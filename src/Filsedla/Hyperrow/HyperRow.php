@@ -18,11 +18,8 @@ class HyperRow implements \ArrayAccess
     /** @var ActiveRow */
     private $activeRow;
 
-    /** @var HyperRowFactory */
-    private $hyperRowFactory;
-
-    /** @var HyperSelectionFactory */
-    private $hyperSelectionFactory;
+    /** @var Factory */
+    private $factory;
 
 
     /**
@@ -33,22 +30,12 @@ class HyperRow implements \ArrayAccess
         $this->activeRow = $activeRow;
     }
 
-
     /**
-     * @param HyperRowFactory $hyperRowFactory
+     * @param Factory $factory
      */
-    public function setHyperRowFactory(HyperRowFactory $hyperRowFactory)
+    public function setFactory(Factory $factory)
     {
-        $this->hyperRowFactory = $hyperRowFactory;
-    }
-
-
-    /**
-     * @param HyperSelectionFactory $hyperSelectionFactory
-     */
-    public function setHyperSelectionFactory(HyperSelectionFactory $hyperSelectionFactory)
-    {
-        $this->hyperSelectionFactory = $hyperSelectionFactory;
+        $this->factory = $factory;
     }
 
 
@@ -63,7 +50,7 @@ class HyperRow implements \ArrayAccess
     public function related($key, $throughColumn = NULL)
     {
         $groupedSelection = $this->activeRow->related($key, $throughColumn);
-        return $this->hyperSelectionFactory->create($groupedSelection);
+        return $this->factory->createSelection($groupedSelection);
     }
 
 
@@ -79,7 +66,7 @@ class HyperRow implements \ArrayAccess
     {
         $result = $this->activeRow->ref($key, $throughColumn);
         if ($result instanceof ActiveRow) {
-            $hyperrow = $this->hyperRowFactory->create($result, $result->getTable()->getName());
+            $hyperrow = $this->factory->createRow($result, $result->getTable()->getName());
             return $hyperrow;
         }
         return NULL;
@@ -116,7 +103,7 @@ class HyperRow implements \ArrayAccess
     {
         $result = $this->activeRow->__get($key);
         if ($result instanceof ActiveRow) {
-            $hyperrow = $this->hyperRowFactory->create($result, $result->getTable()->getName());
+            $hyperrow = $this->factory->createRow($result, $result->getTable()->getName());
             return $hyperrow;
         }
         return $result;

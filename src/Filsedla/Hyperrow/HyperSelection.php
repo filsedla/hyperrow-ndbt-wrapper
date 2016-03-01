@@ -18,8 +18,8 @@ class HyperSelection extends Object implements \Iterator
     /** @var Selection */
     private $selection;
 
-    /** @var HyperRowFactory */
-    private $hyperRowFactory;
+    /** @var Factory */
+    private $factory;
 
 
     /**
@@ -32,11 +32,11 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
-     * @param HyperRowFactory $hyperRowFactory
+     * @param Factory $factory
      */
-    public function setHyperRowFactory(HyperRowFactory $hyperRowFactory)
+    public function setFactory(Factory $factory)
     {
-        $this->hyperRowFactory = $hyperRowFactory;
+        $this->factory = $factory;
     }
 
 
@@ -49,7 +49,7 @@ class HyperSelection extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
+        return $this->factory->createRow($activeRow, $this->selection->getName());
     }
 
 
@@ -65,7 +65,7 @@ class HyperSelection extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
+        return $this->factory->createRow($activeRow, $this->selection->getName());
     }
 
 
@@ -104,7 +104,7 @@ class HyperSelection extends Object implements \Iterator
         if ($activeRow === FALSE) {
             return FALSE;
         }
-        return $this->hyperRowFactory->create($activeRow, $this->selection->getName());
+        return $this->factory->createRow($activeRow, $this->selection->getName());
     }
 
 
@@ -159,7 +159,7 @@ class HyperSelection extends Object implements \Iterator
         $result = $this->selection->insert($data);
 
         if ($result instanceof ActiveRow) {
-            return $this->hyperRowFactory->create($result, $this->selection->getName());
+            return $this->factory->createRow($result, $this->selection->getName());
         }
 
         return $result;
