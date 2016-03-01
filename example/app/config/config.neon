@@ -60,6 +60,6 @@ services:
         factory: Example\Model\DummyProcessingService
         autowired: no
 
-    - Example\Model\Database\AuthorHyperRow(@special.dummy.processing.service) # best if autowired: no
+    - Example\Model\Database\AuthorRow(@special.dummy.processing.service) # best if autowired: no
 
 
