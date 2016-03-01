@@ -445,6 +445,10 @@ class Generator extends Object
 
             // Generate column getters
             foreach ($columns as $column => $type) {
+                if ($type === IStructure::FIELD_DATETIME) {
+                    $type = '\Nette\Utils\DateTime';
+                }
+
                 $methodName = Helpers::substituteMethodWildcard($methodTemplate, $column);
 
                 $returnType = $type;
