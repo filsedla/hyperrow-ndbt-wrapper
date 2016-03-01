@@ -23,13 +23,13 @@ hyperrow:
         database:
             generated: Example\Model\Database\GeneratedDatabase
         selection:
-            base: Example\Model\Database\BaseHyperSelection
-            generated: Example\Model\Database\*GeneratedHyperSelection
-            *: Example\Model\Database\*HyperSelection
+            base: Example\Model\Database\BaseSelection
+            generated: Example\Model\Database\*GeneratedSelection
+            *: Example\Model\Database\*Selection
         row:
-            base: Example\Model\Database\BaseHyperRow
-            generated: Example\Model\Database\*GeneratedHyperRow
-            *: Example\Model\Database\*HyperRow
+            base: Example\Model\Database\BaseRow
+            generated: Example\Model\Database\*GeneratedRow
+            *: Example\Model\Database\*Row
     methods:
         database:
             table!:
@@ -45,6 +45,8 @@ hyperrow:
                 - get*
             related!:
                 - related*
+                - get*
+            column!:
                 - get*
 
 services:

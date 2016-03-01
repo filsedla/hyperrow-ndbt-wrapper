@@ -4,13 +4,13 @@ hyperrow:
         database:
             generated: Model\GeneratedDatabase
         selection:
-            base: Model\BaseHyperSelection
-            generated: Model\*GeneratedHyperSelection
-            *: Model\*HyperSelection
+            base: Model\BaseSelection
+            generated: Model\*GeneratedSelection
+            *: Model\*Selection
         row:
-            base: Model\BaseHyperRow
-            generated: Model\*GeneratedHyperRow
-            *: Model\*HyperRow
+            base: Model\BaseRow
+            generated: Model\*GeneratedRow
+            *: Model\*Row
     methods:
         database:
             table:
@@ -26,4 +26,6 @@ hyperrow:
                 - get*
             related:
                 - related*
+                - get*
+            column:
                 - get*

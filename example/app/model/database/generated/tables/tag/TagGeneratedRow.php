@@ -10,11 +10,11 @@ namespace Example\Model\Database;
  * @property-read int $id
  * @property-read string $name
  */
-class TagGeneratedHyperRow extends BaseHyperRow
+class TagGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function relatedBookTags()
 	{
@@ -23,11 +23,29 @@ class TagGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function getBookTags()
 	{
 		return $this->related('book_tag', 'tag_id');
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
 	}
 
 }

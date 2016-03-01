@@ -7,11 +7,11 @@
 namespace Example\Model\Database;
 
 /**
- * @method EmptyHyperRow|FALSE fetch()
- * @method EmptyHyperRow|FALSE get($key)
- * @method EmptyHyperRow|FALSE current()
+ * @method TagRow|FALSE fetch()
+ * @method TagRow|FALSE get($key)
+ * @method TagRow|FALSE current()
  */
-class EmptyGeneratedHyperSelection extends BaseHyperSelection
+class TagGeneratedSelection extends BaseSelection
 {
 
 	/**

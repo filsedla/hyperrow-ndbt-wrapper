@@ -6,6 +6,6 @@
 
 namespace Example\Model\Database;
 
-class TagHyperRow extends TagGeneratedHyperRow
+class TagSelection extends TagGeneratedSelection
 {
 }

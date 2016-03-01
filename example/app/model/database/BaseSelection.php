@@ -5,6 +5,9 @@
 
 namespace Example\Model\Database;
 
-class BaseHyperRow extends \Filsedla\Hyperrow\HyperRow
+use Filsedla\Hyperrow;
+
+class BaseSelection extends Hyperrow\HyperSelection
 {
+
 }

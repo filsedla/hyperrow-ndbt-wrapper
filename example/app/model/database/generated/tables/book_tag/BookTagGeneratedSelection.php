@@ -7,11 +7,11 @@
 namespace Example\Model\Database;
 
 /**
- * @method BookTagHyperRow|FALSE fetch()
- * @method BookTagHyperRow|FALSE get($key)
- * @method BookTagHyperRow|FALSE current()
+ * @method BookTagRow|FALSE fetch()
+ * @method BookTagRow|FALSE get($key)
+ * @method BookTagRow|FALSE current()
  */
-class BookTagGeneratedHyperSelection extends BaseHyperSelection
+class BookTagGeneratedSelection extends BaseSelection
 {
 
 	/**

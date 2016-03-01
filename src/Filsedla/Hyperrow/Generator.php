@@ -332,6 +332,18 @@ class Generator extends Object
                 $type = '\Nette\Utils\DateTime';
             }
             $class->addDocument("@property-read $type \$$column");
+
+            if (is_array($this->config['methods']['row']['column'])
+                && count($this->config['methods']['row']['column']) > 0
+                && in_array('get*', $this->config['methods']['row']['column'])
+
+            ) {
+                $columnAlternative = Strings::firstLower(Helpers::underscoreToCamel($column));
+
+                if ($columnAlternative != $column) {
+                    $class->addDocument("@property-read $type \$$columnAlternative");
+                }
+            }
         }
 
         // Generate methods.row.ref
@@ -405,6 +417,21 @@ class Generator extends Object
                         ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
                         ->addDocument("@return $returnType");
                 }
+            }
+        }
+
+        // Generate methods.row.column
+        foreach ((array)$this->config['methods']['row']['column'] as $methodTemplate) {
+
+            // Generate column getters
+            foreach ($columns as $column => $type) {
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $column);
+
+                $returnType = $type;
+
+                $class->addMethod($methodName)
+                    ->addBody('return $this->?;', [$column])
+                    ->addDocument("@return $returnType");
             }
         }
 

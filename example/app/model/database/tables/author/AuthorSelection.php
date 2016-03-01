@@ -6,6 +6,6 @@
 
 namespace Example\Model\Database;
 
-class EmptyHyperSelection extends EmptyGeneratedHyperSelection
+class AuthorSelection extends AuthorGeneratedSelection
 {
 }

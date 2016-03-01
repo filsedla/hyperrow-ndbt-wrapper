@@ -7,17 +7,17 @@
 namespace Example\Model\Database;
 
 /**
- * @property-read AuthorHyperSelection $author
- * @property-read BookHyperSelection $book
- * @property-read BookTagHyperSelection $bookTag
- * @property-read EmptyHyperSelection $empty
- * @property-read TagHyperSelection $tag
+ * @property-read AuthorSelection $author
+ * @property-read BookSelection $book
+ * @property-read BookTagSelection $bookTag
+ * @property-read EmptySelection $empty
+ * @property-read TagSelection $tag
  */
 class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 {
 
 	/**
-	 * @return AuthorHyperSelection
+	 * @return AuthorSelection
 	 */
 	public function tableAuthor()
 	{
@@ -26,7 +26,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function tableBook()
 	{
@@ -35,7 +35,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function tableBookTag()
 	{
@@ -44,7 +44,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return EmptyHyperSelection
+	 * @return EmptySelection
 	 */
 	public function tableEmpty()
 	{
@@ -53,7 +53,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return TagHyperSelection
+	 * @return TagSelection
 	 */
 	public function tableTag()
 	{
@@ -62,7 +62,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return AuthorHyperSelection
+	 * @return AuthorSelection
 	 */
 	public function getAuthor()
 	{
@@ -71,7 +71,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function getBook()
 	{
@@ -80,7 +80,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function getBookTag()
 	{
@@ -89,7 +89,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return EmptyHyperSelection
+	 * @return EmptySelection
 	 */
 	public function getEmpty()
 	{
@@ -98,7 +98,7 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return TagHyperSelection
+	 * @return TagSelection
 	 */
 	public function getTag()
 	{

@@ -8,13 +8,15 @@ namespace Example\Model\Database;
 
 /**
  * @property-read int $book_id
+ * @property-read int $bookId
  * @property-read int $tag_id
+ * @property-read int $tagId
  */
-class BookTagGeneratedHyperRow extends BaseHyperRow
+class BookTagGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return TagHyperRow
+	 * @return TagRow
 	 */
 	public function referencedTag()
 	{
@@ -23,7 +25,7 @@ class BookTagGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookHyperRow
+	 * @return BookRow
 	 */
 	public function referencedBook()
 	{
@@ -32,7 +34,7 @@ class BookTagGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return TagHyperRow
+	 * @return TagRow
 	 */
 	public function getTag()
 	{
@@ -41,11 +43,29 @@ class BookTagGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookHyperRow
+	 * @return BookRow
 	 */
 	public function getBook()
 	{
 		return $this->ref('book', 'book_id');
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getBookId()
+	{
+		return $this->book_id;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getTagId()
+	{
+		return $this->tag_id;
 	}
 
 }

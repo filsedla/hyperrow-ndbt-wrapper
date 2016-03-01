@@ -12,11 +12,11 @@ namespace Example\Model\Database;
  * @property-read string $web
  * @property-read int $born
  */
-class AuthorGeneratedHyperRow extends BaseHyperRow
+class AuthorGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function relatedBooksAsAuthor()
 	{
@@ -25,7 +25,7 @@ class AuthorGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function relatedBooksAsTranslator()
 	{
@@ -34,7 +34,7 @@ class AuthorGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function getBooksAsAuthor()
 	{
@@ -43,11 +43,47 @@ class AuthorGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookHyperSelection
+	 * @return BookSelection
 	 */
 	public function getBooksAsTranslator()
 	{
 		return $this->related('book', 'translator_id');
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getWeb()
+	{
+		return $this->web;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getBorn()
+	{
+		return $this->born;
 	}
 
 }

@@ -11,16 +11,18 @@ namespace Example\Model\Database;
  * @property-read int $active
  * @property-read int $deleted
  * @property-read int $author_id
+ * @property-read int $authorId
  * @property-read int $translator_id
+ * @property-read int $translatorId
  * @property-read string $title
  * @property-read string $web
  * @property-read \Nette\Utils\DateTime $createdAt
  */
-class BookGeneratedHyperRow extends BaseHyperRow
+class BookGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return AuthorHyperRow
+	 * @return AuthorRow
 	 */
 	public function referencedAuthor()
 	{
@@ -29,7 +31,7 @@ class BookGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return AuthorHyperRow
+	 * @return AuthorRow
 	 */
 	public function referencedTranslator()
 	{
@@ -38,7 +40,7 @@ class BookGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return AuthorHyperRow
+	 * @return AuthorRow
 	 */
 	public function getAuthor()
 	{
@@ -47,7 +49,7 @@ class BookGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return AuthorHyperRow
+	 * @return AuthorRow
 	 */
 	public function getTranslator()
 	{
@@ -56,7 +58,7 @@ class BookGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function relatedTags()
 	{
@@ -65,11 +67,83 @@ class BookGeneratedHyperRow extends BaseHyperRow
 
 
 	/**
-	 * @return BookTagHyperSelection
+	 * @return BookTagSelection
 	 */
 	public function getTags()
 	{
 		return $this->related('book_tag', 'book_id');
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getActive()
+	{
+		return $this->active;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getDeleted()
+	{
+		return $this->deleted;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getAuthorId()
+	{
+		return $this->author_id;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getTranslatorId()
+	{
+		return $this->translator_id;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getWeb()
+	{
+		return $this->web;
+	}
+
+
+	/**
+	 * @return datetime
+	 */
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
 	}
 
 }

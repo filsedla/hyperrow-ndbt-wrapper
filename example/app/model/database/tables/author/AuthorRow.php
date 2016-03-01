@@ -8,7 +8,7 @@ namespace Example\Model\Database;
 
 use Example\Model\DummyProcessingService;
 
-class AuthorHyperRow extends AuthorGeneratedHyperRow
+class AuthorRow extends AuthorGeneratedRow
 {
 
     /** @var DummyProcessingService */

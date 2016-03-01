@@ -6,6 +6,6 @@
 
 namespace Example\Model\Database;
 
-class BookTagHyperRow extends BookTagGeneratedHyperRow
+class EmptySelection extends EmptyGeneratedSelection
 {
 }
