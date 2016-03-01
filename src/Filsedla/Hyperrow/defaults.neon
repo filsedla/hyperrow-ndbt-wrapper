@@ -6,11 +6,11 @@ hyperrow:
         selection:
             base: Model\BaseSelection
             generated: Model\*GeneratedSelection
-            *: Model\*Selection
+            mapping: Model\*Selection
         row:
             base: Model\BaseRow
             generated: Model\*GeneratedRow
-            *: Model\*Row
+            mapping: Model\*Row
     methods:
         database:
             table:

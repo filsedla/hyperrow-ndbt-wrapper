@@ -225,7 +225,7 @@ class Generator extends Object
      */
     protected function getTableClass($type, $tableName, $contextClassNamespace)
     {
-        $classFqn = $this->config['classes'][$type]['*'];
+        $classFqn = $this->config['classes'][$type]['mapping'];
         $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
 
         return Helpers::formatClassName($classFqn, $contextClassNamespace);
@@ -475,7 +475,7 @@ class Generator extends Object
      */
     protected function generateTableClass($type, $tableName)
     {
-        $classFqn = $this->config['classes'][$type]['*'];
+        $classFqn = $this->config['classes'][$type]['mapping'];
         $classFqn = Helpers::substituteClassWildcard($classFqn, $tableName);
 
         $className = Helpers::extractClassName($classFqn);

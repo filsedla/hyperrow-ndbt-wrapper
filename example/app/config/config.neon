@@ -25,11 +25,11 @@ hyperrow:
         selection:
             base: Example\Model\Database\BaseSelection
             generated: Example\Model\Database\*GeneratedSelection
-            *: Example\Model\Database\*Selection
+            mapping: Example\Model\Database\*Selection
         row:
             base: Example\Model\Database\BaseRow
             generated: Example\Model\Database\*GeneratedRow
-            *: Example\Model\Database\*Row
+            mapping: Example\Model\Database\*Row
     methods:
         database:
             table!:

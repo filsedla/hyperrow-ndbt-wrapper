@@ -26,8 +26,8 @@ final class Extension extends Nette\DI\CompilerExtension
 
         $builder->addDefinition($this->prefix('factory'))
             ->setClass(Factory::class, [
-                $config['classes']['selection']['*'],
-                $config['classes']['row']['*'],
+                $config['classes']['selection']['mapping'],
+                $config['classes']['row']['mapping'],
             ]);
 
         $builder->addDefinition($this->prefix('generator'))
