@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method EmptyRow|FALSE fetch()
  * @method EmptyRow|FALSE get($key)
  * @method EmptyRow|FALSE current()
+ * @method EmptySelection where($condition, $parameters = [])
  */
 class EmptyGeneratedSelection extends BaseSelection
 {

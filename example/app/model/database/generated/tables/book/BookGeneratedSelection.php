@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method BookRow|FALSE fetch()
  * @method BookRow|FALSE get($key)
  * @method BookRow|FALSE current()
+ * @method BookSelection where($condition, $parameters = [])
  */
 class BookGeneratedSelection extends BaseSelection
 {

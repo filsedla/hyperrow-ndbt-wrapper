@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method TagRow|FALSE fetch()
  * @method TagRow|FALSE get($key)
  * @method TagRow|FALSE current()
+ * @method TagSelection where($condition, $parameters = [])
  */
 class TagGeneratedSelection extends BaseSelection
 {

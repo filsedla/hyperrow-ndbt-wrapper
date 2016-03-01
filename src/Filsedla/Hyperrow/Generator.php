@@ -253,10 +253,12 @@ class Generator extends Object
 
         // Add annotations for methods returning specific row class
         $correspondingHyperRowTableClass = $this->getTableClass('row', $tableName, $classNamespace);
+        $correspondingHyperSelectionTableClass = $this->getTableClass('selection', $tableName, $classNamespace);
         $methods = [
             'fetch()' => $correspondingHyperRowTableClass . '|FALSE',
             'get($key)' => $correspondingHyperRowTableClass . '|FALSE',
             'current()' => $correspondingHyperRowTableClass . '|FALSE',
+            'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
         ];
 
         foreach ($methods as $methodName => $returnType) {

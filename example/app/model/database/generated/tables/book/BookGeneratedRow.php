@@ -139,7 +139,7 @@ class BookGeneratedRow extends BaseRow
 
 
 	/**
-	 * @return datetime
+	 * @return \Nette\Utils\DateTime
 	 */
 	public function getCreatedAt()
 	{
