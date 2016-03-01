@@ -362,6 +362,11 @@ class Generator extends Object
 
             // Generate 'ref' methods
             foreach ($this->structure->getBelongsToReference($tableName) as $referencingColumn => $referencedTable) {
+
+                if (is_array($this->config['tables']) && !in_array($referencedTable, $this->config['tables'])) {
+                    continue;
+                }
+
                 $methodName = Helpers::substituteMethodWildcard($methodTemplate, Strings::replace($referencingColumn, '~_id$~'));
 
                 $returnType = $this->getTableClass('row', $referencedTable, $classNamespace);
@@ -377,6 +382,10 @@ class Generator extends Object
 
             // Generate 'related' methods
             foreach ($this->structure->getHasManyReference($tableName) as $relatedTable => $referencingColumns) {
+
+                if (is_array($this->config['tables']) && !in_array($relatedTable, $this->config['tables'])) {
+                    continue;
+                }
 
                 foreach ($referencingColumns as $referencingColumn) {
 
