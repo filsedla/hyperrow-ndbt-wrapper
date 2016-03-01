@@ -49,9 +49,9 @@ Next, tell Hyperrow to _use_ those classes providing their FQNs:
 hyperrow:
     classes:
         selection:
-            *: Model\*Selection
+            mapping: Model\*Selection
         row:
-            *: Model\*Row
+            mapping: Model\*Row
 ```
 
 The asterix will be automatically substituted for a table name.
