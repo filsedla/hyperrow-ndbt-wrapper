@@ -7,15 +7,12 @@ results in a table-specific "Selection" and "ActiveRow" objects. This is not an 
 
 
 ## Installation
-
 1) Install using [Composer](http://getcomposer.org/):
-
 ```
 $ composer require filsedla/hyperrow
 ```
 
 2) Register an extension in your config file
-
 ```
 extensions: 
     hyperrow: Filsedla\Hyperrow\Extension
@@ -31,17 +28,17 @@ you can use it directly:
 ```
 
 Then you can make a query as usual:
-```
+```php
 $userRow = $database->table('user')->where('email', $email)->fetch();
 ```
 
 For this to work, it is necessary to create two classes. They can be empty:
-```
+```php
 class UserSelection extends Hyperrow\HyperSelection
 {
 }
 ```
-```
+```php
 class UserRow extends Hyperrow\HyperRow
 {
 }
@@ -64,13 +61,12 @@ them.
 
 Now, `$userRow` is of type `UserRow`, which allows us to write, for example:
 
-```
+```php
 if ($userRow->isValid()) ...
 ```
 
 provided that we have added a method:
-
-```
+```php
 class UserRow extends Hyperrow\HyperRow
 {
     /**
@@ -109,29 +105,29 @@ the table name they correspond to).
 
 
 ### Setup
-1. See the [default config](../blob/master/src/Filsedla/Hyperrow/defaults.neon) file and add 
+1) See the [default config](src/Filsedla/Hyperrow/defaults.neon) file and add 
 configuration options to your project config into the Hyperrow extension section for fields whose 
 default value does not fit you. The `dir` property and the whole `classes` subtree is necessary.
 
-2. Create the two 'base' classes (make sure you match the configured FQNs from the 1st step):
-```
+2) Create the two 'base' classes (make sure you match the configured FQNs from the 1st step):
+```php
 class BaseSelection extends Hyperrow\HyperSelection
 {
 }
 ```
-```
+```php
 class BaseRow extends Hyperrow\HyperRow
 {
 }
 ```
 You can later add methods shared between all table selection/row classes.
 
-3. Set up and run the generator. See [bootstrap.php](../blob/master/example/app/bootstrap.php) or 
-[generate.php](../blob/master/example/tools/generate.php) for two different methods.
+3) Set up and run the generator. See [bootstrap.php](example/app/bootstrap.php) or 
+[generate.php](example/tools/generate.php) for two different methods.
 For a real project it is probably better to use a separate php file to start the generator.
 
-4. Create your own `Database` class and register it as a service in your config file.
-```
+4) Create your own `Database` class and register it as a service in your config file.
+```php
 class Database extends GeneratedDatabase
 {
 }
@@ -140,11 +136,11 @@ class Database extends GeneratedDatabase
 Note: If you already have your row/selection classes from the basic example, make sure to change their 
 `extends` to the 'generated' class, e.g. `class UserRow extends UserGeneratedRow`.
 
-5. Test it by making a query using the new methods:
-```
+5) Test it by making a query using the new methods:
+```php
 $database->tableUser()->withEmail('example@gmail.com')->fetch()
 ```
 
 Your IDE should autocomplete and the call should succeed and return an `UserRow`.
 
-See the [example](../blob/master/example/) subdirectory for a complete setup with the generator.
+See the [example](example/) subdirectory for a complete setup with the generator.
