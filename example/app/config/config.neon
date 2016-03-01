@@ -48,6 +48,7 @@ hyperrow:
                 - get*
             column!:
                 - get*
+    # tables: [author, book, book_tag, empty, tag]
 
 services:
     router: App\RouterFactory::createRouter

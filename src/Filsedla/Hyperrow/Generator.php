@@ -66,6 +66,7 @@ class Generator extends Object
         return $this->changed;
     }
 
+
     /**
      * @return array
      */
@@ -73,6 +74,7 @@ class Generator extends Object
     {
         return $this->excludedClasses;
     }
+
 
     /**
      * @param array $excludedClasses
@@ -98,6 +100,11 @@ class Generator extends Object
         foreach ((array)$this->config['methods']['database']['table'] as $methodTemplate) {
 
             foreach ($this->getTables() as $tableName => $columns) {
+
+                if (is_array($this->config['tables']) && !in_array($tableName, $this->config['tables'])) {
+                    continue;
+                }
+
                 $methodName = Helpers::substituteMethodWildcard($methodTemplate, $tableName);
                 $returnType = $this->getTableClass('selection', $tableName, $classNamespace);
 
@@ -196,6 +203,10 @@ class Generator extends Object
     protected function generateTables()
     {
         foreach ($this->getTables() as $tableName => $columns) {
+
+            if (is_array($this->config['tables']) && !in_array($tableName, $this->config['tables'])) {
+                continue;
+            }
 
             $this->generateTableClass('selection', $tableName);
             $this->generateTableClass('row', $tableName);
