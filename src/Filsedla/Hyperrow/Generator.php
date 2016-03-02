@@ -364,7 +364,7 @@ class Generator extends Object
                 $returnType = $type;
 
                 $class->addMethod($methodName)
-                    ->addBody('return $this->?;', [$column])
+                    ->addBody('return $this->activeRow->?;', [$column])
                     ->addDocument("@return $returnType");
 
 

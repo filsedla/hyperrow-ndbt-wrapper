@@ -17,7 +17,7 @@ class HomepagePresenter extends BasePresenter
     {
         //dump($this->database);
 
-        dump($this->database->author->get(1)->getBooksAsAuthor()->withPastCreatedAt()->fetch()->toArray());
+        dump($this->database->author->get(1)->getBooksAsAuthor()->withPastCreatedAt()->fetch());
 
 //        $result = $this->database->tableAuthor()->insert([[
 //            'name' => 'Vladimír Novotný Jr.',

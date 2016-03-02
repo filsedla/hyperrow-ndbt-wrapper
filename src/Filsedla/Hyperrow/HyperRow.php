@@ -8,6 +8,7 @@ namespace Filsedla\Hyperrow;
 use Nette\Database\Table\ActiveRow;
 use Nette\DeprecatedException;
 use Nette\MemberAccessException;
+use Nette\Utils\ObjectMixin;
 
 /**
  * @property-read ActiveRow $activeRow
@@ -116,15 +117,23 @@ class HyperRow implements \ArrayAccess
      * Returns value of column / referenced row
      *
      * @param $key
-     * @return mixed|HyperRow
+     * @return mixed|HyperRow|HyperSelection
      */
     public function &__get($key)
     {
+        // Try to get method - getter
+        if (ObjectMixin::has($this, $key)) {
+            return ObjectMixin::get($this, $key);
+        }
+
+        // Otherwise get ActiveRow property
         $result = $this->activeRow->__get($key);
+
         if ($result instanceof ActiveRow) {
             $hyperrow = $this->factory->createRow($result, $result->getTable()->getName());
             return $hyperrow;
         }
+
         return $result;
     }
 
@@ -135,7 +144,7 @@ class HyperRow implements \ArrayAccess
      */
     public function __isset($key)
     {
-        return $this->activeRow->__isset($key);
+        return ObjectMixin::has($this, $key) || $this->activeRow->__isset($key);
     }
 
 

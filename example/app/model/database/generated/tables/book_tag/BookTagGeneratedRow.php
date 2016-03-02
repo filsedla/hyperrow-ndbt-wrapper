@@ -22,7 +22,7 @@ class BookTagGeneratedRow extends BaseRow
 	 */
 	public function getBookId()
 	{
-		return $this->book_id;
+		return $this->activeRow->book_id;
 	}
 
 
@@ -31,7 +31,7 @@ class BookTagGeneratedRow extends BaseRow
 	 */
 	public function getTagId()
 	{
-		return $this->tag_id;
+		return $this->activeRow->tag_id;
 	}
 
 

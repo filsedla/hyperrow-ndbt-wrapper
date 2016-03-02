@@ -30,7 +30,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return $this->activeRow->id;
 	}
 
 
@@ -39,7 +39,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getActive()
 	{
-		return $this->active;
+		return $this->activeRow->active;
 	}
 
 
@@ -48,7 +48,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getDeleted()
 	{
-		return $this->deleted;
+		return $this->activeRow->deleted;
 	}
 
 
@@ -57,7 +57,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getAuthorId()
 	{
-		return $this->author_id;
+		return $this->activeRow->author_id;
 	}
 
 
@@ -66,7 +66,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getTranslatorId()
 	{
-		return $this->translator_id;
+		return $this->activeRow->translator_id;
 	}
 
 
@@ -75,7 +75,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getTitle()
 	{
-		return $this->title;
+		return $this->activeRow->title;
 	}
 
 
@@ -84,7 +84,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getWeb()
 	{
-		return $this->web;
+		return $this->activeRow->web;
 	}
 
 
@@ -93,7 +93,7 @@ class BookGeneratedRow extends BaseRow
 	 */
 	public function getCreatedAt()
 	{
-		return $this->createdAt;
+		return $this->activeRow->createdAt;
 	}
 
 

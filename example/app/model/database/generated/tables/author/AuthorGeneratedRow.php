@@ -24,7 +24,7 @@ class AuthorGeneratedRow extends BaseRow
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return $this->activeRow->id;
 	}
 
 
@@ -33,7 +33,7 @@ class AuthorGeneratedRow extends BaseRow
 	 */
 	public function getName()
 	{
-		return $this->name;
+		return $this->activeRow->name;
 	}
 
 
@@ -42,7 +42,7 @@ class AuthorGeneratedRow extends BaseRow
 	 */
 	public function getWeb()
 	{
-		return $this->web;
+		return $this->activeRow->web;
 	}
 
 
@@ -51,7 +51,7 @@ class AuthorGeneratedRow extends BaseRow
 	 */
 	public function getBorn()
 	{
-		return $this->born;
+		return $this->activeRow->born;
 	}
 
 

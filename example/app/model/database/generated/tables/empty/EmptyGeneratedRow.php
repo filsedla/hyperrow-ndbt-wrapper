@@ -18,7 +18,7 @@ class EmptyGeneratedRow extends BaseRow
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return $this->activeRow->id;
 	}
 
 
@@ -27,7 +27,7 @@ class EmptyGeneratedRow extends BaseRow
 	 */
 	public function getName()
 	{
-		return $this->name;
+		return $this->activeRow->name;
 	}
 
 }
