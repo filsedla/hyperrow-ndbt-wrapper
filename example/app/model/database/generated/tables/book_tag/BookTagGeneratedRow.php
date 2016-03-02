@@ -8,9 +8,11 @@ namespace Example\Model\Database;
 
 /**
  * @property-read int $book_id
- * @property-read int $bookId
  * @property-read int $tag_id
+ * @property-read int $bookId
  * @property-read int $tagId
+ * @property-read TagRow $tag
+ * @property-read BookRow $book
  */
 class BookTagGeneratedRow extends BaseRow
 {

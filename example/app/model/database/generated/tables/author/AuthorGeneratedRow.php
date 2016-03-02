@@ -11,6 +11,8 @@ namespace Example\Model\Database;
  * @property-read string $name
  * @property-read string $web
  * @property-read int $born
+ * @property-read BookSelection $booksAsAuthor
+ * @property-read BookSelection $booksAsTranslator
  */
 class AuthorGeneratedRow extends BaseRow
 {

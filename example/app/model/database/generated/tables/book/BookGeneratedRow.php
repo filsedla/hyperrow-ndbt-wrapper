@@ -11,12 +11,15 @@ namespace Example\Model\Database;
  * @property-read int $active
  * @property-read int $deleted
  * @property-read int $author_id
- * @property-read int $authorId
  * @property-read int $translator_id
- * @property-read int $translatorId
  * @property-read string $title
  * @property-read string $web
  * @property-read \Nette\Utils\DateTime $createdAt
+ * @property-read int $authorId
+ * @property-read int $translatorId
+ * @property-read AuthorRow $author
+ * @property-read AuthorRow $translator
+ * @property-read BookTagSelection $tags
  */
 class BookGeneratedRow extends BaseRow
 {
