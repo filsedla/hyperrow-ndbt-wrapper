@@ -10,7 +10,8 @@ use Nette\Database\Table\Selection;
 use Nette\Object;
 
 /**
- *
+ * @property-read Selection $selection
+ * @property-read Factory $factory
  */
 class HyperSelection extends Object implements \Iterator
 {
@@ -20,6 +21,24 @@ class HyperSelection extends Object implements \Iterator
 
     /** @var Factory */
     private $factory;
+
+
+    /**
+     * @return Selection
+     */
+    public function getSelection()
+    {
+        return $this->selection;
+    }
+
+
+    /**
+     * @return Factory
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
 
 
     /**

@@ -10,7 +10,8 @@ use Nette\DeprecatedException;
 use Nette\MemberAccessException;
 
 /**
- *
+ * @property-read ActiveRow $activeRow
+ * @property-read Factory $factory
  */
 class HyperRow implements \ArrayAccess
 {
@@ -20,6 +21,24 @@ class HyperRow implements \ArrayAccess
 
     /** @var Factory */
     private $factory;
+
+
+    /**
+     * @return ActiveRow
+     */
+    public function getActiveRow()
+    {
+        return $this->activeRow;
+    }
+
+
+    /**
+     * @return Factory
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
 
 
     /**
