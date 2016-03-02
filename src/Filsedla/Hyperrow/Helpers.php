@@ -74,9 +74,10 @@ class Helpers extends Object
     /**
      * @param string $name String with * in it
      * @param string $substitution
+     * @param string $suffix
      * @return string
      */
-    public static function substituteMethodWildcard($name, $substitution)
+    public static function substituteMethodWildcard($name, $substitution, $suffix = '')
     {
         $substitution = self::underscoreToCamel($substitution);
 
@@ -84,7 +85,26 @@ class Helpers extends Object
             $substitution = Strings::firstLower($substitution);
         }
 
-        return Strings::replace($name, '#\*#', $substitution);
+        // Plural
+        if (Strings::contains($name, '*s')) {
+
+            switch (Strings::substring($substitution, -1)) {
+                case 's':
+                    // nothing
+                    break;
+                case 'y':
+                    $substitution = Strings::replace($substitution, '#y$#', 'ies');
+                    break;
+                default:
+                    $substitution .= 's';
+                    break;
+            };
+
+            return Strings::replace($name, '#\*s#', $substitution . $suffix);
+
+        } else {
+            return Strings::replace($name, '#\*#', $substitution . $suffix);
+        }
     }
 
     /**

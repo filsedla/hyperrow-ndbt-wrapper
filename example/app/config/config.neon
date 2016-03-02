@@ -44,8 +44,8 @@ hyperrow:
                 - referenced*
                 - get*
             related!:
-                - related*
-                - get*
+                - getRelated*s
+                - get*s
             getter!:
                 - get*
     # tables: [author, book, book_tag, empty, tag]

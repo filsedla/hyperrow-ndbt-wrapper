@@ -440,23 +440,14 @@ class Generator extends Object
                         $result = Helpers::underscoreToCamel($relatedTable);
                     }
 
-                    switch (Strings::lower(Strings::substring($relatedTable, -1))) {
-                        case 's':
-                            // nothing
-                            break;
-                        case 'y':
-                            $methodName = Strings::replace($result, '#y$#', 'ies');
-                            break;
-                        default:
-                            $result .= 's';
-                            break;
-                    };
-
                     if (count($referencingColumns) > 1) {
-                        $result .= 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+                        $suffix = 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+
+                    } else {
+                        $suffix = NULL;
                     }
 
-                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, $result);
+                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, $result, $suffix);
 
                     $returnType = $this->getTableClass('selection', $relatedTable, $classNamespace);
 

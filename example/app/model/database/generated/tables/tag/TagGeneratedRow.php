@@ -9,6 +9,7 @@ namespace Example\Model\Database;
 /**
  * @property-read int $id
  * @property-read string $name
+ * @property-read BookTagSelection $relatedBookTags
  * @property-read BookTagSelection $bookTags
  */
 class TagGeneratedRow extends BaseRow
@@ -35,7 +36,7 @@ class TagGeneratedRow extends BaseRow
 	/**
 	 * @return BookTagSelection
 	 */
-	public function relatedBookTags()
+	public function getRelatedBookTags()
 	{
 		return $this->related('book_tag', 'tag_id');
 	}

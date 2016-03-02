@@ -19,6 +19,7 @@ namespace Example\Model\Database;
  * @property-read int $translatorId
  * @property-read AuthorRow $author
  * @property-read AuthorRow $translator
+ * @property-read BookTagSelection $relatedTags
  * @property-read BookTagSelection $tags
  */
 class BookGeneratedRow extends BaseRow
@@ -135,7 +136,7 @@ class BookGeneratedRow extends BaseRow
 	/**
 	 * @return BookTagSelection
 	 */
-	public function relatedTags()
+	public function getRelatedTags()
 	{
 		return $this->related('book_tag', 'book_id');
 	}
