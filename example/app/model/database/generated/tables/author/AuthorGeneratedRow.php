@@ -16,42 +16,6 @@ class AuthorGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return BookSelection
-	 */
-	public function relatedBooksAsAuthor()
-	{
-		return $this->related('book', 'author_id');
-	}
-
-
-	/**
-	 * @return BookSelection
-	 */
-	public function relatedBooksAsTranslator()
-	{
-		return $this->related('book', 'translator_id');
-	}
-
-
-	/**
-	 * @return BookSelection
-	 */
-	public function getBooksAsAuthor()
-	{
-		return $this->related('book', 'author_id');
-	}
-
-
-	/**
-	 * @return BookSelection
-	 */
-	public function getBooksAsTranslator()
-	{
-		return $this->related('book', 'translator_id');
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public function getId()
@@ -84,6 +48,42 @@ class AuthorGeneratedRow extends BaseRow
 	public function getBorn()
 	{
 		return $this->born;
+	}
+
+
+	/**
+	 * @return BookSelection
+	 */
+	public function relatedBooksAsAuthor()
+	{
+		return $this->related('book', 'author_id');
+	}
+
+
+	/**
+	 * @return BookSelection
+	 */
+	public function relatedBooksAsTranslator()
+	{
+		return $this->related('book', 'translator_id');
+	}
+
+
+	/**
+	 * @return BookSelection
+	 */
+	public function getBooksAsAuthor()
+	{
+		return $this->related('book', 'author_id');
+	}
+
+
+	/**
+	 * @return BookSelection
+	 */
+	public function getBooksAsTranslator()
+	{
+		return $this->related('book', 'translator_id');
 	}
 
 }

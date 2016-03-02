@@ -22,60 +22,6 @@ class BookGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return AuthorRow
-	 */
-	public function referencedAuthor()
-	{
-		return $this->ref('author', 'author_id');
-	}
-
-
-	/**
-	 * @return AuthorRow
-	 */
-	public function referencedTranslator()
-	{
-		return $this->ref('author', 'translator_id');
-	}
-
-
-	/**
-	 * @return AuthorRow
-	 */
-	public function getAuthor()
-	{
-		return $this->ref('author', 'author_id');
-	}
-
-
-	/**
-	 * @return AuthorRow
-	 */
-	public function getTranslator()
-	{
-		return $this->ref('author', 'translator_id');
-	}
-
-
-	/**
-	 * @return BookTagSelection
-	 */
-	public function relatedTags()
-	{
-		return $this->related('book_tag', 'book_id');
-	}
-
-
-	/**
-	 * @return BookTagSelection
-	 */
-	public function getTags()
-	{
-		return $this->related('book_tag', 'book_id');
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public function getId()
@@ -144,6 +90,60 @@ class BookGeneratedRow extends BaseRow
 	public function getCreatedAt()
 	{
 		return $this->createdAt;
+	}
+
+
+	/**
+	 * @return AuthorRow
+	 */
+	public function referencedAuthor()
+	{
+		return $this->ref('author', 'author_id');
+	}
+
+
+	/**
+	 * @return AuthorRow
+	 */
+	public function referencedTranslator()
+	{
+		return $this->ref('author', 'translator_id');
+	}
+
+
+	/**
+	 * @return AuthorRow
+	 */
+	public function getAuthor()
+	{
+		return $this->ref('author', 'author_id');
+	}
+
+
+	/**
+	 * @return AuthorRow
+	 */
+	public function getTranslator()
+	{
+		return $this->ref('author', 'translator_id');
+	}
+
+
+	/**
+	 * @return BookTagSelection
+	 */
+	public function relatedTags()
+	{
+		return $this->related('book_tag', 'book_id');
+	}
+
+
+	/**
+	 * @return BookTagSelection
+	 */
+	public function getTags()
+	{
+		return $this->related('book_tag', 'book_id');
 	}
 
 }

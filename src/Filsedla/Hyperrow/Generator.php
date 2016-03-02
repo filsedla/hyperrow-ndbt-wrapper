@@ -346,9 +346,9 @@ class Generator extends Object
             }
             $class->addDocument("@property-read $type \$$column");
 
-            if (is_array($this->config['methods']['row']['column'])
-                && count($this->config['methods']['row']['column']) > 0
-                && in_array('get*', $this->config['methods']['row']['column'])
+            if (is_array($this->config['methods']['row']['getter'])
+                && count($this->config['methods']['row']['getter']) > 0
+                && in_array('get*', $this->config['methods']['row']['getter'])
 
             ) {
                 $columnAlternative = Strings::firstLower(Helpers::underscoreToCamel($column));
@@ -356,6 +356,25 @@ class Generator extends Object
                 if ($columnAlternative != $column) {
                     $class->addDocument("@property-read $type \$$columnAlternative");
                 }
+            }
+        }
+
+        // Generate methods.row.getter
+        foreach ((array)$this->config['methods']['row']['getter'] as $methodTemplate) {
+
+            // Generate column getters
+            foreach ($columns as $column => $type) {
+                if ($type === IStructure::FIELD_DATETIME) {
+                    $type = '\Nette\Utils\DateTime';
+                }
+
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $column);
+
+                $returnType = $type;
+
+                $class->addMethod($methodName)
+                    ->addBody('return $this->?;', [$column])
+                    ->addDocument("@return $returnType");
             }
         }
 
@@ -439,25 +458,6 @@ class Generator extends Object
                         ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
                         ->addDocument("@return $returnType");
                 }
-            }
-        }
-
-        // Generate methods.row.column
-        foreach ((array)$this->config['methods']['row']['column'] as $methodTemplate) {
-
-            // Generate column getters
-            foreach ($columns as $column => $type) {
-                if ($type === IStructure::FIELD_DATETIME) {
-                    $type = '\Nette\Utils\DateTime';
-                }
-
-                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $column);
-
-                $returnType = $type;
-
-                $class->addMethod($methodName)
-                    ->addBody('return $this->?;', [$column])
-                    ->addDocument("@return $returnType");
             }
         }
 

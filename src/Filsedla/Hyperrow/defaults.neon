@@ -27,6 +27,6 @@ hyperrow:
             related:
                 - related*
                 - get*
-            column:
+            getter:
                 - get*
     tables: NULL

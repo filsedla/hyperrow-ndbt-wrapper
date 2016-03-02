@@ -16,6 +16,24 @@ class BookTagGeneratedRow extends BaseRow
 {
 
 	/**
+	 * @return int
+	 */
+	public function getBookId()
+	{
+		return $this->book_id;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getTagId()
+	{
+		return $this->tag_id;
+	}
+
+
+	/**
 	 * @return TagRow
 	 */
 	public function referencedTag()
@@ -48,24 +66,6 @@ class BookTagGeneratedRow extends BaseRow
 	public function getBook()
 	{
 		return $this->ref('book', 'book_id');
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getBookId()
-	{
-		return $this->book_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getTagId()
-	{
-		return $this->tag_id;
 	}
 
 }

@@ -14,24 +14,6 @@ class TagGeneratedRow extends BaseRow
 {
 
 	/**
-	 * @return BookTagSelection
-	 */
-	public function relatedBookTags()
-	{
-		return $this->related('book_tag', 'tag_id');
-	}
-
-
-	/**
-	 * @return BookTagSelection
-	 */
-	public function getBookTags()
-	{
-		return $this->related('book_tag', 'tag_id');
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public function getId()
@@ -46,6 +28,24 @@ class TagGeneratedRow extends BaseRow
 	public function getName()
 	{
 		return $this->name;
+	}
+
+
+	/**
+	 * @return BookTagSelection
+	 */
+	public function relatedBookTags()
+	{
+		return $this->related('book_tag', 'tag_id');
+	}
+
+
+	/**
+	 * @return BookTagSelection
+	 */
+	public function getBookTags()
+	{
+		return $this->related('book_tag', 'tag_id');
 	}
 
 }
