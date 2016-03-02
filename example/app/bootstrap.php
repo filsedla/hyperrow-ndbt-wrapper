@@ -23,6 +23,11 @@ $container = $configurator->createContainer();
 // Generator can be run either this way (disadvantage: more errors from not-yet-existing classes)
 // or separately (tools/generate.php)
 if ($container->parameters['debugMode'] === TRUE) {
+
+    /** @var \Nette\Database\IStructure $structure */
+    $structure = $container->getByType(\Nette\Database\IStructure::class);
+    $structure->rebuild();
+
     $generator = $container->createService('hyperrow.generator');
 
     // Tell generator which classes were already found by Robot loader to not generate them again
