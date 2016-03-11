@@ -17,7 +17,7 @@ class BookTagGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookTagSelection
 	 */
 	public function whereBookId($value)
 	{
@@ -27,7 +27,7 @@ class BookTagGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookTagSelection
 	 */
 	public function whereTagId($value)
 	{
@@ -37,7 +37,7 @@ class BookTagGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookTagSelection
 	 */
 	public function withBookId($value)
 	{
@@ -47,7 +47,7 @@ class BookTagGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookTagSelection
 	 */
 	public function withTagId($value)
 	{

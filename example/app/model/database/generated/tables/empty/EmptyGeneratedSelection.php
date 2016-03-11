@@ -17,7 +17,7 @@ class EmptyGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return EmptySelection
 	 */
 	public function whereId($value)
 	{
@@ -27,7 +27,7 @@ class EmptyGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return EmptySelection
 	 */
 	public function whereName($value)
 	{
@@ -37,7 +37,7 @@ class EmptyGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return EmptySelection
 	 */
 	public function withId($value)
 	{
@@ -47,7 +47,7 @@ class EmptyGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return EmptySelection
 	 */
 	public function withName($value)
 	{

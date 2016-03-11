@@ -17,7 +17,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereId($value)
 	{
@@ -27,7 +27,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereActive($value)
 	{
@@ -37,7 +37,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereDeleted($value)
 	{
@@ -47,7 +47,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereAuthorId($value)
 	{
@@ -57,7 +57,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereTranslatorId($value)
 	{
@@ -67,7 +67,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereTitle($value)
 	{
@@ -77,7 +77,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereWeb($value)
 	{
@@ -86,7 +86,7 @@ class BookGeneratedSelection extends BaseSelection
 
 
 	/**
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereFutureCreatedAt()
 	{
@@ -95,7 +95,7 @@ class BookGeneratedSelection extends BaseSelection
 
 
 	/**
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function wherePastCreatedAt()
 	{
@@ -105,7 +105,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param \Nette\Utils\DateTime $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function whereCreatedAt($value)
 	{
@@ -115,7 +115,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withId($value)
 	{
@@ -125,7 +125,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withActive($value)
 	{
@@ -135,7 +135,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withDeleted($value)
 	{
@@ -145,7 +145,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withAuthorId($value)
 	{
@@ -155,7 +155,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withTranslatorId($value)
 	{
@@ -165,7 +165,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withTitle($value)
 	{
@@ -175,7 +175,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withWeb($value)
 	{
@@ -184,7 +184,7 @@ class BookGeneratedSelection extends BaseSelection
 
 
 	/**
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withFutureCreatedAt()
 	{
@@ -193,7 +193,7 @@ class BookGeneratedSelection extends BaseSelection
 
 
 	/**
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withPastCreatedAt()
 	{
@@ -203,7 +203,7 @@ class BookGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param \Nette\Utils\DateTime $value
-	 * @return self
+	 * @return BookSelection
 	 */
 	public function withCreatedAt($value)
 	{

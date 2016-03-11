@@ -17,7 +17,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function whereId($value)
 	{
@@ -27,7 +27,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function whereName($value)
 	{
@@ -37,7 +37,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function whereWeb($value)
 	{
@@ -47,7 +47,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function whereBorn($value)
 	{
@@ -57,7 +57,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function withId($value)
 	{
@@ -67,7 +67,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function withName($value)
 	{
@@ -77,7 +77,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param string $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function withWeb($value)
 	{
@@ -87,7 +87,7 @@ class AuthorGeneratedSelection extends BaseSelection
 
 	/**
 	 * @param int $value
-	 * @return self
+	 * @return AuthorSelection
 	 */
 	public function withBorn($value)
 	{

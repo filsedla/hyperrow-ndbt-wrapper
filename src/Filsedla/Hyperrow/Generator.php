@@ -278,12 +278,12 @@ class Generator extends Object
                     $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Future' . Strings::firstUpper($column));
                     $method = $class->addMethod($methodName);
                     $method->addBody("return \$this->where('$column > NOW()');");
-                    $method->addDocument("@return self");
+                    $method->addDocument("@return $correspondingHyperSelectionTableClass");
 
                     $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Past' . Strings::firstUpper($column));
                     $method = $class->addMethod($methodName);
                     $method->addBody("return \$this->where('$column < NOW()');");
-                    $method->addDocument("@return self");
+                    $method->addDocument("@return $correspondingHyperSelectionTableClass");
                 }
 
                 if ($type === IStructure::FIELD_DATETIME) {
@@ -302,7 +302,7 @@ class Generator extends Object
 
                 $method->addBody('return $this->where(?, $value);', [$column]);
                 $method->addDocument("@param $type \$value");
-                $method->addDocument("@return self");
+                $method->addDocument("@return $correspondingHyperSelectionTableClass");
             }
         }
 
