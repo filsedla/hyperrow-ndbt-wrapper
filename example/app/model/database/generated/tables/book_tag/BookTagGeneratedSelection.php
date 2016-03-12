@@ -11,6 +11,7 @@ namespace Example\Model\Database;
  * @method BookTagRow|FALSE get($key)
  * @method BookTagRow|FALSE current()
  * @method BookTagSelection where($condition, $parameters = [])
+ * @method BookTagRow insert($data)
  */
 class BookTagGeneratedSelection extends BaseSelection
 {

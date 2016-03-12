@@ -11,6 +11,7 @@ namespace Example\Model\Database;
  * @method AuthorRow|FALSE get($key)
  * @method AuthorRow|FALSE current()
  * @method AuthorSelection where($condition, $parameters = [])
+ * @method AuthorRow insert($data)
  */
 class AuthorGeneratedSelection extends BaseSelection
 {

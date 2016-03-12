@@ -11,6 +11,7 @@ namespace Example\Model\Database;
  * @method EmptyRow|FALSE get($key)
  * @method EmptyRow|FALSE current()
  * @method EmptySelection where($condition, $parameters = [])
+ * @method EmptyRow insert($data)
  */
 class EmptyGeneratedSelection extends BaseSelection
 {

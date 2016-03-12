@@ -259,6 +259,7 @@ class Generator extends Object
             'get($key)' => $correspondingHyperRowTableClass . '|FALSE',
             'current()' => $correspondingHyperRowTableClass . '|FALSE',
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
+            'insert($data)' => $correspondingHyperRowTableClass,
         ];
 
         foreach ($methods as $methodName => $returnType) {
