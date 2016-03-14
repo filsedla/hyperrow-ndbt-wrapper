@@ -12,6 +12,10 @@ namespace Example\Model\Database;
  * @method AuthorRow|FALSE current()
  * @method AuthorSelection where($condition, $parameters = [])
  * @method AuthorRow insert($data)
+ * @method AuthorRow[] fetchAll()
+ * @method AuthorSelection order($columns)
+ * @method AuthorSelection limit($limit, $offset = NULL)
+ * @method AuthorSelection page($page, $itemsPerPage, & $numOfPages = NULL)
  */
 class AuthorGeneratedSelection extends BaseSelection
 {

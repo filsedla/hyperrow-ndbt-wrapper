@@ -260,6 +260,10 @@ class Generator extends Object
             'current()' => $correspondingHyperRowTableClass . '|FALSE',
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
             'insert($data)' => $correspondingHyperRowTableClass,
+            'fetchAll()' => $correspondingHyperRowTableClass . '[]',
+            'order($columns)' => $correspondingHyperSelectionTableClass,
+            'limit($limit, $offset = NULL)' => $correspondingHyperSelectionTableClass,
+            'page($page, $itemsPerPage, & $numOfPages = NULL)' => $correspondingHyperSelectionTableClass,
         ];
 
         foreach ($methods as $methodName => $returnType) {

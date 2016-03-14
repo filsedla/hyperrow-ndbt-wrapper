@@ -12,6 +12,10 @@ namespace Example\Model\Database;
  * @method EmptyRow|FALSE current()
  * @method EmptySelection where($condition, $parameters = [])
  * @method EmptyRow insert($data)
+ * @method EmptyRow[] fetchAll()
+ * @method EmptySelection order($columns)
+ * @method EmptySelection limit($limit, $offset = NULL)
+ * @method EmptySelection page($page, $itemsPerPage, & $numOfPages = NULL)
  */
 class EmptyGeneratedSelection extends BaseSelection
 {

@@ -12,6 +12,10 @@ namespace Example\Model\Database;
  * @method TagRow|FALSE current()
  * @method TagSelection where($condition, $parameters = [])
  * @method TagRow insert($data)
+ * @method TagRow[] fetchAll()
+ * @method TagSelection order($columns)
+ * @method TagSelection limit($limit, $offset = NULL)
+ * @method TagSelection page($page, $itemsPerPage, & $numOfPages = NULL)
  */
 class TagGeneratedSelection extends BaseSelection
 {

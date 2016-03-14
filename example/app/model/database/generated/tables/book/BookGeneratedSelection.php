@@ -12,6 +12,10 @@ namespace Example\Model\Database;
  * @method BookRow|FALSE current()
  * @method BookSelection where($condition, $parameters = [])
  * @method BookRow insert($data)
+ * @method BookRow[] fetchAll()
+ * @method BookSelection order($columns)
+ * @method BookSelection limit($limit, $offset = NULL)
+ * @method BookSelection page($page, $itemsPerPage, & $numOfPages = NULL)
  */
 class BookGeneratedSelection extends BaseSelection
 {
