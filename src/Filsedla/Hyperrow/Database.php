@@ -33,13 +33,40 @@ class Database extends Object
 
 
     /**
-     * @param  string $tableName
+     * @param string $tableName
      * @return HyperSelection
      */
     public function table($tableName)
     {
         $selection = $this->context->table($tableName);
         return $this->factory->createSelection($selection);
+    }
+
+
+    /**
+     * @return void
+     */
+    public function beginTransaction()
+    {
+        $this->context->beginTransaction();
+    }
+
+
+    /**
+     * @return void
+     */
+    public function commit()
+    {
+        $this->context->commit();
+    }
+
+
+    /**
+     * @return void
+     */
+    public function rollBack()
+    {
+        $this->context->rollBack();
     }
 
 } 
