@@ -60,7 +60,9 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
-     * @return HyperRow|FALSE
+     * Fetches single row object.
+     *
+     * @return HyperRow|FALSE FALSE if there is no row
      */
     public function fetch()
     {
@@ -69,6 +71,43 @@ class HyperSelection extends Object implements \Iterator
             return FALSE;
         }
         return $this->factory->createRow($activeRow, $this->selection->getName());
+    }
+
+
+    /**
+     * Fetches single field.
+     *
+     * @param  string|NULL $column
+     * @return mixed|FALSE
+     */
+    public function fetchField($column = NULL)
+    {
+        return $this->selection->fetchField($column);
+    }
+
+
+    /**
+     * Fetches all rows as associative array.
+     *
+     * @param string $key column name used for an array key or NULL for numeric index
+     * @param string $value column name used for an array value or NULL for the whole row
+     *
+     * @return array
+     */
+    public function fetchPairs($key = NULL, $value = NULL)
+    {
+        return $this->selection->fetchPairs($key, $value);
+    }
+
+
+    /**
+     * Fetches all rows.
+     *
+     * @return HyperRow[]
+     */
+    public function fetchAll()
+    {
+        return iterator_to_array($this);
     }
 
 
@@ -98,6 +137,54 @@ class HyperSelection extends Object implements \Iterator
     public function where($condition, $parameters = [])
     {
         call_user_func_array([$this->selection, 'where'], func_get_args());
+        return $this;
+    }
+
+
+    /**
+     * Adds order clause, more calls appends to the end
+     *
+     * @param string $columns For example 'column1, column2 DESC'
+     * @return self
+     */
+    public function order($columns)
+    {
+        call_user_func_array([$this->selection, 'order'], func_get_args());
+        return $this;
+    }
+
+
+    /**
+     * Sets limit clause, more calls rewrite old values
+     *
+     * @param int $limit
+     * @param int $offset
+     * @return self
+     */
+    public function limit($limit, $offset = NULL)
+    {
+        $this->selection->limit($limit, $offset);
+        return $this;
+    }
+
+
+    /**
+     * Sets offset using page number, more calls rewrite old values.
+     * @param int $page
+     * @param int $itemsPerPage
+     * @param int $numOfPages
+     *
+     * @return self
+     */
+    public function page($page, $itemsPerPage, & $numOfPages = NULL)
+    {
+        if (func_num_args() > 2) {
+            $this->selection->page($page, $itemsPerPage, $numOfPages);
+
+        } else {
+            $this->selection->page($page, $itemsPerPage);
+        }
+
         return $this;
     }
 
