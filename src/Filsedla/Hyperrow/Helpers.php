@@ -32,6 +32,40 @@ class Helpers extends Object
 
 
     /**
+     * @param string $string
+     * @param string $reference
+     * @return string
+     */
+    public static function underscoreToCamelWithoutPrefix($string, $reference)
+    {
+        // Find longest common prefix between $referencingColumn and (this) $tableName
+        $referenceWords = Strings::split($reference, '#_#');
+        $stringWords = Strings::split($string, '#_#');
+
+        for ($i = 0; $i < count($stringWords) && $i < count($referenceWords); $i++) {
+            if ($referenceWords[$i] == $stringWords[$i]) {
+                array_shift($stringWords);
+
+            } else {
+                break;
+            }
+        }
+
+        if (count($stringWords) > 0) {
+            $result = '';
+            foreach ($stringWords as $word) {
+                Strings::firstUpper($word);
+                $result .= Strings::firstUpper($word);
+            }
+            return $result;
+
+        }
+
+        return self::underscoreToCamel($string);
+    }
+
+
+    /**
      * @param string $fqn
      * @return null|string
      */
