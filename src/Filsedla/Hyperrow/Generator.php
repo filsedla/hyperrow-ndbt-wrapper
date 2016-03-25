@@ -278,7 +278,7 @@ class Generator extends Object
             foreach ($columns as $column => $type) {
 
                 // withFuture*, withPast*
-                if ($type === IStructure::FIELD_DATETIME) {
+                if (in_array($type, [IStructure::FIELD_DATETIME, IStructure::FIELD_UNIX_TIMESTAMP])) {
 
                     $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Future' . Strings::firstUpper($column));
                     $method = $class->addMethod($methodName);
@@ -291,7 +291,7 @@ class Generator extends Object
                     $method->addDocument("@return $correspondingHyperSelectionTableClass");
                 }
 
-                if ($type === IStructure::FIELD_DATETIME) {
+                if (in_array($type, [IStructure::FIELD_DATETIME, IStructure::FIELD_TIME, IStructure::FIELD_DATE, IStructure::FIELD_UNIX_TIMESTAMP])) {
                     $type = '\Nette\Utils\DateTime';
                 }
 
@@ -347,7 +347,7 @@ class Generator extends Object
         // Add property annotations based on columns
         foreach ($columns as $column => $type) {
 
-            if ($type === IStructure::FIELD_DATETIME) {
+            if (in_array($type, [IStructure::FIELD_DATETIME, IStructure::FIELD_TIME, IStructure::FIELD_DATE, IStructure::FIELD_UNIX_TIMESTAMP])) {
                 $type = '\Nette\Utils\DateTime';
             }
 
@@ -360,7 +360,7 @@ class Generator extends Object
             // Generate column getters
             foreach ($columns as $column => $type) {
 
-                if ($type === IStructure::FIELD_DATETIME) {
+                if (in_array($type, [IStructure::FIELD_DATETIME, IStructure::FIELD_TIME, IStructure::FIELD_DATE, IStructure::FIELD_UNIX_TIMESTAMP])) {
                     $type = '\Nette\Utils\DateTime';
                 }
 
