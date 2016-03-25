@@ -46,17 +46,17 @@ INSERT INTO `book` (`id`, `active`, `deleted`, `author_id`, `translator_id`, `ti
 (2,	1,	0,	1,	NULL,	'Druhá kniha',	NULL,	'0000-00-00 00:00:00'),
 (3,	1,	0,	2,	NULL,	'Jiná kniha',	NULL,	'0000-00-00 00:00:00');
 
-DROP TABLE IF EXISTS `book_tag`;
-CREATE TABLE `book_tag` (
+DROP TABLE IF EXISTS `book_tagging`;
+CREATE TABLE `book_tagging` (
   `book_id` int(11) unsigned NOT NULL,
   `tag_id` int(11) unsigned NOT NULL,
   KEY `book_id` (`book_id`),
   KEY `tag_id` (`tag_id`),
-  CONSTRAINT `book_tag_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `book_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
+  CONSTRAINT `book_tagging_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
+  CONSTRAINT `book_tagging_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
-INSERT INTO `book_tag` (`book_id`, `tag_id`) VALUES
+INSERT INTO `book_tagging` (`book_id`, `tag_id`) VALUES
 (1,	1),
 (3,	1),
 (2,	2),
@@ -81,4 +81,4 @@ INSERT INTO `tag` (`id`, `name`) VALUES
 (1,	'životopis'),
 (2,	'bestseller');
 
--- 2016-02-28 19:34:12
+-- 2016-03-15 17:35:42

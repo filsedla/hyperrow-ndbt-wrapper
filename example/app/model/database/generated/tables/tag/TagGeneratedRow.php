@@ -9,8 +9,8 @@ namespace Example\Model\Database;
 /**
  * @property-read int $id
  * @property-read string $name
- * @property-read BookTagSelection $relatedBookTags
- * @property-read BookTagSelection $bookTags
+ * @property-read BookTaggingSelection $relatedBookTaggings
+ * @property-read BookTaggingSelection $bookTaggings
  */
 class TagGeneratedRow extends BaseRow
 {
@@ -34,20 +34,20 @@ class TagGeneratedRow extends BaseRow
 
 
 	/**
-	 * @return BookTagSelection
+	 * @return BookTaggingSelection
 	 */
-	public function getRelatedBookTags()
+	public function getRelatedBookTaggings()
 	{
-		return $this->related('book_tag', 'tag_id');
+		return $this->related('book_tagging', 'tag_id');
 	}
 
 
 	/**
-	 * @return BookTagSelection
+	 * @return BookTaggingSelection
 	 */
-	public function getBookTags()
+	public function getBookTaggings()
 	{
-		return $this->related('book_tag', 'tag_id');
+		return $this->related('book_tagging', 'tag_id');
 	}
 
 }

@@ -6,6 +6,6 @@
 
 namespace Example\Model\Database;
 
-class BookTagRow extends BookTagGeneratedRow
+class BookTaggingRow extends BookTaggingGeneratedRow
 {
 }

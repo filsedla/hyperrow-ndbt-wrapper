@@ -9,7 +9,7 @@ namespace Example\Model\Database;
 /**
  * @property-read AuthorSelection $author
  * @property-read BookSelection $book
- * @property-read BookTagSelection $bookTag
+ * @property-read BookTaggingSelection $bookTagging
  * @property-read EmptySelection $empty
  * @property-read TagSelection $tag
  */
@@ -35,11 +35,11 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookTagSelection
+	 * @return BookTaggingSelection
 	 */
-	public function tableBookTag()
+	public function tableBookTagging()
 	{
-		return $this->table('book_tag');
+		return $this->table('book_tagging');
 	}
 
 
@@ -80,11 +80,11 @@ class GeneratedDatabase extends \Filsedla\Hyperrow\Database
 
 
 	/**
-	 * @return BookTagSelection
+	 * @return BookTaggingSelection
 	 */
-	public function getBookTag()
+	public function getBookTagging()
 	{
-		return $this->table('book_tag');
+		return $this->table('book_tagging');
 	}
 
 

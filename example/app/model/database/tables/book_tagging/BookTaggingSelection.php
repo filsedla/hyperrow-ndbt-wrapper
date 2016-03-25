@@ -6,6 +6,8 @@
 
 namespace Example\Model\Database;
 
-class BookTagSelection extends BookTagGeneratedSelection
+
+class BookTaggingSelection extends BookTaggingGeneratedSelection
 {
+
 }
