@@ -393,7 +393,9 @@ class Generator extends Object
                     continue;
                 }
 
-                $methodName = Helpers::substituteMethodWildcard($methodTemplate, Strings::replace($referencingColumn, '~_id$~'));
+                $result = Helpers::underscoreToCamelWithoutPrefix(Strings::replace($referencingColumn, '~_id$~'), $tableName);
+
+                $methodName = Helpers::substituteMethodWildcard($methodTemplate, $result);
 
                 $returnType = $this->getTableClass('row', $referencedTable, $classNamespace);
 
