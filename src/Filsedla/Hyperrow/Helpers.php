@@ -43,7 +43,7 @@ class Helpers extends Object
         $stringWords = Strings::split($string, '#_#');
         $remainingWords = $stringWords;
 
-        for ($i = 0; $i < count($stringWords) && $i < count($referenceWords); $i++) {
+        for ($i = 0; $i < count($stringWords) && $i < count($referenceWords) && count($remainingWords) > 1; $i++) {
             if ($referenceWords[$i] == $stringWords[$i]) {
                 array_shift($remainingWords);
 
