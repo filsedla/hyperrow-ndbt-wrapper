@@ -41,19 +41,20 @@ class Helpers extends Object
         // Find longest common prefix between $referencingColumn and (this) $tableName
         $referenceWords = Strings::split($reference, '#_#');
         $stringWords = Strings::split($string, '#_#');
+        $remainingWords = $stringWords;
 
         for ($i = 0; $i < count($stringWords) && $i < count($referenceWords); $i++) {
             if ($referenceWords[$i] == $stringWords[$i]) {
-                array_shift($stringWords);
+                array_shift($remainingWords);
 
             } else {
                 break;
             }
         }
 
-        if (count($stringWords) > 0) {
+        if (count($remainingWords) > 0) {
             $result = '';
-            foreach ($stringWords as $word) {
+            foreach ($remainingWords as $word) {
                 Strings::firstUpper($word);
                 $result .= Strings::firstUpper($word);
             }
