@@ -149,7 +149,15 @@ class HyperSelection extends Object implements \Iterator
      */
     public function where($condition, $parameters = [])
     {
-        call_user_func_array([$this->selection, 'where'], func_get_args());
+        $args = func_get_args();
+
+        foreach ($args as $key => $value) {
+            if ($value instanceof HyperSelection) {
+                $args[$key] = $value->getSelection();
+            }
+        }
+
+        call_user_func_array([$this->selection, 'where'], $args);
         return $this;
     }
 
