@@ -21,9 +21,9 @@ hyperrow:
                 - where*
                 - with*
             whereRelated:
-                - in*
+                - with*
             whereRelatedWith:
-                - in*
+                - with*
         row:
             ref:
                 - referenced*

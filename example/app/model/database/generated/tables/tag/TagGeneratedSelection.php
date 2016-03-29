@@ -64,7 +64,7 @@ class TagGeneratedSelection extends BaseSelection
 	/**
 	 * @return TagSelection
 	 */
-	public function inBookTagging($bookTaggingId)
+	public function withBookTagging($bookTaggingId)
 	{
 		return $this->where(':book_tagging(tag_id).id', $bookTaggingId);
 	}
@@ -73,7 +73,7 @@ class TagGeneratedSelection extends BaseSelection
 	/**
 	 * @return TagSelection
 	 */
-	public function inBookTaggingWithBook($bookId)
+	public function withBookTaggingWithBook($bookId)
 	{
 		return $this->where(':book_tagging(tag_id).book_id', $bookId);
 	}

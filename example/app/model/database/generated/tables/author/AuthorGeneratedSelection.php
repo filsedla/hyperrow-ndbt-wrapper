@@ -104,7 +104,7 @@ class AuthorGeneratedSelection extends BaseSelection
 	/**
 	 * @return AuthorSelection
 	 */
-	public function inBookAsAuthor($bookId)
+	public function withBookAsAuthor($bookId)
 	{
 		return $this->where(':book(author_id).id', $bookId);
 	}
@@ -113,7 +113,7 @@ class AuthorGeneratedSelection extends BaseSelection
 	/**
 	 * @return AuthorSelection
 	 */
-	public function inBookAsTranslator($bookId)
+	public function withBookAsTranslator($bookId)
 	{
 		return $this->where(':book(translator_id).id', $bookId);
 	}
@@ -122,7 +122,7 @@ class AuthorGeneratedSelection extends BaseSelection
 	/**
 	 * @return AuthorSelection
 	 */
-	public function inBookAsAuthorWithTranslator($translatorId)
+	public function withBookAsAuthorWithTranslator($translatorId)
 	{
 		return $this->where(':book(author_id).translator_id', $translatorId);
 	}
@@ -131,7 +131,7 @@ class AuthorGeneratedSelection extends BaseSelection
 	/**
 	 * @return AuthorSelection
 	 */
-	public function inBookAsTranslatorWithAuthor($authorId)
+	public function withBookAsTranslatorWithAuthor($authorId)
 	{
 		return $this->where(':book(translator_id).author_id', $authorId);
 	}
