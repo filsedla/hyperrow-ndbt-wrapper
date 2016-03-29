@@ -100,4 +100,22 @@ class AuthorGeneratedSelection extends BaseSelection
 		return $this->where('born', $value);
 	}
 
+
+	/**
+	 * @return AuthorSelection
+	 */
+	public function inBookAsAuthor($bookId)
+	{
+		return $this->where(':book(author_id).id', $bookId);
+	}
+
+
+	/**
+	 * @return AuthorSelection
+	 */
+	public function inBookAsTranslator($bookId)
+	{
+		return $this->where(':book(translator_id).id', $bookId);
+	}
+
 }

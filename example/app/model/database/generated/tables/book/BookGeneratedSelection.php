@@ -216,4 +216,13 @@ class BookGeneratedSelection extends BaseSelection
 		return $this->where('createdAt', $value);
 	}
 
+
+	/**
+	 * @return BookSelection
+	 */
+	public function inTagging($bookTaggingId)
+	{
+		return $this->where(':book_tagging(book_id).id', $bookTaggingId);
+	}
+
 }

@@ -60,4 +60,13 @@ class TagGeneratedSelection extends BaseSelection
 		return $this->where('name', $value);
 	}
 
+
+	/**
+	 * @return TagSelection
+	 */
+	public function inBookTagging($bookTaggingId)
+	{
+		return $this->where(':book_tagging(tag_id).id', $bookTaggingId);
+	}
+
 }

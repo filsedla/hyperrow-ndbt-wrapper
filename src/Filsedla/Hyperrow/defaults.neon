@@ -20,6 +20,10 @@ hyperrow:
             where:
                 - where*
                 - with*
+            whereRelated:
+                - in*
+            whereRelatedWith:
+                - in*
         row:
             ref:
                 - referenced*

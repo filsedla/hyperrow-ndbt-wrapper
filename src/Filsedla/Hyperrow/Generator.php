@@ -312,6 +312,60 @@ class Generator extends Object
             }
         }
 
+        // generate methods.selection.whereRelated
+        foreach ((array)$this->config['methods']['selection']['whereRelated'] as $methodTemplate) {
+
+            // Generate methods
+            foreach ($this->structure->getHasManyReference($tableName) as $relatedTable => $referencingColumns) {
+
+                // Check excluded tables
+                if (is_array($this->config['tables']) && !in_array($relatedTable, $this->config['tables'])) {
+                    continue;
+                }
+
+//                if ($tableName == 'tag') {
+//                    dump($tableName); // author | tag (M:N)
+//                    dump($relatedTable); // book | book_tagging (M:N)
+//                    dd($referencingColumns); // [author_id, translator_id] | [tag_id]
+//                    // related (on 1:N): relatedBooksAsAuthor, relatedBooksAsTranslator - result BookSelection
+//                    // whereRelated (on 1:N): inBook(bookId), inBookAsAuthor(bookId), inBookAsTranslator(bookId)
+//
+//                    // whereRelated (on M:N): inTaggingWithBook(As...)(bookId)
+//                }
+
+                foreach ($referencingColumns as $referencingColumn) {
+
+                    // Omit longest common prefix between $relatedTable and (this) $tableName
+                    $result = Helpers::underscoreToCamelWithoutPrefix($relatedTable, $tableName);
+
+
+                    // Discover suffix if any
+                    if (count($referencingColumns) > 1) {
+                        $suffix = 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+
+                    } else {
+                        $suffix = NULL;
+                    }
+
+                    $methodName = Helpers::substituteMethodWildcard($methodTemplate, $result, $suffix);
+
+                    $returnType = $correspondingHyperSelectionTableClass;
+
+                    $parameterName = Strings::firstLower(Helpers::underscoreToCamel($relatedTable)) . 'Id';
+                    $method = $class->addMethod($methodName);
+                    $method->addParameter($parameterName);
+                    $method->addBody("return \$this->where(':$relatedTable($referencingColumn).id', $?);", [$parameterName])
+                        ->addDocument("@return $returnType");
+
+                    // Add property annotations
+                    if (Strings::startsWith($methodName, 'get')) {
+                        $property = Strings::firstLower(Strings::substring($methodName, 3));
+                        $class->addDocument("@property-read $returnType \$$property");
+                    }
+                }
+            }
+        }
+
         $code = implode("\n\n", [
             '<?php',
             "/**\n * This is a generated file. DO NOT EDIT. It will be overwritten.\n */",
