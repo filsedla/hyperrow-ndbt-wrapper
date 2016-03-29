@@ -128,6 +128,19 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
+     * Adds select clause, more calls appends to the end.
+     *
+     * @param $columns string for example "column, MD5(column) AS column_md5"
+     * @return self
+     */
+    public function select($columns)
+    {
+        call_user_func_array([$this->selection, 'select'], func_get_args());
+        return $this;
+    }
+
+
+    /**
      * Adds where condition, more calls appends with AND
      *
      * @param  string $condition condition possibly containing ?
