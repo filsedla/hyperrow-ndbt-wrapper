@@ -273,7 +273,6 @@ class Generator extends Object
 
         // Generate methods.selection.where
         foreach ((array)$this->config['methods']['selection']['where'] as $methodTemplate) {
-            //dump($tableName, $methodTemplate);
 
             // Add where methods based on columns
             foreach ($columns as $column => $type) {
@@ -323,16 +322,6 @@ class Generator extends Object
                     continue;
                 }
 
-//                if ($tableName == 'tag') {
-//                    dump($tableName); // author | tag (M:N)
-//                    dump($relatedTable); // book | book_tagging (M:N)
-//                    dd($referencingColumns); // [author_id, translator_id] | [tag_id]
-//                    // related (on 1:N): relatedBooksAsAuthor, relatedBooksAsTranslator - result BookSelection
-//                    // whereRelated (on 1:N): inBook(bookId), inBookAsAuthor(bookId), inBookAsTranslator(bookId)
-//
-//                    // whereRelated (on M:N): inTaggingWithBook(As...)(bookId)
-//                }
-
                 foreach ($referencingColumns as $referencingColumn) {
 
                     // Omit longest common prefix between $relatedTable and (this) $tableName
@@ -361,6 +350,75 @@ class Generator extends Object
                     if (Strings::startsWith($methodName, 'get')) {
                         $property = Strings::firstLower(Strings::substring($methodName, 3));
                         $class->addDocument("@property-read $returnType \$$property");
+                    }
+                }
+            }
+        }
+
+        // generate methods.selection.whereRelatedWith
+        foreach ((array)$this->config['methods']['selection']['whereRelatedWith'] as $methodTemplate) {
+
+            // Generate methods
+            foreach ($this->structure->getHasManyReference($tableName) as $relatedTable => $referencingColumns) {
+
+                // Check excluded tables
+                if (is_array($this->config['tables']) && !in_array($relatedTable, $this->config['tables'])) {
+                    continue;
+                }
+
+                foreach ($referencingColumns as $referencingColumn) {
+
+//                    if ($tableName == 'book') {
+//                        dump($tableName); // author | tag (M:N)
+//                        dump($relatedTable); // book | book_tagging (M:N)
+//                        dump($referencingColumns); // [author_id, translator_id] | [tag_id]
+//                        // related (on 1:N): relatedBooksAsAuthor, relatedBooksAsTranslator - result BookSelection
+//                        // whereRelated (on 1:N): inBook(bookId), inBookAsAuthor(bookId), inBookAsTranslator(bookId)
+//
+//                        // whereRelated (on M:N): inTaggingWithBook(As...)(bookId)
+//
+//                        $furtherReferences = $this->structure->getBelongsToReference($relatedTable);
+//                        unset($furtherReferences[$referencingColumn]);
+//                        dump($furtherReferences);
+//                    }
+
+                    foreach ($this->structure->getBelongsToReference($relatedTable) as $furtherReferencingColumn => $furtherReferencedTable) {
+
+                        // Do not return where I came from
+                        if ($furtherReferencingColumn == $referencingColumn) {
+                            continue;
+                        }
+
+                        // Omit longest common prefix between $relatedTable and (this) $tableName
+                        $relatedTableResult = Helpers::underscoreToCamelWithoutPrefix($relatedTable, $tableName);
+
+                        $suffix = NULL;
+
+                        // Discover 'As' suffix if any
+                        if (count($referencingColumns) > 1) {
+                            $suffix = $suffix . 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+                        }
+
+                        // Add 'With' suffix (not configurable in method template - 2 * needed for that (TODO))
+                        $suffix .= 'With' . Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName);
+
+                        $methodName = Helpers::substituteMethodWildcard($methodTemplate, $relatedTableResult, $suffix);
+
+                        $returnType = $correspondingHyperSelectionTableClass;
+
+                        $parameterName = Strings::firstLower(Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName))
+                            . 'Id';
+
+                        $method = $class->addMethod($methodName);
+                        $method->addParameter($parameterName);
+                        $method->addBody("return \$this->where(':$relatedTable($referencingColumn).$furtherReferencingColumn', $?);", [$parameterName])
+                            ->addDocument("@return $returnType");
+
+                        // Add property annotations
+                        if (Strings::startsWith($methodName, 'get')) {
+                            $property = Strings::firstLower(Strings::substring($methodName, 3));
+                            $class->addDocument("@property-read $returnType \$$property");
+                        }
                     }
                 }
             }

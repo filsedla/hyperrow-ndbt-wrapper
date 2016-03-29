@@ -11,7 +11,7 @@ $database = $container->getByType(\Example\Model\Database\Database::class);
 
 //$result = $database->book->get(3)->relatedTaggings->getRelatedTags()->fetchAll();
 
-$result = $database->author->inBookAsAuthor(3);
+$result = $database->tag->inBookTaggingWithBook(3);
 
 foreach ($result as $row){
     dump($row->toArray());
