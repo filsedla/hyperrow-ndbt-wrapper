@@ -69,4 +69,13 @@ class Database extends Object
         $this->context->rollBack();
     }
 
-} 
+
+    /**
+     * @return Context
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+}
