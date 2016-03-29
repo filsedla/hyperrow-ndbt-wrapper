@@ -24,6 +24,7 @@ hyperrow:
                 - with*
             whereRelatedWith:
                 - with*
+                - *
         row:
             ref:
                 - referenced*

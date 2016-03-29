@@ -368,7 +368,7 @@ class Generator extends Object
 
                 foreach ($referencingColumns as $referencingColumn) {
 
-//                    if ($tableName == 'book') {
+//                    if ($tableName == 'tag') {
 //                        dump($tableName); // author | tag (M:N)
 //                        dump($relatedTable); // book | book_tagging (M:N)
 //                        dump($referencingColumns); // [author_id, translator_id] | [tag_id]
@@ -380,6 +380,10 @@ class Generator extends Object
 //                        $furtherReferences = $this->structure->getBelongsToReference($relatedTable);
 //                        unset($furtherReferences[$referencingColumn]);
 //                        dump($furtherReferences);
+//
+//                        if (Strings::startsWith($relatedTable, $tableName)) {
+//                            dump('TRUE');
+//                        }
 //                    }
 
                     foreach ($this->structure->getBelongsToReference($relatedTable) as $furtherReferencingColumn => $furtherReferencedTable) {
@@ -389,20 +393,50 @@ class Generator extends Object
                             continue;
                         }
 
+                        if (!Strings::endsWith($relatedTable, 'ing') && in_array($methodTemplate, ['*', 'get*'])){
+                            continue;
+                        }
+
                         // Omit longest common prefix between $relatedTable and (this) $tableName
                         $relatedTableResult = Helpers::underscoreToCamelWithoutPrefix($relatedTable, $tableName);
 
-                        $suffix = NULL;
+                        $end = NULL;
+                        if (Strings::endsWith($relatedTable, 'ing') && in_array($methodTemplate, ['*', 'get*'])) {
 
-                        // Discover 'As' suffix if any
-                        if (count($referencingColumns) > 1) {
-                            $suffix = $suffix . 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+                            if (Strings::startsWith($relatedTable, $tableName)) {
+                                // taggedByBook
+
+                                $relatedTableResult = Strings::replace($relatedTableResult, '~ing$~', 'ed');
+
+                                // Add 'With' suffix (not configurable in method template - 2 * needed for that (TODO))
+                                $end = 'By' . Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName);
+
+                            } else {
+                                // taggingBook
+
+                                // Omit longest common prefix between $relatedTable and (this) $tableName
+                                $relatedTableResult = Helpers::underscoreToCamelWithoutPrefix($relatedTable, $furtherReferencedTable);
+
+                                $end = Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName);
+                            }
+
+                        } else {
+
+                            // Add 'With' suffix (not configurable in method template - 2 * needed for that (TODO))
+                            $end = 'With' . Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName);
                         }
 
-                        // Add 'With' suffix (not configurable in method template - 2 * needed for that (TODO))
-                        $suffix .= 'With' . Helpers::underscoreToCamelWithoutPrefix(Strings::replace($furtherReferencingColumn, '~_id$~'), $tableName);
+//                        if ($tableName == 'tag') {
+//                            dump($relatedTableResult);
+//                        }
 
-                        $methodName = Helpers::substituteMethodWildcard($methodTemplate, $relatedTableResult, $suffix);
+                        // Discover 'As' suffix if any
+                        $suffix = NULL;
+                        if (count($referencingColumns) > 1) {
+                            $suffix = 'As' . Helpers::underscoreToCamel(Strings::replace($referencingColumn, '~_id$~'));
+                        }
+
+                        $methodName = Helpers::substituteMethodWildcard($methodTemplate, $relatedTableResult, $suffix || $end ? $suffix . $end : NULL);
 
                         $returnType = $correspondingHyperSelectionTableClass;
 
