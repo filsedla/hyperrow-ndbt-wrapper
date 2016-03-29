@@ -403,6 +403,9 @@ class Generator extends Object
                         $end = NULL;
                         if (Strings::endsWith($relatedTable, 'ing') && in_array($methodTemplate, ['*', 'get*'])) {
 
+                            // TODO problem:
+                            // couse_tagging, couse
+                            // couse_tagging, course_tag
                             if (Strings::startsWith($relatedTable, $tableName)) {
                                 // taggedByBook
 
