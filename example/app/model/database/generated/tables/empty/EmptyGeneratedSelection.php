@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method EmptyRow|FALSE fetch()
  * @method EmptyRow|FALSE get($key)
  * @method EmptyRow|FALSE current()
+ * @method EmptySelection select($columns)
  * @method EmptySelection where($condition, $parameters = [])
  * @method EmptyRow insert($data)
  * @method EmptyRow[] fetchAll()

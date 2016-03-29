@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method TagRow|FALSE fetch()
  * @method TagRow|FALSE get($key)
  * @method TagRow|FALSE current()
+ * @method TagSelection select($columns)
  * @method TagSelection where($condition, $parameters = [])
  * @method TagRow insert($data)
  * @method TagRow[] fetchAll()

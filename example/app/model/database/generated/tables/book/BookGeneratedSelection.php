@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method BookRow|FALSE fetch()
  * @method BookRow|FALSE get($key)
  * @method BookRow|FALSE current()
+ * @method BookSelection select($columns)
  * @method BookSelection where($condition, $parameters = [])
  * @method BookRow insert($data)
  * @method BookRow[] fetchAll()

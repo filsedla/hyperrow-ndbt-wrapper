@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method BookTaggingRow|FALSE fetch()
  * @method BookTaggingRow|FALSE get($key)
  * @method BookTaggingRow|FALSE current()
+ * @method BookTaggingSelection select($columns)
  * @method BookTaggingSelection where($condition, $parameters = [])
  * @method BookTaggingRow insert($data)
  * @method BookTaggingRow[] fetchAll()

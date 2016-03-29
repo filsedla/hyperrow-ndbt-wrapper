@@ -10,6 +10,7 @@ namespace Example\Model\Database;
  * @method AuthorRow|FALSE fetch()
  * @method AuthorRow|FALSE get($key)
  * @method AuthorRow|FALSE current()
+ * @method AuthorSelection select($columns)
  * @method AuthorSelection where($condition, $parameters = [])
  * @method AuthorRow insert($data)
  * @method AuthorRow[] fetchAll()
