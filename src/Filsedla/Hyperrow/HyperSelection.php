@@ -69,6 +69,38 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
+     * Get corresponding table name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->selection->getName();
+    }
+
+
+    /**
+     * @param  bool
+     * @return string|array|NULL
+     *
+     * @throws \LogicException
+     */
+    public function getPrimary($need = TRUE)
+    {
+        return $this->selection->getPrimary($need);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getSql()
+    {
+        return $this->selection->getSql();
+    }
+
+
+    /**
      * Fetches single row object.
      *
      * @return HyperRow|FALSE FALSE if there is no row
