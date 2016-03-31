@@ -20,6 +20,7 @@ namespace Example\Model\Database;
  * @method BookSelection order($columns)
  * @method BookSelection limit($limit, $offset = NULL)
  * @method BookSelection page($page, $itemsPerPage, & $numOfPages = NULL)
+ * @method BookRow offsetGet($key)
  */
 class BookGeneratedSelection extends BaseSelection
 {

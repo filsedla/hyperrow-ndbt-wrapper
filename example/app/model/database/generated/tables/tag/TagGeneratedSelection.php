@@ -20,6 +20,7 @@ namespace Example\Model\Database;
  * @method TagSelection order($columns)
  * @method TagSelection limit($limit, $offset = NULL)
  * @method TagSelection page($page, $itemsPerPage, & $numOfPages = NULL)
+ * @method TagRow offsetGet($key)
  */
 class TagGeneratedSelection extends BaseSelection
 {

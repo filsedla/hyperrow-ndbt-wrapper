@@ -260,7 +260,7 @@ class Generator extends Object
             'current()' => $correspondingHyperRowTableClass . '|FALSE',
             'select($columns)' => $correspondingHyperSelectionTableClass,
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
-            'wherePrimary($key)'=> $correspondingHyperSelectionTableClass,
+            'wherePrimary($key)' => $correspondingHyperSelectionTableClass,
             'group($columns)' => $correspondingHyperSelectionTableClass,
             'having($having)' => $correspondingHyperSelectionTableClass,
             'insert($data)' => $correspondingHyperRowTableClass,
@@ -268,6 +268,7 @@ class Generator extends Object
             'order($columns)' => $correspondingHyperSelectionTableClass,
             'limit($limit, $offset = NULL)' => $correspondingHyperSelectionTableClass,
             'page($page, $itemsPerPage, & $numOfPages = NULL)' => $correspondingHyperSelectionTableClass,
+            'offsetGet($key)' => $correspondingHyperRowTableClass,
         ];
 
         foreach ($methods as $methodName => $returnType) {
@@ -396,7 +397,7 @@ class Generator extends Object
                             continue;
                         }
 
-                        if (!Strings::endsWith($relatedTable, 'ing') && in_array($methodTemplate, ['*', 'get*'])){
+                        if (!Strings::endsWith($relatedTable, 'ing') && in_array($methodTemplate, ['*', 'get*'])) {
                             continue;
                         }
 

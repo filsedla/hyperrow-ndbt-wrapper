@@ -20,6 +20,7 @@ namespace Example\Model\Database;
  * @method EmptySelection order($columns)
  * @method EmptySelection limit($limit, $offset = NULL)
  * @method EmptySelection page($page, $itemsPerPage, & $numOfPages = NULL)
+ * @method EmptyRow offsetGet($key)
  */
 class EmptyGeneratedSelection extends BaseSelection
 {

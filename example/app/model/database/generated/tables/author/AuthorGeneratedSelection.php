@@ -20,6 +20,7 @@ namespace Example\Model\Database;
  * @method AuthorSelection order($columns)
  * @method AuthorSelection limit($limit, $offset = NULL)
  * @method AuthorSelection page($page, $itemsPerPage, & $numOfPages = NULL)
+ * @method AuthorRow offsetGet($key)
  */
 class AuthorGeneratedSelection extends BaseSelection
 {

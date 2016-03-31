@@ -13,7 +13,7 @@ use Nette\Database\Table\Selection;
  * @property-read Selection $selection
  * @property-read Factory $factory
  */
-class HyperSelection extends Nette\Object implements \Iterator, \Countable
+class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \Countable
 {
 
     /** @var Selection */
@@ -472,6 +472,60 @@ class HyperSelection extends Nette\Object implements \Iterator, \Countable
     public function delete()
     {
         return $this->selection->delete();
+    }
+
+
+    /**
+     * Tests if row exists.
+     *
+     * @param mixed $key Row's primary key to check for.
+     * @return bool
+     */
+    public function offsetExists($key)
+    {
+        return $this->selection->offsetExists($key);
+    }
+
+
+    /**
+     * Returns specified row.
+     *
+     * @param mixed $key Row's primary key
+     * @return HyperRow|NULL if there is no such row
+     */
+    public function offsetGet($key)
+    {
+        $result = $this->selection->offsetGet($key);
+
+        if ($result instanceof ActiveRow) {
+            return $this->factory->createRow($result, $this->selection->getName());
+        }
+        return $result;
+    }
+
+
+    /**
+     * Mimic row.
+     *
+     * @param mixed $key Row's primary key
+     * @param Nette\Database\Table\IRow $value
+     * @return void
+     */
+    public function offsetSet($key, $value)
+    {
+        $this->selection->offsetSet($key, $value);
+    }
+
+
+    /**
+     * Removes row from result set.
+     *
+     * @param mixed $key Row's primary key to unset
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        $this->selection->offsetUnset($key);
     }
 
 }
