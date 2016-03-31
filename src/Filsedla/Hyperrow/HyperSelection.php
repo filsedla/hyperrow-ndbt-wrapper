@@ -153,6 +153,18 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
+     * Fetches all rows and returns associative tree.
+     *
+     * @param $path string associative descriptor
+     * @return array
+     */
+    public function fetchAssoc($path)
+    {
+        return $this->selection->fetchAssoc($path);
+    }
+
+
+    /**
      * Returns row specified by primary key.
      *
      * @param  mixed $key Primary key

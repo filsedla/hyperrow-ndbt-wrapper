@@ -2,6 +2,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+require __DIR__ . '/../app/shortcuts.php';
+
 \Tracy\Debugger::$maxLen = 5000;
 \Tracy\Debugger::$maxDepth = 6;
 
