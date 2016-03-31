@@ -10,10 +10,11 @@ $container = require __DIR__ . '/bootstrap.php';
 $database = $container->getByType(\Example\Model\Database\Database::class);
 
 //$result = $database->book->get(3)->relatedTaggings->getRelatedTags()->fetchAll();
-//
-$result = $database->author[1];
 
-foreach ($result as $key => $value){
+
+$result = $database->author->page(1, 1);
+
+foreach ($result as $key => $value) {
     dump([$key, $value]);
 }
 

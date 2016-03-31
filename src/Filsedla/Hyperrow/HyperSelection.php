@@ -172,11 +172,13 @@ class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \C
      */
     public function get($key)
     {
-        $activeRow = $this->selection->get($key);
-        if ($activeRow === FALSE) {
-            return FALSE;
+        $result = $this->selection->get($key);
+
+        if ($result instanceof ActiveRow) {
+            return $this->factory->createRow($result, $this->selection->getName());
         }
-        return $this->factory->createRow($activeRow, $this->selection->getName());
+
+        return $result;
     }
 
 
@@ -383,11 +385,13 @@ class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \C
      */
     public function current()
     {
-        $activeRow = $this->selection->current();
-        if ($activeRow === FALSE) {
-            return FALSE;
+        $result = $this->selection->current();
+
+        if ($result instanceof ActiveRow) {
+            return $this->factory->createRow($result, $this->selection->getName());
         }
-        return $this->factory->createRow($activeRow, $this->selection->getName());
+        
+        return $result;
     }
 
 
