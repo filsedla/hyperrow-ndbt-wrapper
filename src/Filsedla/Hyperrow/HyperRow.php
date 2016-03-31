@@ -14,7 +14,7 @@ use Nette\Utils\ObjectMixin;
  * @property-read ActiveRow $activeRow
  * @property-read Factory $factory
  */
-class HyperRow implements \ArrayAccess
+class HyperRow implements \ArrayAccess, \IteratorAggregate
 {
 
     /** @var ActiveRow */
@@ -247,4 +247,14 @@ class HyperRow implements \ArrayAccess
         return $this->activeRow->delete();
     }
 
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return \Traversable
+     */
+    public function getIterator()
+    {
+        return $this->activeRow->getIterator();
+    }
 }

@@ -11,13 +11,10 @@ $database = $container->getByType(\Example\Model\Database\Database::class);
 
 //$result = $database->book->get(3)->relatedTaggings->getRelatedTags()->fetchAll();
 //
-//$result = $database->tag->inBookTaggingWithBook(3);
-//
-//foreach ($result as $row){
-//    dump($row->toArray());
-//}
+$result = $database->author[1];
+
+foreach ($result as $key => $value){
+    dump([$key, $value]);
+}
 
 
-//dump($database->author->fetchAssoc('name->id')); // |,[],–>,=
-
-dump($database->author->fetch()->getPrimary());
