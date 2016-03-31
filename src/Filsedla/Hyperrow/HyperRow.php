@@ -5,9 +5,8 @@
 
 namespace Filsedla\Hyperrow;
 
+use Nette;
 use Nette\Database\Table\ActiveRow;
-use Nette\DeprecatedException;
-use Nette\MemberAccessException;
 use Nette\Utils\ObjectMixin;
 
 /**
@@ -86,7 +85,7 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
      * @param string $key Other table name
      * @param string $throughColumn Other table column name
      * @return HyperSelection
-     * @throws MemberAccessException
+     * @throws Nette\MemberAccessException
      */
     public function related($key, $throughColumn = NULL)
     {
@@ -101,7 +100,7 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
      * @param string $key
      * @param string $throughColumn
      * @return self|NULL if the row does not exist
-     * @throws MemberAccessException if the relationship does not exist
+     * @throws Nette\MemberAccessException if the relationship does not exist
      */
     public function ref($key, $throughColumn = NULL)
     {
@@ -126,7 +125,6 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
     /**
      * @param $key
      * @param $value
-     * @throws DeprecatedException
      */
     public function __set($key, $value)
     {
@@ -171,7 +169,6 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
 
     /**
      * @param $key
-     * @throws DeprecatedException
      */
     public function __unset($key)
     {
@@ -182,7 +179,6 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
     /**
      * @param mixed $key
      * @param mixed $value
-     * @throws DeprecatedException
      */
     public function offsetSet($key, $value)
     {
@@ -195,7 +191,7 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key column name
      * @return mixed|HyperRow
-     * @throws MemberAccessException
+     * @throws Nette\MemberAccessException
      */
     public function offsetGet($key)
     {
@@ -217,7 +213,6 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
 
     /**
      * @param mixed $key
-     * @throws DeprecatedException
      */
     public function offsetUnset($key)
     {
