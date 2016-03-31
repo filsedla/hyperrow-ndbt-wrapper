@@ -390,7 +390,7 @@ class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \C
         if ($result instanceof ActiveRow) {
             return $this->factory->createRow($result, $this->selection->getName());
         }
-        
+
         return $result;
     }
 
