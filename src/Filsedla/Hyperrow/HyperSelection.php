@@ -60,6 +60,15 @@ class HyperSelection extends Object implements \Iterator
 
 
     /**
+     *
+     */
+    public function __clone()
+    {
+        $this->selection = clone $this->selection;
+    }
+
+
+    /**
      * Fetches single row object.
      *
      * @return HyperRow|FALSE FALSE if there is no row
