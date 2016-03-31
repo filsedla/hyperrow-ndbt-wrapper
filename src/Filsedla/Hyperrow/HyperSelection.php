@@ -13,7 +13,7 @@ use Nette\Database\Table\Selection;
  * @property-read Selection $selection
  * @property-read Factory $factory
  */
-class HyperSelection extends Nette\Object implements \Iterator
+class HyperSelection extends Nette\Object implements \Iterator, \Countable
 {
 
     /** @var Selection */
@@ -474,4 +474,4 @@ class HyperSelection extends Nette\Object implements \Iterator
         return $this->selection->delete();
     }
 
-} 
+}
