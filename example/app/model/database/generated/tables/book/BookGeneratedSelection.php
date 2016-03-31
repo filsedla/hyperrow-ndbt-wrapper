@@ -13,6 +13,8 @@ namespace Example\Model\Database;
  * @method BookSelection select($columns)
  * @method BookSelection where($condition, $parameters = [])
  * @method BookSelection wherePrimary($key)
+ * @method BookSelection group($columns)
+ * @method BookSelection having($having)
  * @method BookRow insert($data)
  * @method BookRow[] fetchAll()
  * @method BookSelection order($columns)

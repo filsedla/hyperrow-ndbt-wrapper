@@ -261,6 +261,8 @@ class Generator extends Object
             'select($columns)' => $correspondingHyperSelectionTableClass,
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
             'wherePrimary($key)'=> $correspondingHyperSelectionTableClass,
+            'group($columns)' => $correspondingHyperSelectionTableClass,
+            'having($having)' => $correspondingHyperSelectionTableClass,
             'insert($data)' => $correspondingHyperRowTableClass,
             'fetchAll()' => $correspondingHyperRowTableClass . '[]',
             'order($columns)' => $correspondingHyperSelectionTableClass,

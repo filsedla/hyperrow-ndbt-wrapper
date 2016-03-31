@@ -13,6 +13,8 @@ namespace Example\Model\Database;
  * @method AuthorSelection select($columns)
  * @method AuthorSelection where($condition, $parameters = [])
  * @method AuthorSelection wherePrimary($key)
+ * @method AuthorSelection group($columns)
+ * @method AuthorSelection having($having)
  * @method AuthorRow insert($data)
  * @method AuthorRow[] fetchAll()
  * @method AuthorSelection order($columns)

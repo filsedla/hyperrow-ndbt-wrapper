@@ -13,6 +13,8 @@ namespace Example\Model\Database;
  * @method BookTaggingSelection select($columns)
  * @method BookTaggingSelection where($condition, $parameters = [])
  * @method BookTaggingSelection wherePrimary($key)
+ * @method BookTaggingSelection group($columns)
+ * @method BookTaggingSelection having($having)
  * @method BookTaggingRow insert($data)
  * @method BookTaggingRow[] fetchAll()
  * @method BookTaggingSelection order($columns)

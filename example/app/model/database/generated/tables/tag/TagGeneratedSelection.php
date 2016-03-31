@@ -13,6 +13,8 @@ namespace Example\Model\Database;
  * @method TagSelection select($columns)
  * @method TagSelection where($condition, $parameters = [])
  * @method TagSelection wherePrimary($key)
+ * @method TagSelection group($columns)
+ * @method TagSelection having($having)
  * @method TagRow insert($data)
  * @method TagRow[] fetchAll()
  * @method TagSelection order($columns)

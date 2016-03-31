@@ -293,6 +293,32 @@ class HyperSelection extends Nette\Object implements \Iterator
 
 
     /**
+     * Sets group clause, more calls rewrite old value.
+     *
+     * @param $columns string
+     * @return self
+     */
+    public function group($columns)
+    {
+        call_user_func_array([$this->selection, 'group'], func_get_args());
+        return $this;
+    }
+
+
+    /**
+     * Sets having clause, more calls rewrite old value.
+     *
+     * @param $having string
+     * @return self
+     */
+    public function having($having)
+    {
+        call_user_func_array([$this->selection, 'having'], func_get_args());
+        return $this;
+    }
+
+
+    /**
      * Counts number of rows
      *
      * @param  string $column if it is not provided returns count of result rows, otherwise runs new sql counting query

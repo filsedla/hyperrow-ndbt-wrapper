@@ -13,6 +13,8 @@ namespace Example\Model\Database;
  * @method EmptySelection select($columns)
  * @method EmptySelection where($condition, $parameters = [])
  * @method EmptySelection wherePrimary($key)
+ * @method EmptySelection group($columns)
+ * @method EmptySelection having($having)
  * @method EmptyRow insert($data)
  * @method EmptyRow[] fetchAll()
  * @method EmptySelection order($columns)
