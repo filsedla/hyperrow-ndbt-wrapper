@@ -12,6 +12,7 @@ namespace Example\Model\Database;
  * @method TagRow|FALSE current()
  * @method TagSelection select($columns)
  * @method TagSelection where($condition, $parameters = [])
+ * @method TagSelection wherePrimary($key)
  * @method TagRow insert($data)
  * @method TagRow[] fetchAll()
  * @method TagSelection order($columns)

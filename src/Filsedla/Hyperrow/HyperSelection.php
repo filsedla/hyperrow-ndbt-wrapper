@@ -5,15 +5,15 @@
 
 namespace Filsedla\Hyperrow;
 
+use Nette;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
-use Nette\Object;
 
 /**
  * @property-read Selection $selection
  * @property-read Factory $factory
  */
-class HyperSelection extends Object implements \Iterator
+class HyperSelection extends Nette\Object implements \Iterator
 {
 
     /** @var Selection */
@@ -189,6 +189,35 @@ class HyperSelection extends Object implements \Iterator
     public function select($columns)
     {
         call_user_func_array([$this->selection, 'select'], func_get_args());
+        return $this;
+    }
+
+
+    /**
+     * Adds condition for primary key.
+     *
+     * @param $key mixed
+     * @return self
+     */
+    public function wherePrimary($key)
+    {
+        if (is_array($this->getPrimary(FALSE)) && Nette\Utils\Arrays::isList($key)) {
+
+            if (isset($key[0]) && is_array($key[0])) {
+                $this->where($this->getPrimary(), $key);
+
+            } else {
+                foreach ($this->getPrimary() as $i => $primary) {
+                    $this->where($this->getName() . '.' . $primary, $key[$i]);
+                }
+            }
+        } elseif (is_array($key) && !Nette\Utils\Arrays::isList($key)) { // key contains column names
+            $this->where($key);
+
+        } else {
+            $this->where($this->getName() . '.' . $this->getPrimary(), $key);
+        }
+
         return $this;
     }
 

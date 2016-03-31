@@ -18,4 +18,6 @@ $database = $container->getByType(\Example\Model\Database\Database::class);
 //}
 
 
-dump($database->author->fetchAssoc('name->id')); // |,[],–>,=
+//dump($database->author->fetchAssoc('name->id')); // |,[],–>,=
+
+dump($database->author->wherePrimary(1)->fetch());

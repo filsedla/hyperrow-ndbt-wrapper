@@ -12,6 +12,7 @@ namespace Example\Model\Database;
  * @method AuthorRow|FALSE current()
  * @method AuthorSelection select($columns)
  * @method AuthorSelection where($condition, $parameters = [])
+ * @method AuthorSelection wherePrimary($key)
  * @method AuthorRow insert($data)
  * @method AuthorRow[] fetchAll()
  * @method AuthorSelection order($columns)

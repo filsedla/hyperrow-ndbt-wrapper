@@ -12,6 +12,7 @@ namespace Example\Model\Database;
  * @method EmptyRow|FALSE current()
  * @method EmptySelection select($columns)
  * @method EmptySelection where($condition, $parameters = [])
+ * @method EmptySelection wherePrimary($key)
  * @method EmptyRow insert($data)
  * @method EmptyRow[] fetchAll()
  * @method EmptySelection order($columns)

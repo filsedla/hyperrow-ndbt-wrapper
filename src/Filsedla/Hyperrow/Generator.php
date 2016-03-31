@@ -260,6 +260,7 @@ class Generator extends Object
             'current()' => $correspondingHyperRowTableClass . '|FALSE',
             'select($columns)' => $correspondingHyperSelectionTableClass,
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
+            'wherePrimary($key)'=> $correspondingHyperSelectionTableClass,
             'insert($data)' => $correspondingHyperRowTableClass,
             'fetchAll()' => $correspondingHyperRowTableClass . '[]',
             'order($columns)' => $correspondingHyperSelectionTableClass,

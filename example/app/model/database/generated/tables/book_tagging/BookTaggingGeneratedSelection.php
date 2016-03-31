@@ -12,6 +12,7 @@ namespace Example\Model\Database;
  * @method BookTaggingRow|FALSE current()
  * @method BookTaggingSelection select($columns)
  * @method BookTaggingSelection where($condition, $parameters = [])
+ * @method BookTaggingSelection wherePrimary($key)
  * @method BookTaggingRow insert($data)
  * @method BookTaggingRow[] fetchAll()
  * @method BookTaggingSelection order($columns)

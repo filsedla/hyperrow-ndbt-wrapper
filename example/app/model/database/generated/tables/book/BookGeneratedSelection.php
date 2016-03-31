@@ -12,6 +12,7 @@ namespace Example\Model\Database;
  * @method BookRow|FALSE current()
  * @method BookSelection select($columns)
  * @method BookSelection where($condition, $parameters = [])
+ * @method BookSelection wherePrimary($key)
  * @method BookRow insert($data)
  * @method BookRow[] fetchAll()
  * @method BookSelection order($columns)
