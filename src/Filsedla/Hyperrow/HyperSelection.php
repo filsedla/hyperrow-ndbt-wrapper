@@ -319,6 +319,18 @@ class HyperSelection extends Nette\Object implements \Iterator
 
 
     /**
+     * Executes aggregation function.
+     *
+     * @param $function string select call in "FUNCTION(column)" format
+     * @return string
+     */
+    public function aggregation($function)
+    {
+        return $this->selection->aggregation($function);
+    }
+
+
+    /**
      * Counts number of rows
      *
      * @param  string $column if it is not provided returns count of result rows, otherwise runs new sql counting query
@@ -327,6 +339,42 @@ class HyperSelection extends Nette\Object implements \Iterator
     public function count($column = NULL)
     {
         return $this->selection->count($column);
+    }
+
+
+    /**
+     * Returns minimum value from a column.
+     *
+     * @param $column string
+     * @return int
+     */
+    public function min($column)
+    {
+        return $this->selection->min($column);
+    }
+
+
+    /**
+     * Returns maximum value from a column.
+     *
+     * @param $column string
+     * @return int
+     */
+    public function max($column)
+    {
+        return $this->selection->max($column);
+    }
+
+
+    /**
+     * Returns sum of values in a column.
+     *
+     * @param $column string
+     * @return int
+     */
+    public function sum($column)
+    {
+        return $this->selection->sum($column);
     }
 
 
