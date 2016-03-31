@@ -60,6 +60,27 @@ class HyperRow implements \ArrayAccess
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)call_user_func_array([$this->activeRow, '__toString'], func_get_args());
+    }
+
+
+    /**
+     * Returns primary key value.
+     *
+     * @param $need bool
+     * @return mixed possible int, string, array, object (Nette\Utils\DateTime)
+     */
+    public function getPrimary($need = TRUE)
+    {
+        return $this->activeRow->getPrimary($need);
+    }
+
+
+    /**
      * Returns referencing rows
      *
      * @param string $key Other table name

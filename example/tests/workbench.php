@@ -20,4 +20,4 @@ $database = $container->getByType(\Example\Model\Database\Database::class);
 
 //dump($database->author->fetchAssoc('name->id')); // |,[],–>,=
 
-dump($database->author[1]);
+dump($database->author->fetch()->getPrimary());
