@@ -9,7 +9,7 @@ use Nette\Database\Context;
 use Nette\Object;
 
 /**
- *
+ * @property-read Context $context
  */
 class Database extends Object
 {
