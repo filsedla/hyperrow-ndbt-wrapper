@@ -49,6 +49,7 @@ hyperrow:
             getter!:
                 - get*
     # tables: [author, book, book_tag, empty, tag]
+    nestedTransactions: on
 
 services:
     router: App\RouterFactory::createRouter

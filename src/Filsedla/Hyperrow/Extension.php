@@ -6,6 +6,7 @@
 namespace Filsedla\Hyperrow;
 
 use Nette;
+use Nette\Utils\Validators;
 
 /**
  *
@@ -22,7 +23,12 @@ final class Extension extends Nette\DI\CompilerExtension
         $this->defaults = Nette\Neon\Neon::decode(file_get_contents(__DIR__ . '/defaults.neon'))['hyperrow'];
         $config = $this->getConfig($this->defaults);
 
+        Validators::assertField($config, 'nestedTransactions', 'bool');
+
         $builder = $this->getContainerBuilder();
+
+        $builder->addDefinition($this->prefix('config'))
+            ->setClass(Config::class, [$config]);
 
         $builder->addDefinition($this->prefix('factory'))
             ->setClass(Factory::class, [

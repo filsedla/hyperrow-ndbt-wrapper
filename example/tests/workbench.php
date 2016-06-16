@@ -9,13 +9,61 @@ $container = require __DIR__ . '/bootstrap.php';
 /** @var \Example\Model\Database\Database $database */
 $database = $container->getByType(\Example\Model\Database\Database::class);
 
-//$result = $database->book->get(3)->relatedTaggings->getRelatedTags()->fetchAll();
+$row = $database->transaction(function() use ($database){
+    $row = $database->empty->insert([
+        'name' => 'a',
+    ]);
+    echo $database->empty->count() . "<br>";
 
+//    try {
 
-$result = $database->author->page(1, 1);
+        $innerRow = $database->transaction(function () use ($database) {
+            $row = $database->empty->insert([
+                'name' => 'b',
+            ]);
+            echo $database->empty->count() . "<br>";
 
-foreach ($result as $key => $value) {
-    dump([$key, $value]);
-}
+            throw new \PDOException("inner exception");
 
+            return $row;
+        });
+//    }catch (\Exception $e){}
+
+    //throw new \PDOException("outer exception");
+
+    echo $database->empty->count() . "<br>";
+
+    return $row;
+});
+
+dd($row);
+
+exit;
+
+$database->beginTransaction();
+
+$database->empty->insert([
+    'name' => 'a',
+]);
+echo $database->empty->count() . "<br>";
+
+// --v
+
+$database->beginTransaction();
+
+$database->empty->insert([
+    'name' => 'b',
+]);
+
+echo $database->empty->count() . "<br>";
+
+$database->commit();
+
+// --^
+
+echo $database->empty->count() . "<br>";
+
+//$database->rollBack();
+
+echo $database->empty->count() . "<br>";
 
