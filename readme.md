@@ -22,7 +22,7 @@ extensions:
 ## Basic usage
 
 The base interface for NDBT is `Context`. Hyperrow wraps it in `Hyperrow\Database` class. For start, 
-you can use it directly:
+you can use it directly (Note: the extension does _not_ register `Database` service automatically.):
 ```
     - Filsedla\Hyperrow\Database(@database.context, ...)
 ```
