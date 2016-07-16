@@ -138,7 +138,7 @@ Note: If you already have your row/selection classes from the basic example, mak
 
 5) Test it by making a query using the new methods:
 ```php
-$database->tableUser()->withEmail('example@gmail.com')->fetch()
+$database->user->withEmail('example@gmail.com')->fetch();
 ```
 
 Your IDE should autocomplete and the call should succeed and return an `UserRow`.
