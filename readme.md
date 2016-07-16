@@ -1,7 +1,7 @@
 # Hyperrow
-Custom row and selection classes for [Nette Database](https://github.com/nette/database) (NDBT)
+Custom row and selection classes for [Nette Database](https://github.com/nette/database)
 
-This library intends to have the same interface as NDBT, but wraps `Selection` and `ActiveRow` objects.
+This library intends to have the same interface as Nette Database, but wraps `Selection` and `ActiveRow` objects.
 This allows you to add custom methods (or even other services) into those objects. Query to each table
 results in a table-specific "Selection" and "ActiveRow" objects. This is not an ORM.
 
@@ -144,3 +144,30 @@ $database->tableUser()->withEmail('example@gmail.com')->fetch()
 Your IDE should autocomplete and the call should succeed and return an `UserRow`.
 
 See the [example](example/) subdirectory for a complete setup with the generator.
+
+
+## Other features
+
+### Nested transactions
+
+From v0.6 Hyperrow `Database` supports nested transactions. They are implemented using
+a `SAVEPOINT ...` SQL command. If your database supports these, you can enable nested transactions
+in config (note: default is off):
+
+```
+hyperrow:
+    nestedTransactions: on
+```
+
+The interface methods are the same as in Nette Database (`beginTransaction()` etc.)
+
+Further, `Database` has a useful method `transaction()` that takes a (closure) callback. 
+Everything inside the provided callback is executed in a transaction.
+
+```php
+$this->database->transaction(function () {
+    // Execute in transaction
+});
+```
+
+See source [Database.php](src/Filsedla/Hyperrow/Database.php) for details.
