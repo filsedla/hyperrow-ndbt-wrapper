@@ -151,7 +151,7 @@ See the [example](example/) subdirectory for a complete setup with the generator
 ### Nested transactions
 
 From v0.6 Hyperrow `Database` supports nested transactions. They are implemented using
-a `SAVEPOINT ...` SQL command. If your database supports these, you can enable nested transactions
+`SAVEPOINT` SQL commands. If your database supports these, you can enable nested transactions
 in config (note: default is off):
 
 ```
@@ -159,13 +159,13 @@ hyperrow:
     nestedTransactions: on
 ```
 
-The interface methods are the same as in Nette Database (`beginTransaction()` etc.)
+The interface methods are the same as Nette Database (`beginTransaction()` etc.)
 
 Further, `Database` has a useful method `transaction()` that takes a (closure) callback. 
 Everything inside the provided callback is executed in a transaction.
 
 ```php
-$this->database->transaction(function () {
+$database->transaction(function () use ($variables) {
     // Execute in transaction
 });
 ```
