@@ -11,10 +11,14 @@
   ],
   "require": {
     "php": ">= 5.4.0",
-    "nette/database": "~2.3",
-    "nette/bootstrap": "~2.3",
-    "nette/robot-loader": "~2.3",
-    "tracy/tracy": "~2.3"
+    "nette/database": "^2.3",
+    "nette/di": "^2.3",
+    "nette/utils": "^2.3"
+  },
+  "require-dev": {
+    "nette/bootstrap": "^2.3",
+    "nette/robot-loader": "^2.3",
+    "tracy/tracy": "^2.3"
   },
   "autoload": {
     "classmap": [

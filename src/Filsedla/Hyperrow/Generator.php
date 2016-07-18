@@ -110,14 +110,14 @@ class Generator extends Object
 
                 $class->addMethod($methodName)
                     ->addBody('return $this->table(?);', [$tableName])
-                    ->addDocument("@return $returnType");
+                    ->addComment("@return $returnType");
 
                 if (Strings::startsWith($methodName, 'get')) {
 
                     // Add property annotations
                     $property = Strings::firstLower(Strings::substring($methodName, 3));
                     $correspondingHyperSelectionTableClass = $this->getTableClass('selection', $tableName, $classNamespace);
-                    $class->addDocument("@property-read $correspondingHyperSelectionTableClass \$$property");
+                    $class->addComment("@property-read $correspondingHyperSelectionTableClass \$$property");
                 }
             }
         }
@@ -272,7 +272,7 @@ class Generator extends Object
         ];
 
         foreach ($methods as $methodName => $returnType) {
-            $class->addDocument("@method $returnType $methodName");
+            $class->addComment("@method $returnType $methodName");
         }
 
         // Generate methods.selection.where
@@ -287,12 +287,12 @@ class Generator extends Object
                     $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Future' . Strings::firstUpper($column));
                     $method = $class->addMethod($methodName);
                     $method->addBody("return \$this->where('$column > NOW()');");
-                    $method->addDocument("@return $correspondingHyperSelectionTableClass");
+                    $method->addComment("@return $correspondingHyperSelectionTableClass");
 
                     $methodName = Helpers::substituteMethodWildcard($methodTemplate, 'Past' . Strings::firstUpper($column));
                     $method = $class->addMethod($methodName);
                     $method->addBody("return \$this->where('$column < NOW()');");
-                    $method->addDocument("@return $correspondingHyperSelectionTableClass");
+                    $method->addComment("@return $correspondingHyperSelectionTableClass");
                 }
 
                 if (in_array($type, [IStructure::FIELD_DATETIME, IStructure::FIELD_TIME, IStructure::FIELD_DATE, IStructure::FIELD_UNIX_TIMESTAMP])) {
@@ -310,8 +310,8 @@ class Generator extends Object
                 }
 
                 $method->addBody('return $this->where(?, $value);', [$column]);
-                $method->addDocument("@param $type \$value");
-                $method->addDocument("@return $correspondingHyperSelectionTableClass");
+                $method->addComment("@param $type \$value");
+                $method->addComment("@return $correspondingHyperSelectionTableClass");
             }
         }
 
@@ -348,12 +348,12 @@ class Generator extends Object
                     $method = $class->addMethod($methodName);
                     $method->addParameter($parameterName);
                     $method->addBody("return \$this->where(':$relatedTable($referencingColumn).id', $?);", [$parameterName])
-                        ->addDocument("@return $returnType");
+                        ->addComment("@return $returnType");
 
                     // Add property annotations
                     if (Strings::startsWith($methodName, 'get')) {
                         $property = Strings::firstLower(Strings::substring($methodName, 3));
-                        $class->addDocument("@property-read $returnType \$$property");
+                        $class->addComment("@property-read $returnType \$$property");
                     }
                 }
             }
@@ -453,12 +453,12 @@ class Generator extends Object
                         $method = $class->addMethod($methodName);
                         $method->addParameter($parameterName);
                         $method->addBody("return \$this->where(':$relatedTable($referencingColumn).$furtherReferencingColumn', $?);", [$parameterName])
-                            ->addDocument("@return $returnType");
+                            ->addComment("@return $returnType");
 
                         // Add property annotations
                         if (Strings::startsWith($methodName, 'get')) {
                             $property = Strings::firstLower(Strings::substring($methodName, 3));
-                            $class->addDocument("@property-read $returnType \$$property");
+                            $class->addComment("@property-read $returnType \$$property");
                         }
                     }
                 }
@@ -505,7 +505,7 @@ class Generator extends Object
                 $type = '\Nette\Utils\DateTime';
             }
 
-            $class->addDocument("@property-read $type \$$column");
+            $class->addComment("@property-read $type \$$column");
         }
 
         // Generate methods.row.getter
@@ -524,14 +524,14 @@ class Generator extends Object
 
                 $class->addMethod($methodName)
                     ->addBody('return $this->activeRow->?;', [$column])
-                    ->addDocument("@return $returnType");
+                    ->addComment("@return $returnType");
 
 
                 // Add property annotation
                 if (Strings::startsWith($methodName, 'get')) {
                     $property = Strings::firstLower(Strings::substring($methodName, 3));
                     if ($property != $column) {
-                        $class->addDocument("@property-read $type \$$property");
+                        $class->addComment("@property-read $type \$$property");
                     }
                 }
             }
@@ -555,12 +555,12 @@ class Generator extends Object
 
                 $class->addMethod($methodName)
                     ->addBody('return $this->ref(?, ?);', [$referencedTable, $referencingColumn])
-                    ->addDocument("@return $returnType");
+                    ->addComment("@return $returnType");
 
                 // Add property annotations
                 if (Strings::startsWith($methodName, 'get')) {
                     $property = Strings::firstLower(Strings::substring($methodName, 3));
-                    $class->addDocument("@property-read $returnType \$$property");
+                    $class->addComment("@property-read $returnType \$$property");
                 }
             }
         }
@@ -593,12 +593,12 @@ class Generator extends Object
 
                     $class->addMethod($methodName)
                         ->addBody('return $this->related(?, ?);', [$relatedTable, $referencingColumn])
-                        ->addDocument("@return $returnType");
+                        ->addComment("@return $returnType");
 
                     // Add property annotations
                     if (Strings::startsWith($methodName, 'get')) {
                         $property = Strings::firstLower(Strings::substring($methodName, 3));
-                        $class->addDocument("@property-read $returnType \$$property");
+                        $class->addComment("@property-read $returnType \$$property");
                     }
                 }
             }
