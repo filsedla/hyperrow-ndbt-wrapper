@@ -5,9 +5,7 @@
 
 namespace Filsedla\Hyperrow;
 
-use Nette;
 use Nette\Database\IStructure;
-use Nette\Object;
 use Nette\PhpGenerator\ClassType;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
@@ -15,7 +13,7 @@ use Nette\Utils\Strings;
 /**
  *
  */
-class Generator extends Object
+class Generator
 {
     /** @var IStructure */
     protected $structure;

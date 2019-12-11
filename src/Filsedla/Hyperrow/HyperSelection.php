@@ -13,7 +13,7 @@ use Nette\Database\Table\Selection;
  * @property-read Selection $selection
  * @property-read Factory $factory
  */
-class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \Countable
+class HyperSelection implements \Iterator, \ArrayAccess, \Countable
 {
 
     /** @var Selection */
@@ -460,7 +460,7 @@ class HyperSelection extends Nette\Object implements \Iterator, \ArrayAccess, \C
      *
      * @param array|\Traversable $data ($column => $value)
      * @return int number of affected rows
-     * @throws \Nette\InvalidArgumentException
+     * @throws Nette\InvalidArgumentException
      */
     public function update($data)
     {

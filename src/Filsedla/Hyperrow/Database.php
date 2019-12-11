@@ -7,13 +7,12 @@ namespace Filsedla\Hyperrow;
 
 use Nette\Database\Context;
 use Nette\InvalidStateException;
-use Nette\Object;
 use Nette\Utils\Callback;
 
 /**
  * @property-read Context $context
  */
-class Database extends Object
+class Database
 {
     /** @var Context */
     private $context;

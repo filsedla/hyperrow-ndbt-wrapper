@@ -9,12 +9,11 @@ use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\DI\Container;
 use Nette\InvalidStateException;
-use Nette\Object;
 
 /**
  *
  */
-class Factory extends Object
+class Factory
 {
 
     /** @var string */

@@ -5,13 +5,12 @@
 
 namespace Filsedla\Hyperrow;
 
-use Nette\Object;
 use Nette\Utils\Strings;
 
 /**
  *
  */
-class Helpers extends Object
+class Helpers
 {
 
     /**

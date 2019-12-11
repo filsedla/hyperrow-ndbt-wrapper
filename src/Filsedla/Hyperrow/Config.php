@@ -5,11 +5,10 @@
 
 namespace Filsedla\Hyperrow;
 
-use Nette\Object;
 use Nette\Utils\Arrays;
 
 
-class Config extends Object
+class Config
 {
 
     /** @var bool */
