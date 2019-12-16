@@ -7,7 +7,6 @@ namespace Filsedla\Hyperrow;
 
 use Nette;
 use Nette\Database\Table\ActiveRow;
-use Nette\Utils\ObjectMixin;
 
 /**
  * @property-read ActiveRow $activeRow
@@ -141,8 +140,12 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
     public function &__get($key)
     {
         // Try to get method - getter
-        if (ObjectMixin::has($this, $key)) {
-            return ObjectMixin::get($this, $key);
+        $rc = new \ReflectionClass($this);
+        foreach (['get' . ucfirst($key), 'is' . ucfirst($key)] as $methodName) {
+            if ($rc->hasMethod($methodName) && $rc->getMethod($methodName)->isPublic()) {
+                $return = $this->{$methodName}();
+                return $return;
+            }
         }
 
         // Otherwise get ActiveRow property
@@ -163,7 +166,14 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
      */
     public function __isset($key)
     {
-        return ObjectMixin::has($this, $key) || $this->activeRow->__isset($key);
+        $rc = new \ReflectionClass($this);
+        foreach (['get' . ucfirst($key), 'is' . ucfirst($key)] as $methodName) {
+            if ($rc->hasMethod($methodName) && $rc->getMethod($methodName)->isPublic()) {
+                return TRUE;
+            }
+        }
+
+        return $this->activeRow->__isset($key);
     }
 
 
