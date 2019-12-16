@@ -36,3 +36,4 @@ hyperrow:
                 - get*
     tables: NULL
     nestedTransactions: FALSE
+    noRowReturnValue: FALSE # false|null, needs to be adjusted according to nette database version

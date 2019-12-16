@@ -103,13 +103,13 @@ class HyperSelection implements \Iterator, \ArrayAccess, \Countable
     /**
      * Fetches single row object.
      *
-     * @return HyperRow|FALSE FALSE if there is no row
+     * @return HyperRow|FALSE|NULL Returns false or null if there is no row
      */
     public function fetch()
     {
         $activeRow = $this->selection->fetch();
-        if ($activeRow === FALSE) {
-            return FALSE;
+        if (!($activeRow instanceof ActiveRow)) {
+            return $activeRow;
         }
         return $this->factory->createRow($activeRow, $this->selection->getName());
     }
@@ -119,7 +119,7 @@ class HyperSelection implements \Iterator, \ArrayAccess, \Countable
      * Fetches single field.
      *
      * @param  string|NULL $column
-     * @return mixed|FALSE
+     * @return mixed|FALSE|NULL
      */
     public function fetchField($column = NULL)
     {
@@ -168,7 +168,7 @@ class HyperSelection implements \Iterator, \ArrayAccess, \Countable
      * Returns row specified by primary key.
      *
      * @param  mixed $key Primary key
-     * @return HyperRow|FALSE
+     * @return HyperRow|FALSE|NULL
      */
     public function get($key)
     {

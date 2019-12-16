@@ -252,10 +252,11 @@ class Generator
         // Add annotations for methods returning specific row class
         $correspondingHyperRowTableClass = $this->getTableClass('row', $tableName, $classNamespace);
         $correspondingHyperSelectionTableClass = $this->getTableClass('selection', $tableName, $classNamespace);
+        $noRowReturnValue = strtoupper(var_export($this->config['noRowReturnValue'], TRUE));
         $methods = [
-            'fetch()' => $correspondingHyperRowTableClass . '|FALSE',
-            'get($key)' => $correspondingHyperRowTableClass . '|FALSE',
-            'current()' => $correspondingHyperRowTableClass . '|FALSE',
+            'fetch()' => $correspondingHyperRowTableClass . '|' . $noRowReturnValue,
+            'get($key)' => $correspondingHyperRowTableClass . '|' . $noRowReturnValue,
+            'current()' => $correspondingHyperRowTableClass . '|' . $noRowReturnValue,
             'select($columns)' => $correspondingHyperSelectionTableClass,
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
             'wherePrimary($key)' => $correspondingHyperSelectionTableClass,
