@@ -7,6 +7,7 @@ namespace Filsedla\Hyperrow;
 
 use Nette\Database\Context;
 use Nette\InvalidStateException;
+use Nette\MemberAccessException;
 use Nette\Utils\Callback;
 
 /**
@@ -157,6 +158,24 @@ class Database
     public function getContext()
     {
         return $this->context;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed|HyperSelection
+     */
+    public function &__get($key)
+    {
+        $rc = new \ReflectionClass($this);
+        $methodName = 'get' . ucfirst($key);
+        if ($rc->hasMethod($methodName) && $rc->getMethod($methodName)->isPublic()) {
+            $return = $this->{$methodName}(); // TODO differentiate between returning value and reference
+            return $return;
+        }
+
+        $class = get_class($this);
+        throw new MemberAccessException("Cannot read an undeclared property {$class}::\${$key}.");
+        // TODO \Tracy\Debugger::getBlueScreen()->collapsePaths[] = __DIR__;
     }
 
 }

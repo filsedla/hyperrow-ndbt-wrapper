@@ -143,7 +143,7 @@ class HyperRow implements \ArrayAccess, \IteratorAggregate
         $rc = new \ReflectionClass($this);
         foreach (['get' . ucfirst($key), 'is' . ucfirst($key)] as $methodName) {
             if ($rc->hasMethod($methodName) && $rc->getMethod($methodName)->isPublic()) {
-                $return = $this->{$methodName}();
+                $return = $this->{$methodName}(); // TODO differentiate between returning value and reference
                 return $return;
             }
         }
