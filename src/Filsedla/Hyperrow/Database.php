@@ -8,7 +8,6 @@ namespace Filsedla\Hyperrow;
 use Nette\Database\Context;
 use Nette\InvalidStateException;
 use Nette\MemberAccessException;
-use Nette\Utils\Callback;
 
 /**
  * @property-read Context $context
@@ -139,7 +138,7 @@ class Database
         $this->beginTransaction();
 
         try {
-            $return = Callback::invoke($callback);
+            $return = call_user_func($callback);
 
         } catch (\Exception $e) {
             $this->rollBack();
