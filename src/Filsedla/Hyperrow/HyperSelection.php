@@ -247,6 +247,20 @@ class HyperSelection implements \Iterator, \ArrayAccess, \Countable
 
 
     /**
+     * Adds where condition using the OR operator between parameters. More calls appends with AND.
+     *
+     * @param  array ['column1' => 1, 'column2 > ?' => 2, 'full condition']
+     * @return self
+     * @throws Nette\InvalidArgumentException
+     */
+    public function whereOr(array $parameters)
+    {
+        call_user_func_array([$this->selection, 'whereOr'], func_get_args());
+        return $this;
+    }
+
+
+    /**
      * Adds order clause, more calls appends to the end
      *
      * @param string $columns For example 'column1, column2 DESC'

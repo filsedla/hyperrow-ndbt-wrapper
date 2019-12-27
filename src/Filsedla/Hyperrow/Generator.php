@@ -259,6 +259,7 @@ class Generator
             'current()' => $correspondingHyperRowTableClass . '|' . $noRowReturnValue,
             'select($columns)' => $correspondingHyperSelectionTableClass,
             'where($condition, $parameters = [])' => $correspondingHyperSelectionTableClass,
+            'whereOr(array $parameters)' => $correspondingHyperSelectionTableClass,
             'wherePrimary($key)' => $correspondingHyperSelectionTableClass,
             'group($columns)' => $correspondingHyperSelectionTableClass,
             'having($having)' => $correspondingHyperSelectionTableClass,
